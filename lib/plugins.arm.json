@@ -5736,6 +5736,85 @@
               ]
             },
             {
+              "name": "uploadFiles",
+              "description": "Uploads files to storage to be used by a job",
+              "fullName": "batch ncj uploadFiles",
+              "usage": "[options]",
+              "filePath": "commands/batch/batch.ncj._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-f, --file <file>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-f",
+                  "long": "--file",
+                  "description": "the path to the file to upload"
+                },
+                {
+                  "flags": "-d, --directory <directory>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-d",
+                  "long": "--directory",
+                  "description": "the path to the directory of files to uplaod"
+                },
+                {
+                  "flags": "-a, --account-name <account-name>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--account-name",
+                  "description": "the Batch account name"
+                },
+                {
+                  "flags": "-k, --account-key <account-key>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-k",
+                  "long": "--account-key",
+                  "description": "the Batch account key"
+                },
+                {
+                  "flags": "-u, --account-endpoint <account-endpoint>",
+                  "required": -24,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-u",
+                  "long": "--account-endpoint",
+                  "description": "the Batch account URL"
+                }
+              ]
+            },
+            {
               "name": "test",
               "fullName": "batch ncj test",
               "usage": "[options]",
