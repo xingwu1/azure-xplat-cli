@@ -1,0 +1,130 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "name of batch account"
+      }
+    },
+    "storageBaseUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage url of storage container holding uploaded resource files"
+      }
+    },
+    "sasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Sas token of storage container holding uploaded resource files"
+      }
+    },
+    "vmSize": {
+        "type": "string",
+        "metadata": {
+            "description": "Size of the virtual machine that runs the application"
+        },
+        "defaultValue": "Standard_D3",
+        "allowedValues": [
+            "Standard_A1",
+            "Standard_A2",
+            "Standard_A3",
+            "Standard_A4",
+            "Standard_D1",
+            "Standard_D2",
+            "Standard_D3",
+            "Standard_D4"
+        ]
+    },
+    "vmCount": {
+      "type": "int",
+      "defaultValue": 10,
+      "metadata": {
+        "description": "Count of the virtual machine"
+      }
+    },
+    "startIndex": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "start number of process file"
+      }
+    },
+    "endIndex": {
+      "type": "int",
+      "defaultValue": 100,
+      "metadata": {
+        "description": "end number of process file"
+      }
+    }
+  },
+  "variables": {
+    "apiVersion": "2016-12-01",
+    "accountBase": "[concat('Microsoft.Batch/batchAccounts/', parameters('accountName'))]",
+    "poolspec": {
+      "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "targetOSVersion": "*"
+      },
+      "size": "[parameters('vmSize')]",
+      "count": "[parameters('vmCount')]",
+      "softwares": [
+        "[reference(concat(variables('accountBase'), '/softwares/ffmpeg/versions/1.0'))]"
+      ]
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Batch/batchAccounts/softwares",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(parameters('accountName'), '/ffmpeg')]",
+      "resources": [
+        {
+          "type": "versions",
+          "apiVersion": "[variables('apiVersion')]",
+          "name": "1.0",
+          "properties":{
+            "format": "ApplicationPackage",
+            "applicationPackage": "[reference(concat(variables('accountBase'), '/applications/ffmpeg/versions/1.0'))]",
+            "installCmd": "setx PATH '%AZ_BATCH_APP_PACKAGE_FFMPEG#1.0%;%PATH%'",
+            "reboot": false,
+            "runAsAdmin": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Batch/batchAccounts/pools",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(parameters('accountName'), '/runpool')]",
+      "properties": "[variables('poolspec')]"
+    },
+    {
+      "type": "Microsoft.Batch/batchAccounts/NCJs",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[concat(parameters('accountName'), '/ffmpeg')]",
+      "properties": {
+        "pool": "[reference(concat(variables('accountBase'), '/pools/runpool'))]",
+        "maxWallClockTime": "PT5H",
+        "taskfactory": {
+          "type": "parametricSweepTask",
+          "properties": {
+            "start": "[parameters('startIndex')]",
+            "end": "[parameters('endIndex')]",
+            "skip": 1,
+            "repeatTask": {
+              "cmdLine": "ffmpeg.exe -i {$}.mp4 output_{$}.avi",
+              "resourceFiles": [
+                {
+                  "path": "{$}.mp4",
+                  "source": "[concat(parameters('storageBaseUrl'), '/{$}.mp4', parameters('sasToken'))]" 
+                }
+              ]
+            } 
+          }
+        }
+      }
+    }
+  ]
+}
