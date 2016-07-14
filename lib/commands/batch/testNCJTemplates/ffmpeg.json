@@ -61,18 +61,7 @@
   },
   "variables": {
     "apiVersion": "2016-12-01",
-    "accountBase": "[concat('Microsoft.Batch/batchAccounts/', parameters('accountName'))]",
-    "poolspec": {
-      "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "targetOSVersion": "*"
-      },
-      "size": "[parameters('vmSize')]",
-      "count": "[parameters('vmCount')]",
-      "softwares": [
-        "[reference(concat(variables('accountBase'), '/softwares/ffmpeg/versions/1.0'))]"
-      ]
-    }
+    "accountBase": "[concat('Microsoft.Batch/batchAccounts/', parameters('accountName'))]"
   },
   "resources": [
     {
@@ -98,7 +87,17 @@
       "type": "Microsoft.Batch/batchAccounts/pools",
       "apiVersion": "[variables('apiVersion')]",
       "name": "[concat(parameters('accountName'), '/runpool')]",
-      "properties": "[variables('poolspec')]"
+      "properties": {
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "targetOSVersion": "*"
+        },
+        "size": "[parameters('vmSize')]",
+        "count": "[parameters('vmCount')]",
+        "softwares": [
+          "[reference(concat(variables('accountBase'), '/softwares/ffmpeg/versions/1.0'))]"
+        ]
+      }
     },
     {
       "type": "Microsoft.Batch/batchAccounts/NCJs",

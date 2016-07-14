@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "accountName": {
-      "value": "testbatchaccount"
+      "value": "pythonsdktestbatch"
     },
     "sasToken": {
       "value": "?sv=2015-04-05&sr=c&si=Read01&sig=tAp0r3I3SV5PbjpZ5CIjvuo1jdUs5xWmzS4NsSr60Us%3D&se=2017-02-11T02%3A25%3A15Z"
     },
     "storageBaseUrl": {
-      "value": "https://mystorage.blob.core.windows.net/resourcecontainer"
+      "value": "https://pythonsdkteststorage.blob.core.windows.net/resourcecontainer"
     }
   }
 }
