@@ -25,7 +25,7 @@
         "metadata": {
             "description": "Size of the virtual machine that runs the application"
         },
-        "defaultValue": "Standard_D3",
+        "defaultValue": "large",
         "allowedValues": [
             "Standard_A1",
             "Standard_A2",
@@ -39,7 +39,7 @@
     },
     "vmCount": {
       "type": "int",
-      "defaultValue": 10,
+      "defaultValue": 3,
       "metadata": {
         "description": "Count of the virtual machine"
       }
@@ -53,7 +53,7 @@
     },
     "endIndex": {
       "type": "int",
-      "defaultValue": 100,
+      "defaultValue": 10,
       "metadata": {
         "description": "end number of process file"
       }
@@ -76,7 +76,7 @@
           "properties":{
             "format": "ApplicationPackage",
             "applicationPackage": "[reference(concat(variables('accountBase'), '/applications/ffmpeg/versions/1.0'))]",
-            "installCmd": "setx PATH '%AZ_BATCH_APP_PACKAGE_FFMPEG#1.0%;%PATH%'",
+            "installCmd": "setx /M PATH \"%AZ_BATCH_APP_PACKAGE_FFMPEG#1.0%;%PATH%\"",
             "reboot": false,
             "runAsAdmin": true
           }
@@ -113,11 +113,11 @@
             "end": "[parameters('endIndex')]",
             "skip": 1,
             "repeatTask": {
-              "cmdLine": "ffmpeg.exe -i {$}.mp4 output_{$}.avi",
+              "cmdLine": "echo %PATH% & ffmpeg.exe -i {$}.jpg output_{$}.avi",
               "resourceFiles": [
                 {
-                  "path": "{$}.mp4",
-                  "source": "[concat(parameters('storageBaseUrl'), '/{$}.mp4', parameters('sasToken'))]" 
+                  "path": "{$}.jpg",
+                  "source": "[concat(parameters('storageBaseUrl'), '/{$}.jpg', parameters('sasToken'))]" 
                 }
               ]
             } 
