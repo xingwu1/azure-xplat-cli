@@ -11,13 +11,22 @@
     "storageBaseUrl": {
       "type": "string",
       "metadata": {
-        "description": "Storage url of storage container holding uploaded resource files"
+        "description": "Storage url of storage container holding uploaded resource files",
+        "ncjDirectory": "Folder1.base"
       }
     },
     "sasToken": {
       "type": "securestring",
       "metadata": {
-        "description": "Sas token of storage container holding uploaded resource files"
+        "description": "Sas token of storage container holding uploaded resource files",
+        "ncjDirectory": "Folder1.sas"
+      }
+    },
+    "singleFile": {
+      "type": "securestring",
+      "metadata": {
+        "ncjFile": "File1",
+        "description": "something to upload"
       }
     },
     "vmSize": {
