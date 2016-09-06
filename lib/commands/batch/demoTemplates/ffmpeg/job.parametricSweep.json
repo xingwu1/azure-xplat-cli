@@ -6,7 +6,7 @@
                 "description": "The name of batch account"
             }
         },
-        "inputFileStorageUrl": {
+        "inputFileStorageContainerUrl": {
             "type": "string",
             "metadata": {
                 "description": "The url of Azure storage blob which the processing file located",
@@ -49,32 +49,22 @@
             "poolInfo": {
                 "poolId": "[parameters('poolName')]"
             },
-            "taskFactories": [
-                {
-                    "type": "regular",
-                    "properties": {
-                        "tasks": [
-                            {
-                                "cmdLine": "ffmpeg.exe -i single.wav -acodec mp3 -ab 192k output.mp3",
-                                "resourceFiles": [
-                                    {
-                                        "path": "single.wav",
-                                        "source": "[parameters('inputFileStorageUrl')]"
-                                    }
-                                ],
-                                "outputFiles": [
-                                    {
-                                        "filePath": "output.mp3",
-                                        "containerDestination": "[parameters('outputFileStorageUrl')]",
-                                        "format": "Raw",
-                                        "uploadMode": "TaskCompletion"
-                                    }
-                                ]
-                            }
-                        ]
+            "jobPreparationTask": {
+                "commandLine" : "sudo apt-get install ffmpeg -y",
+                "runElevated": true,
+                "waitForSuccess": true
+            },
+            "taskFactory": {
+                "type": "parametricSweepTask",
+                "properties": {
+                    "start": 1,
+                    "end": 2,
+                    "skip": 1,
+                    "repeatTask": {
+                        "cmdLine": "ffmpeg -i [parameters('inputFileStorageContainerUrl')]sampleVideo{$}.mkv -vcodec copy -acodec copy output.mp4 -y"
                     }
                 }
-            ]
+            }
         }
     }
 }

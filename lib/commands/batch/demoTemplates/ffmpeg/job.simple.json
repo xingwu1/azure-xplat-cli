@@ -1,0 +1,100 @@
+{
+    "parameters": {
+        "accountName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of batch account"
+            }
+        },
+        "inputFileStorageContainerUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "The url of Azure storage blob which the processing file located",
+                "ncjDirectory": "SingleFile.fullurl"
+            }
+        },
+        "outputFileStorageUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "The url of Azure storage container which hold the output file",
+                "ncjDirectory": "ResourceFolder.fullurl"
+            }
+        },
+        "poolName": {
+            "type": "string",
+            "defaultValue": "ffmpegpool",
+            "metadata": {
+                "description": "The name of Azure Batch pool which runs the job"
+            }
+        },
+        "jobName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of Azure Batch job"
+            }
+        }
+    },
+    "variables": {
+        "accountBase": "[concat('Microsoft.Batch/batchAccounts/', parameters('accountName'))]"
+    },
+    "job": {
+        "type": "Microsoft.Batch/batchAccounts/jobs",
+        "apiVersion": "2016-12-01",
+        "name": "[concat(parameters('accountName'), '_', parameters('jobName'))]",
+        "properties": {
+            "constraints": {
+                "maxWallClockTime": "PT5H",
+                "maxTaskRetryCount": 3
+            },
+            "poolInfo": {
+                "poolId": "[parameters('poolName')]"
+            },
+            "jobPreparationTask": {
+                "commandLine" : "sudo apt-get install ffmpeg -y",
+                "runElevated": true,
+                "waitForSuccess": true
+            },
+            "taskFactory": {
+                "type": "regular",
+                "properties": {
+                    "tasks": [
+                        {
+                            "cmdLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+                            "resourceFiles": [
+                                {
+                                    "filePath": "sampleVideo1.mkv",
+                                    "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+                                }
+                            ],
+                            "outputFiles": [
+                                {
+                                    "filePath": "output.mp4",
+                                    "containerDestination": "[parameters('outputFileStorageUrl')]",
+                                    "format": "Raw",
+                                    "uploadMode": "TaskCompletion"
+                                }
+                            ]
+                        },
+                        {
+                            "cmdLine": "ffmpeg -i sampleVideo2.mkv -vcodec copy -acodec copy output.mp4 -y",
+                            "resourceFiles": [
+                                {
+                                    "filePath": "sampleVideo2.mkv",
+                                    "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo2.mkv"
+                                }
+                            ],
+                            "outputFiles": [
+                                {
+                                    "filePath": "output.mp4",
+                                    "containerDestination": "[parameters('outputFileStorageUrl')]",
+                                    "format": "Raw",
+                                    "uploadMode": "TaskCompletion"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
