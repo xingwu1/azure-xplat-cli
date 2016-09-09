@@ -40,8 +40,8 @@
     "job": {
         "type": "Microsoft.Batch/batchAccounts/jobs",
         "apiVersion": "2016-12-01",
-        "name": "[concat(parameters('accountName'), '_', parameters('jobName'))]",
         "properties": {
+            "id": "[parameters('jobName')]",
             "constraints": {
                 "maxWallClockTime": "PT5H",
                 "maxTaskRetryCount": 3

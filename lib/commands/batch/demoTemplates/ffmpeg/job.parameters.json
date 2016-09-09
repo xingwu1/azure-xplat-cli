@@ -1,19 +1,17 @@
 {
-  "parameters": {
-    "jobName": {
-        "value": "job_1"
-    },
-    "poolName": {
-        "value": "ubuntu_16_04"
-    },
-    "accountName": {
-      "value": "ffmpeg"
-    },
-    "inputFileStorageContainerUrl": {
-      "value": "https://pstest111.blob.core.windows.net/amovie/"
-    },
-    "outputFileStorageUrl": {
-      "value": "https://pythonsdkteststorage.blob.core.windows.net/resourcecontainer?sv=2015-04-05&sr=c&si=Read01&sig=tAp0r3I3SV5PbjpZ5CIjvuo1jdUs5xWmzS4NsSr60Us%3D&se=2017-02-11T02%3A25%3A15Z"
-    }
+  "jobName": {
+    "value": "ffmpeg_job_1"
+  },
+  "poolName": {
+    "value": "ubuntu_16_04"
+  },
+  "accountName": {
+    "value": "ffmpeg"
+  },
+  "inputFileStorageContainerUrl": {
+    "value": "https://pstest111.blob.core.windows.net/amovie/"
+  },
+  "outputFileStorageUrl": {
+    "value": "https://pythonsdkteststorage.blob.core.windows.net/resourcecontainer?sv=2015-04-05&sr=c&si=Read01&sig=tAp0r3I3SV5PbjpZ5CIjvuo1jdUs5xWmzS4NsSr60Us%3D&se=2017-02-11T02%3A25%3A15Z"
   }
 }
