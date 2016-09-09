@@ -59,7 +59,8 @@
                 "properties": {
                     "tasks": [
                         {
-                            "cmdLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+                            "id" : "mytask1",
+                            "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
                             "resourceFiles": [
                                 {
                                     "filePath": "sampleVideo1.mkv",
@@ -76,7 +77,8 @@
                             ]
                         },
                         {
-                            "cmdLine": "ffmpeg -i sampleVideo2.mkv -vcodec copy -acodec copy output.mp4 -y",
+                            "id" : "mytask2",
+                            "commandLine": "ffmpeg -i sampleVideo2.mkv -vcodec copy -acodec copy output.mp4 -y",
                             "resourceFiles": [
                                 {
                                     "filePath": "sampleVideo2.mkv",
