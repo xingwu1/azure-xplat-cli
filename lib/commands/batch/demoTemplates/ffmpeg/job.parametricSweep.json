@@ -55,13 +55,23 @@
                 "waitForSuccess": true
             },
             "taskFactory": {
-                "type": "parametricSweepTask",
+                "type": "parametricSweep",
                 "properties": {
-                    "start": 1,
-                    "end": 2,
-                    "skip": 1,
+                    "parameterSets": [
+                        {
+                            "start": 1,
+                            "end": 2,
+                            "step": 1
+                        }
+                    ],
                     "repeatTask": {
-                        "cmdLine": "ffmpeg -i [parameters('inputFileStorageContainerUrl')]sampleVideo{$}.mkv -vcodec copy -acodec copy output.mp4 -y"
+                        "commandLine": "ffmpeg -i sampleVideo{0}.mkv -vcodec copy -acodec copy output.mp4 -y",
+                        "resourceFiles": [
+                            {
+                                "filePath": "sampleVideo{0}.mkv",
+                                "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo{0}.mkv"
+                            }
+                        ]
                     }
                 }
             }
