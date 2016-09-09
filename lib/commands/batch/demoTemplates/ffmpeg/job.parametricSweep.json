@@ -55,13 +55,23 @@
                 "waitForSuccess": true
             },
             "taskFactory": {
-                "type": "parametricSweepTask",
+                "type": "parametricSweep",
                 "properties": {
-                    "start": 1,
-                    "end": 30,
-                    "skip": 1,
+                    "parameterSets": [
+                        {
+                            "start": 1,
+                            "end": 2,
+                            "step": 1
+                        }
+                    ],
                     "repeatTask": {
-                        "cmdLine": "ping -c 2 www.bing.com"
+                        "commandLine": "ffmpeg -i sampleVideo{0}.mkv -vcodec copy -acodec copy output{0}.mp4 -y",
+                        "resourceFiles": [
+                            {
+                                "filePath": "sampleVideo{0}.mkv",
+                                "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo{0}.mkv"
+                            }
+                        ]
                     }
                 }
             }
