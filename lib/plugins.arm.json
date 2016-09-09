@@ -3573,7 +3573,7 @@
               "name": "create",
               "description": "Adds a job to the specified account",
               "fullName": "batch job create",
-              "usage": "[options] [json-file]",
+              "usage": "[options] [json-file] [template] [parameters]",
               "filePath": "commands/batch/batch.job._js",
               "options": [
                 {
@@ -3627,6 +3627,22 @@
                   "short": "-p",
                   "long": "--pool-id",
                   "description": "the id of an existing pool; all the tasks of the job will run on the speicfied pool"
+                },
+                {
+                  "flags": "--template <template>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--template",
+                  "description": "the file containing the job object to create in JSON format; if this parameter is specified, all other job parameters are ignored."
+                },
+                {
+                  "flags": "--parameters <parameters>",
+                  "required": -14,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--parameters",
+                  "description": "the file containing the job object to create in JSON format; if this parameter is specified, all other job parameters are ignored."
                 },
                 {
                   "flags": "--metadata <--metadata>",
@@ -3823,6 +3839,14 @@
                   "short": "-i",
                   "long": "--id",
                   "description": "the id of the job"
+                },
+                {
+                  "flags": "--taskStates",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--taskStates",
+                  "description": "the summary of task states for the job"
                 },
                 {
                   "flags": "--select-clause <select-clause>",
@@ -5739,7 +5763,7 @@
               "name": "uploadFiles",
               "description": "Uploads files to storage to be used by a job",
               "fullName": "batch ncj uploadFiles",
-              "usage": "[options]",
+              "usage": "[options] [jsonParameters]",
               "filePath": "commands/batch/batch.ncj._js",
               "options": [
                 {
@@ -5786,6 +5810,33 @@
                   "description": "the path to the directory of files to uplaod"
                 },
                 {
+                  "flags": "-c, --container-url <container-url>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-c",
+                  "long": "--container-url",
+                  "description": "the name of the parameter whos value holds the destination container"
+                },
+                {
+                  "flags": "-t, --sas-token <sas-token>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-t",
+                  "long": "--sas-token",
+                  "description": "the name of the parameter where the upload sas token will be stored"
+                },
+                {
+                  "flags": "-e, --sas-expiry <sasExpiry>",
+                  "required": -18,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--sas-expiry",
+                  "description": "length of time in hours before resource file SAS token expiry"
+                },
+                {
                   "flags": "-a, --account-name <account-name>",
                   "required": -20,
                   "optional": 0,
@@ -5811,6 +5862,33 @@
                   "short": "-u",
                   "long": "--account-endpoint",
                   "description": "the Batch account URL"
+                },
+                {
+                  "flags": "-x, --storage-account <storage-account>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-x",
+                  "long": "--storage-account",
+                  "description": "the storage account name"
+                },
+                {
+                  "flags": "-y, --storage-key <storage-key>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-y",
+                  "long": "--storage-key",
+                  "description": "the storage account key"
+                },
+                {
+                  "flags": "-o, --overwrite",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-o",
+                  "long": "--overwrite",
+                  "description": "if set, existing files will be overwritten"
                 }
               ]
             },

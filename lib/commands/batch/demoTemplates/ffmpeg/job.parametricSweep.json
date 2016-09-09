@@ -40,11 +40,11 @@
     "job": {
         "type": "Microsoft.Batch/batchAccounts/jobs",
         "apiVersion": "2016-12-01",
-        "name": "[concat(parameters('accountName'), '_', parameters('jobName'))]",
         "properties": {
+            "id": "[parameters('jobName')]",
             "constraints": {
                 "maxWallClockTime": "PT5H",
-                "maxTaskRetryCount": 3
+                "maxTaskRetryCount": 1
             },
             "poolInfo": {
                 "poolId": "[parameters('poolName')]"
@@ -58,10 +58,10 @@
                 "type": "parametricSweepTask",
                 "properties": {
                     "start": 1,
-                    "end": 2,
+                    "end": 30,
                     "skip": 1,
                     "repeatTask": {
-                        "cmdLine": "ffmpeg -i [parameters('inputFileStorageContainerUrl')]sampleVideo{$}.mkv -vcodec copy -acodec copy output.mp4 -y"
+                        "cmdLine": "ping -c 2 www.bing.com"
                     }
                 }
             }
