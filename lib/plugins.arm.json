@@ -3573,7 +3573,7 @@
               "name": "create",
               "description": "Adds a job to the specified account",
               "fullName": "batch job create",
-              "usage": "[options] [json-file] [template] [parameters]",
+              "usage": "[options] [json-file]",
               "filePath": "commands/batch/batch.job._js",
               "options": [
                 {
