@@ -24,7 +24,13 @@
             "metadata": {
                 "description": "The name of Azure Batch pool"
             }
-        }
+        },
+        "inputFileStorageContainerUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "The url of Azure storage blob which the processing file located"
+            }
+        }        
     },
     "pool": {
         "type": "Microsoft.Batch/batchAccounts/pools",
