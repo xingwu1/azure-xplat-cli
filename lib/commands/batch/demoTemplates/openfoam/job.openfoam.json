@@ -71,7 +71,7 @@
                             "id" : "mpi",
                             "commandLine": "/bin/bash -c 'set -e; set -o pipefail; sudo -u _azbatch $AZ_BATCH_TASK_WORKING_DIR/application-cmd [parameters('vmCount')] [parameters('processorNumber')] [variables('openFoamIteration')] $AZ_BATCH_TASK_SHARED_DIR $AZ_BATCH_HOST_LIST; python $AZ_BATCH_TASK_WORKING_DIR/azure_storage_helper.py --filepath [variables('taskOutputFilePathOnVM')] --blobname [variables('taskOutputBlobName')] --storageaccount [parameters('outputStorageAccount')] --storagecontainer [variables('storageContainerName')] --sastoken '[parameters('outputStorageSasKey')]''; wait",
                             "multiInstanceSettings": {
-                                "numberOfInstances": 2,
+                                "numberOfInstances": "[parameters('vmCount')]",
                                 "coordinationCommandLine": "/bin/bash -c 'set -e; set -o pipefail; $AZ_BATCH_TASK_SHARED_DIR/coordination-cmd'; wait",
                                 "commonResourceFiles": [
                                     {
