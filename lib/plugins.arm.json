@@ -6869,6 +6869,22 @@
                   "description": "the command line of the start task"
                 },
                 {
+                  "flags": "--template <template>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--template",
+                  "description": "the file containing the pool object to create in JSON format; if this parameter is specified, all other pool parameters are ignored."
+                },
+                {
+                  "flags": "--parameters <parameters>",
+                  "required": -14,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--parameters",
+                  "description": "the file containing the pool object to create in JSON format; if this parameter is specified, all other pool parameters are ignored."
+                },
+                {
                   "flags": "--certificate-ref <certificate-ref>",
                   "required": -19,
                   "optional": 0,
