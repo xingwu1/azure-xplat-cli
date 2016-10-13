@@ -663,5 +663,137 @@ describe('cli', function () {
       done();
     });
 
+    it('should preserve clientExtensions when parsing a task collection', function (done) {
+      templateUtils.parseSimpleTaskFactory(
+        {
+          tasks: [
+            {
+              id: "task01",
+              commandLine: "cmd echo hi",
+              clientExtensions: {
+                dockerOptions: {
+                  image: "ncj/caffe:cpu"
+                }
+              }
+            }
+          ]
+        }
+      ).should.eql(
+        [
+          { commandLine: 'cmd echo hi', id: 'task01', clientExtensions: { dockerOptions: { image: 'ncj/caffe:cpu' } } }
+        ]
+      );
+      done();
+    });
+
+    it('should handle clientExtensions when parsing a parametric sweep', function (done) {
+      templateUtils.parseParametricSweep(
+        {
+          parameterSets: [
+            { start: 1, end: 3 }
+          ], 
+          repeatTask : {
+            commandLine: "cmd {0}.mp3",
+            clientExtensions: {
+              dockerOptions: {
+                image: "ncj/caffe:cpu{0}",
+                dataVolumes: [
+                  {
+                    hostPath: "/tmp{0}",
+                    containerPath: "/hosttmp{0}"
+                  }
+                ],
+                sharedDataVolumes: [
+                  {
+                    name: "share{0}",
+                    volumeType: "azurefile",
+                    containerPath: "/abc{0}"
+                  }
+                ]
+              }
+            }
+          },
+          mergeTask : {
+            commandLine: "summary.exe",
+            clientExtensions: {
+              dockerOptions: {
+                image: "ncj/merge"
+              }
+            }
+          }
+        }).should.eql(  
+        [{
+            commandLine: 'cmd 1.mp3', 
+            id: '0', 
+            clientExtensions: {
+              dockerOptions: {
+                image: 'ncj/caffe:cpu1',
+                dataVolumes: [
+                  {
+                    hostPath: "/tmp1",
+                    containerPath: "/hosttmp1"
+                  }
+                ],
+                sharedDataVolumes: [
+                  {
+                    name: "share1",
+                    volumeType: "azurefile",
+                    containerPath: "/abc1"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            commandLine: 'cmd 2.mp3',
+            id: '1',
+            clientExtensions: {
+              dockerOptions: {
+                image: 'ncj/caffe:cpu2',
+                dataVolumes: [
+                  {
+                    hostPath: "/tmp2",
+                    containerPath: "/hosttmp2"
+                  }
+                ],
+                sharedDataVolumes: [
+                  {
+                    name: "share2",
+                    volumeType: "azurefile",
+                    containerPath: "/abc2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            commandLine: 'cmd 3.mp3', 
+            id: '2', 
+            clientExtensions: {
+              dockerOptions: {
+                image: 'ncj/caffe:cpu3',
+                dataVolumes: [
+                  {
+                    hostPath: "/tmp3",
+                    containerPath: "/hosttmp3"
+                  }
+                ],
+                sharedDataVolumes: [
+                  {
+                    name: "share3",
+                    volumeType: "azurefile",
+                    containerPath: "/abc3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            commandLine: 'summary.exe', id: 'merge',
+            dependsOn: { taskIdRanges: { start: 0, end: 2 } },
+            clientExtensions: { dockerOptions: { image: 'ncj/merge' } }
+          }]);
+      done();
+    });
   });
 });
