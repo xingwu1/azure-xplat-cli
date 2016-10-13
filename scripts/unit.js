@@ -68,6 +68,10 @@ allFiles.forEach(function (file) {
 args.push('-R');
 args.push(reporter);
 
+// Enable streamline in testing code
+args.push('--compilers');
+args.push('_js:streamline/register');
+
 console.log('Start (' + testList + '):' + new Date().toLocaleTimeString());
 
 //console.log(JSON.stringify(args, null, 2));
