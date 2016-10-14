@@ -17,6 +17,7 @@
 
 var should = require('should');
 var utils = require('../../../lib/util/utils');
+var Interactor = require('../../../lib/util/interaction');
 var CLITest = require('../../framework/arm-cli-test');
 var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
 
@@ -35,6 +36,22 @@ var batchAccount;
 var batchAccountKey;
 var batchAccountEndpoint;
 
+// return array which value contain subString
+function getValueFromJson(obj, val) {
+	var objects = [];
+	for (var i in obj) {
+	  if (!obj.hasOwnProperty(i)) continue;
+	  if (typeof obj[i] == 'object') {
+	    objects = objects.concat(getValueFromJson(obj[i], val));
+	  } else if (typeof obj[i] == 'string') {
+	    if (obj[i].indexOf(val) !== -1) {
+	      objects.push(i);
+	    }
+	  }
+	}
+	return objects;
+};
+
 describe('cli', function () {
   describe('batch ncj', function () {
     before(function (done) {
@@ -52,9 +69,22 @@ describe('cli', function () {
     afterEach(function (done) {
       done();
     });
+
+    it('should expand template with parameter file', function (_) {
+      this.interaction = new Interactor(this);
+      var templateFile = path.resolve(__dirname, '../../../lib/commands/batch/demoTemplates/ffmpeg/job.simple.json');
+      var parameterFile = path.resolve(__dirname, '../../../lib/commands/batch/demoTemplates/ffmpeg/job.parameters.json');
+      var full = templateUtils.expandTemplate(this, templateFile, parameterFile, _);
+      should.exist(full);
+      should.exist(full.job);
+      full.job.properties.id.should.equal('ffmpeg_job_4');
+      full.job.properties.poolInfo.poolId.should.equal('ubuntu_16_04');
+      getValueFromJson(full, '[parameters(').should.be.empty;
+    });
     
     it('should correct replace parametric sweep command', function (done) {
       templateUtils.replacementParameter("cmd {{{0}}}.mp3 {1}.mp3", [5, 10]).should.equal('cmd {5}.mp3 10.mp3');
+      templateUtils.replacementParameter("cmd {{{0}}}.mp3 {{{1}}}.mp3", [5, 10]).should.equal('cmd {5}.mp3 {10}.mp3');
       templateUtils.replacementParameter("cmd {{0}}.mp3 {1}.mp3", [5, 10]).should.equal('cmd {0}.mp3 10.mp3');
       templateUtils.replacementParameter("cmd {0}.mp3 {1}.mp3", [5, 10]).should.equal('cmd 5.mp3 10.mp3');
       templateUtils.replacementParameter("cmd {0}{1}.mp3 {1}.mp3", [5, 10]).should.equal('cmd 510.mp3 10.mp3');

@@ -5,9 +5,6 @@
   "poolName": {
     "value": "ubuntu_16_04"
   },
-  "accountName": {
-    "value": "ffmpeg"
-  },
   "inputFileStorageContainerUrl": {
     "value": "https://pstest111.blob.core.windows.net/amovie/"
   },

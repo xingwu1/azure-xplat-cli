@@ -1,11 +1,5 @@
 {
     "parameters": {
-        "accountName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of batch account"
-            }
-        },
         "inputFileStorageContainerUrl": {
             "type": "string",
             "metadata": {
@@ -33,9 +27,6 @@
                 "description": "The name of Azure Batch job"
             }
         }
-    },
-    "variables": {
-        "accountBase": "[concat('Microsoft.Batch/batchAccounts/', parameters('accountName'))]"
     },
     "job": {
         "type": "Microsoft.Batch/batchAccounts/jobs",

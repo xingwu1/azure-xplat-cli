@@ -34,9 +34,6 @@
             }
         }
     },
-    "variables": {
-        "accountBase": "[concat('Microsoft.Batch/batchAccounts/', parameters('accountName'))]"
-    },
     "job": {
         "type": "Microsoft.Batch/batchAccounts/jobs",
         "apiVersion": "2016-12-01",
