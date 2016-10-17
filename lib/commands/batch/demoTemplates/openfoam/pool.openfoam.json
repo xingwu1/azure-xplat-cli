@@ -25,12 +25,13 @@
                 "description": "The name of Azure Batch pool"
             }
         },
-        "inputFileStorageContainerUrl": {
+        "dataGroup": {
             "type": "string",
+            "defaultValue": "openfoam",
             "metadata": {
-                "description": "The url of Azure storage blob which the processing file located"
+                "description": "The auto-storage group where the input data is stored"
             }
-        }        
+        }
     },
     "pool": {
         "type": "Microsoft.Batch/batchAccounts/pools",
@@ -57,8 +58,10 @@
                 "waitForSuccess": true,
                 "resourceFiles": [
                     {
-                        "filePath": "nodeprep-cmd",
-                        "blobSource": "[parameters('inputFileStorageContainerUrl')]/nodeprep-cmd"
+                        "source": { 
+                            "fileGroup": "[parameters('dataGroup')]",
+                            "path": "nodeprep-cmd"
+                        }
                     }
                 ]
             }

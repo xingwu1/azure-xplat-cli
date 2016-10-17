@@ -13,10 +13,11 @@
                 "description": "The number of processors of the virtual machine"
             }
         },
-        "inputFileStorageContainerUrl": {
+        "dataGroup": {
             "type": "string",
+            "defaultValue": "openfoam",
             "metadata": {
-                "description": "The url of Azure storage blob which the processing file located"
+                "description": "The auto-storage group where the input data is stored"
             }
         },
         "outputStorageAccount": {
@@ -75,19 +76,25 @@
                                 "coordinationCommandLine": "/bin/bash -c 'set -e; set -o pipefail; $AZ_BATCH_TASK_SHARED_DIR/coordination-cmd'; wait",
                                 "commonResourceFiles": [
                                     {
-                                        "filePath": "coordination-cmd",
-                                        "blobSource": "[parameters('inputFileStorageContainerUrl')]/coordination-cmd"
-                                    }                                    
+                                        "source": { 
+                                            "fileGroup": "[parameters('dataGroup')]",
+                                            "path": "coordination-cmd"
+                                        }
+                                    }
                                 ]                                
                             },
                             "resourceFiles": [
                                 {
-                                    "filePath": "application-cmd",
-                                    "blobSource": "[parameters('inputFileStorageContainerUrl')]/application-cmd"
+                                    "source": { 
+                                        "fileGroup": "[parameters('dataGroup')]",
+                                        "path": "application-cmd"
+                                    }
                                 },
                                 {
-                                    "filePath": "azure_storage_helper.py",
-                                    "blobSource": "[parameters('inputFileStorageContainerUrl')]/azure_storage_helper.py"
+                                    "source": { 
+                                        "fileGroup": "[parameters('dataGroup')]",
+                                        "path": "azure_storage_helper.py"
+                                    }
                                 }
                             ],
                             "runElevated": true

@@ -1,17 +1,23 @@
 {
     "parameters": {
-        "inputFileStorageContainerUrl": {
+        "dataGroup": {
             "type": "string",
+            "defaultValue": "video_data",
             "metadata": {
-                "description": "The url of Azure storage blob which the processing file located",
-                "ncjDirectory": "SingleFile.fullurl"
+                "description": "The auto-storage group where the input data is stored"
+            }
+        },
+        "inputType": {
+            "type": "string",
+            "defaultValue": "mkv",
+            "metadata": {
+                "description": "The extension of the input data"
             }
         },
         "outputFileStorageUrl": {
             "type": "string",
             "metadata": {
-                "description": "The url of Azure storage container which hold the output file",
-                "ncjDirectory": "ResourceFolder.fullurl"
+                "description": "The url of Azure storage container which hold the output file"
             }
         },
         "poolName": {
@@ -51,11 +57,13 @@
                     "tasks": [
                         {
                             "id" : "mytask1",
-                            "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+                            "commandLine": "ffmpeg -i sampleVideo1.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
                             "resourceFiles": [
                                 {
-                                    "filePath": "sampleVideo1.mkv",
-                                    "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+                                    "source": { 
+                                        "fileGroup": "[parameters('dataGroup')]",
+                                        "path": "sampleVideo1.[parameters('inputType')]"
+                                    }
                                 }
                             ],
                             "outputFiles": [
@@ -69,11 +77,13 @@
                         },
                         {
                             "id" : "mytask2",
-                            "commandLine": "ffmpeg -i sampleVideo2.mkv -vcodec copy -acodec copy output.mp4 -y",
+                            "commandLine": "ffmpeg -i sampleVideo2.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
                             "resourceFiles": [
                                 {
-                                    "filePath": "sampleVideo2.mkv",
-                                    "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo2.mkv"
+                                    "source": { 
+                                        "fileGroup": "[parameters('dataGroup')]",
+                                        "path": "sampleVideo2.[parameters('inputType')]"
+                                    }
                                 }
                             ],
                             "outputFiles": [
