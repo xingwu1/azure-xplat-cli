@@ -696,7 +696,7 @@ describe('cli', function () {
             commandLine: "cmd {0}.mp3",
             clientExtensions: {
               dockerOptions: {
-                image: "ncj/caffe:cpu{0}",
+                image: "ncj/caffe:cpu",
                 dataVolumes: [
                   {
                     hostPath: "/tmp{0}",
@@ -727,7 +727,7 @@ describe('cli', function () {
             id: '0', 
             clientExtensions: {
               dockerOptions: {
-                image: 'ncj/caffe:cpu1',
+                image: 'ncj/caffe:cpu',
                 dataVolumes: [
                   {
                     hostPath: "/tmp1",
@@ -749,7 +749,7 @@ describe('cli', function () {
             id: '1',
             clientExtensions: {
               dockerOptions: {
-                image: 'ncj/caffe:cpu2',
+                image: 'ncj/caffe:cpu',
                 dataVolumes: [
                   {
                     hostPath: "/tmp2",
@@ -771,7 +771,7 @@ describe('cli', function () {
             id: '2', 
             clientExtensions: {
               dockerOptions: {
-                image: 'ncj/caffe:cpu3',
+                image: 'ncj/caffe:cpu',
                 dataVolumes: [
                   {
                     hostPath: "/tmp3",
