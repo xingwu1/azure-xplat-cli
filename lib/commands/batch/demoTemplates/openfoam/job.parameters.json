@@ -13,9 +13,6 @@
   },  
   "processorNumber": {
     "value": 8
-  },  
-  "inputFileStorageContainerUrl": {
-    "value": "http://manoj123.blob.core.windows.net/ofdemo"
   },
   "outputStorageAccount": {
     "value": "https://pythonsdkteststorage.blob.core.windows.net/resourcecontainer"

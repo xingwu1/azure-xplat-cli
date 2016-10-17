@@ -16,10 +16,12 @@
 'use strict';
 
 var should = require('should');
+var sinon = require('sinon');
 var utils = require('../../../lib/util/utils');
 var Interactor = require('../../../lib/util/interaction');
 var CLITest = require('../../framework/arm-cli-test');
 var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
+var fileUtils = require('../../../lib/commands/batch/batch.fileUtils');
 
 var path = require('path');
 var createJobScheduleJsonFilePath = path.resolve(__dirname, '../../data/batchCreateJobScheduleForJobTests.json');
@@ -264,5 +266,273 @@ describe('cli', function () {
         })
       done();
     });
+
+    it('should correctly preserve resourceFiles', function (_) {
+      var transformed;
+      var failed;
+      var request = {'resourceFiles': [
+        {
+          'blobSource': 'abc',
+          'filePath': 'xyz'
+        }
+      ]}
+      transformed = templateUtils.postProcessing(request, _)
+      transformed.should.have.property('resourceFiles').with.lengthOf(1);
+      transformed.resourceFiles[0].blobSource.should.equal('abc');
+      transformed.resourceFiles[0].filePath.should.equal('xyz');
+
+      request = {
+        'commonResourceFiles': [
+          {
+            'blobSource': 'abc',
+            'filePath': 'xyz'
+          }
+        ],
+        'jobManagerTask': {
+            'resourceFiles': [
+              {
+                'blobSource': 'foo',
+                'filePath': 'bar'
+              }
+            ]
+        }
+      }
+      transformed = templateUtils.postProcessing(request, _)
+      transformed.should.have.property('commonResourceFiles').with.lengthOf(1);
+      transformed.commonResourceFiles[0].blobSource.should.equal('abc');
+      transformed.commonResourceFiles[0].filePath.should.equal('xyz');
+      transformed.should.have.property('jobManagerTask');
+      transformed.jobManagerTask.should.have.property('resourceFiles').with.length(1);
+      transformed.jobManagerTask.resourceFiles[0].blobSource.should.equal('foo');
+      transformed.jobManagerTask.resourceFiles[0].filePath.should.equal('bar');
+
+      request = [
+        {'resourceFiles': [
+          {
+            'blobSource': 'abc',
+            'filePath': 'xyz'
+          }
+        ]},
+        {'resourceFiles': [
+          {
+            'blobSource': 'abc',
+            'filePath': 'xyz'
+          }
+        ]}
+      ]
+      transformed = templateUtils.postProcessing(request, _)
+      transformed.length.should.equal(2);
+      transformed[0].should.have.property('resourceFiles').with.lengthOf(1);
+      transformed[0].resourceFiles[0].blobSource.should.equal('abc');
+      transformed[0].resourceFiles[0].filePath.should.equal('xyz');
+
+      request = {'resourceFiles': [{ 'blobSource': 'abc' }]};
+
+      templateUtils.postProcessing(request, function (error, value) {
+        should.exist(error);
+        should.not.exist(value);
+      });
+    });
+
+    it('should correctly generate container name from fileGroup', function (_) {
+      fileUtils.getContainerName("data", _).should.equal('fgrp-data');
+      fileUtils.getContainerName("Data", _).should.equal('fgrp-data');
+      fileUtils.getContainerName("data__test--", _).should.equal('fgrp-data-test-6640b0b7acfec6867ab146c9cf185206b5f0bdcb');
+      var name = fileUtils.getContainerName("data-test-really-long-name-with-no-special-characters-o8724578o2476", _);
+      name.should.equal('fgrp-data-test-reall-cc5bdae242ec8cee81a2b85a35a0f538991472c2');
+      fileUtils.getContainerName("data-#$%", function (error, value) {
+        should.exist(error);
+        should.not.exist(value);
+      });
+    });
+
+    it('should correctly resolve file paths', function (done) {
+      fileUtils.resolveFilePaths("./test/data/batchFileTests", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(3);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(3);
+      });
+      fileUtils.resolveFilePaths("./test/data/batchFileTests/", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(3);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(3);
+      });
+      fileUtils.resolveFilePaths("./test/data/batchFileTests/*", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(3);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\*", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(3);
+      });
+      fileUtils.resolveFilePaths("./test/data/batchFileTests/foo.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\foo.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths("./test/data/batchFileTests/*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths("./test/data/batchFileTests/f*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\f*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths("./test/data/**/sample_data/test.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\**\\sample_data\\test.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths("./test/data/**/sample_data/test*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\**\\sample_data\\test*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data');
+        resolvedPaths.files.length.should.equal(1);
+      });
+      fileUtils.resolveFilePaths("./test/data/batchFileTests/**/*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
+        resolvedPaths.files.length.should.equal(2);
+      });
+      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\**\\*.txt", function(error, resolvedPaths) {
+        should.not.exist(error);
+        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+        resolvedPaths.files.length.should.equal(2);
+      });
+      done();
+    });
+
+    it('should correctly transform resourceFiles from fileGroup', function (_) {
+      sinon.stub(fileUtils, 'generateSasToken', function(blob, container, client) {
+        return "https://blob." + container + "/" + blob.name;
+      });
+
+      var container = 'proj-data';
+      var client = {};
+      var resource = {
+        'source': { 'project': 'data' }
+      };
+      var blobs = [
+        { 'name': 'data1.txt'},
+        { 'name': 'data2.txt'}
+      ];
+      var resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(2);
+      resources[0].blobSource.should.equal("https://blob.proj-data/data1.txt");
+      resources[0].filePath.should.equal("data1.txt");
+      resources[1].blobSource.should.equal("https://blob.proj-data/data2.txt");
+      resources[1].filePath.should.equal("data2.txt");
+
+      resource = {
+        'source': { 'project': 'data', 'path': 'data1.txt'},
+        'filePath': 'localFile'
+      };
+      blobs = [
+        { 'name': 'data1.txt'}
+      ];
+      resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(1);
+      resources[0].blobSource.should.equal("https://blob.proj-data/data1.txt");
+      resources[0].filePath.should.equal("localFile");
+
+      resource = {
+        'source': { 'project': 'data', 'path': 'data1'},
+        'filePath': 'localFile'
+      };
+      blobs = [
+        { 'name': 'data1.txt'}
+      ];
+      resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(1);
+      resources[0].blobSource.should.equal("https://blob.proj-data/data1.txt");
+      resources[0].filePath.should.equal("localFile/data1.txt");
+
+      resource = {
+        'source': { 'project': 'data', 'path': 'subdir/data'},
+        'filePath': 'localFile'
+      };
+      blobs = [
+        { 'name': 'subdir/data1.txt'},
+        { 'name': 'subdir/data2.txt'}
+      ];
+      resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(2);
+      resources[0].blobSource.should.equal("https://blob.proj-data/subdir/data1.txt");
+      resources[0].filePath.should.equal("localFile/subdir/data1.txt");
+      resources[1].blobSource.should.equal("https://blob.proj-data/subdir/data2.txt");
+      resources[1].filePath.should.equal("localFile/subdir/data2.txt");
+
+      resource = {
+        'source': { 'project': 'data', 'path': 'subdir/data'},
+        'filePath': 'localFile/'
+      };
+      blobs = [
+        { 'name': 'subdir/data1.txt'}
+      ];
+      resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(1);
+      resources[0].blobSource.should.equal("https://blob.proj-data/subdir/data1.txt");
+      resources[0].filePath.should.equal("localFile/subdir/data1.txt");
+
+      resource = {
+        'source': { 'project': 'data', 'path': 'subdir/data'},
+      };
+      blobs = [
+        { 'name': 'subdir/data1.txt'},
+        { 'name': 'subdir/more/data2.txt'}
+      ];
+      resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(2);
+      resources[0].blobSource.should.equal("https://blob.proj-data/subdir/data1.txt");
+      resources[0].filePath.should.equal("subdir/data1.txt");
+      resources[1].blobSource.should.equal("https://blob.proj-data/subdir/more/data2.txt");
+      resources[1].filePath.should.equal("subdir/more/data2.txt");
+
+    });
+
   });
 });

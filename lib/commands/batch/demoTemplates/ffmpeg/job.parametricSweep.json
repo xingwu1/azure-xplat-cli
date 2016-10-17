@@ -1,23 +1,16 @@
 {
     "parameters": {
-        "accountName": {
+        "dataGroup": {
             "type": "string",
+            "defaultValue": "video_data",
             "metadata": {
-                "description": "The name of batch account"
-            }
-        },
-        "inputFileStorageContainerUrl": {
-            "type": "string",
-            "metadata": {
-                "description": "The url of Azure storage blob which the processing file located",
-                "ncjDirectory": "SingleFile.fullurl"
+                "description": "The auto-storage group where the input data is stored"
             }
         },
         "outputFileStorageUrl": {
             "type": "string",
             "metadata": {
-                "description": "The url of Azure storage container which hold the output file",
-                "ncjDirectory": "ResourceFolder.fullurl"
+                "description": "The url of Azure storage container which hold the output file"
             }
         },
         "poolName": {
@@ -31,6 +24,27 @@
             "type": "string",
             "metadata": {
                 "description": "The name of Azure Batch job"
+            }
+        },
+        "runAsAdmin": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Run pool start task with elevated permission"
+            }
+        },
+        "jobStart": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "The sweep start parameter"
+            }
+        },
+        "jobEnd": {
+            "type": "int",
+            "defaultValue": 5,
+            "metadata": {
+                "description": "The sweep end parameter"
             }
         }
     },
@@ -48,7 +62,7 @@
             },
             "jobPreparationTask": {
                 "commandLine" : "sudo apt-get install ffmpeg -y",
-                "runElevated": true,
+                "runElevated": "[parameters('runAsAdmin')]",
                 "waitForSuccess": true
             },
             "taskFactory": {
@@ -56,8 +70,8 @@
                 "properties": {
                     "parameterSets": [
                         {
-                            "start": 1,
-                            "end": 5,
+                            "start": "[parameters('jobStart')]",
+                            "end": "[parameters('jobEnd')]",
                             "step": 1
                         }
                     ],
@@ -65,8 +79,10 @@
                         "commandLine": "ffmpeg -i sampleVideo{0}.mkv -vcodec copy -acodec copy output{0}.mp4 -y",
                         "resourceFiles": [
                             {
-                                "filePath": "sampleVideo{0}.mkv",
-                                "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo{0}.mkv"
+                                "source": { 
+                                    "fileGroup": "[parameters('dataGroup')]",
+                                    "path": "sampleVideo{0}.mkv"
+                                }
                             }
                         ]
                     }
