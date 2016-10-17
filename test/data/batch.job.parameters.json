@@ -1,0 +1,8 @@
+{
+  "jobName": {
+    "value": "helloworld"
+  },
+  "poolName": {
+    "value": "xplatTestPool"
+  }
+}

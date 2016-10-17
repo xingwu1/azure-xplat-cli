@@ -52,51 +52,49 @@
                 "waitForSuccess": true
             },
             "taskFactory": {
-                "type": "regular",
-                "properties": {
-                    "tasks": [
-                        {
-                            "id" : "mytask1",
-                            "commandLine": "ffmpeg -i sampleVideo1.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
-                            "resourceFiles": [
-                                {
-                                    "source": { 
-                                        "fileGroup": "[parameters('dataGroup')]",
-                                        "path": "sampleVideo1.[parameters('inputType')]"
-                                    }
+                "type": "taskCollection",
+                "tasks": [
+                    {
+                        "id" : "mytask1",
+                        "commandLine": "ffmpeg -i sampleVideo1.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
+                        "resourceFiles": [
+                            {
+                                "source": { 
+                                    "fileGroup": "[parameters('dataGroup')]",
+                                    "path": "sampleVideo1.[parameters('inputType')]"
                                 }
-                            ],
-                            "outputFiles": [
-                                {
-                                    "filePath": "output.mp4",
-                                    "containerDestination": "[parameters('outputFileStorageUrl')]",
-                                    "format": "Raw",
-                                    "uploadMode": "TaskCompletion"
+                            }
+                        ],
+                        "outputFiles": [
+                            {
+                                "filePath": "output.mp4",
+                                "containerDestination": "[parameters('outputFileStorageUrl')]",
+                                "format": "Raw",
+                                "uploadMode": "TaskCompletion"
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "mytask2",
+                        "commandLine": "ffmpeg -i sampleVideo2.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
+                        "resourceFiles": [
+                            {
+                                "source": { 
+                                    "fileGroup": "[parameters('dataGroup')]",
+                                    "path": "sampleVideo2.[parameters('inputType')]"
                                 }
-                            ]
-                        },
-                        {
-                            "id" : "mytask2",
-                            "commandLine": "ffmpeg -i sampleVideo2.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
-                            "resourceFiles": [
-                                {
-                                    "source": { 
-                                        "fileGroup": "[parameters('dataGroup')]",
-                                        "path": "sampleVideo2.[parameters('inputType')]"
-                                    }
-                                }
-                            ],
-                            "outputFiles": [
-                                {
-                                    "filePath": "output.mp4",
-                                    "containerDestination": "[parameters('outputFileStorageUrl')]",
-                                    "format": "Raw",
-                                    "uploadMode": "TaskCompletion"
-                                }
-                            ]
-                        }
-                    ]
-                }
+                            }
+                        ],
+                        "outputFiles": [
+                            {
+                                "filePath": "output.mp4",
+                                "containerDestination": "[parameters('outputFileStorageUrl')]",
+                                "format": "Raw",
+                                "uploadMode": "TaskCompletion"
+                            }
+                        ]
+                    }
+                ]
             }
         }
     }

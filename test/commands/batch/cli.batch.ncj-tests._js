@@ -40,18 +40,18 @@ var batchAccountEndpoint;
 
 // return array which value contain subString
 function getValueFromJson(obj, val) {
-	var objects = [];
-	for (var i in obj) {
-	  if (!obj.hasOwnProperty(i)) continue;
-	  if (typeof obj[i] == 'object') {
-	    objects = objects.concat(getValueFromJson(obj[i], val));
-	  } else if (typeof obj[i] == 'string') {
-	    if (obj[i].indexOf(val) !== -1) {
-	      objects.push(i);
-	    }
-	  }
-	}
-	return objects;
+  var objects = [];
+  for (var i in obj) {
+    if (!obj.hasOwnProperty(i)) continue;
+    if (typeof obj[i] == 'object') {
+      objects = objects.concat(getValueFromJson(obj[i], val));
+    } else if (typeof obj[i] == 'string') {
+      if (obj[i].indexOf(val) !== -1) {
+        objects.push(i);
+      }
+    }
+  }
+  return objects;
 };
 
 describe('cli', function () {
@@ -129,9 +129,69 @@ describe('cli', function () {
       done();
     });
 
+    it('should correct parse taskCollection taskfactory', function(done) {
+     
+      var result = templateUtils.parseTaskFactory(
+        { 
+          "type": "taskCollection",
+          "tasks": [
+            {
+              "id" : "mytask1",
+              "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+              "resourceFiles": [
+                {
+                  "filePath": "sampleVideo1.mkv",
+                  "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+                }
+              ],
+              "outputFiles": [
+                {
+                  "filePath": "output.mp4",
+                  "containerDestination": "[parameters('outputFileStorageUrl')]",
+                  "format": "Raw",
+                  "uploadMode": "TaskCompletion"
+                }
+              ]
+            }
+          ]
+        }
+      ).should.eql(
+      [
+        {
+          "id" : "mytask1",
+          "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+          "resourceFiles": [
+            {
+              "filePath": "sampleVideo1.mkv",
+              "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+            }
+          ]
+        }
+      ]);
+
+      done();
+    });
+
+    it('should correct parse parametric sweep taskfactory', function (done) {
+      templateUtils.parseTaskFactory({ 
+        "type": "parametricSweep",
+        parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" } 
+      }).should.eql(  
+        [ 
+          { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
+          { commandLine: 'cmd 1.mp3 4.mp3', id: '1' },
+          { commandLine: 'cmd 1.mp3 5.mp3', id: '2' },
+          { commandLine: 'cmd 2.mp3 3.mp3', id: '3' },
+          { commandLine: 'cmd 2.mp3 4.mp3', id: '4' },
+          { commandLine: 'cmd 2.mp3 5.mp3', id: '5' } ]);
+
+      done();
+    });
+
     it('should correct parse parametric sweep', function (done) {
       templateUtils.parseParametricSweep({ parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" } }).should.eql(  
-        [ { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
+        [ 
+          { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
           { commandLine: 'cmd 1.mp3 4.mp3', id: '1' },
           { commandLine: 'cmd 1.mp3 5.mp3', id: '2' },
           { commandLine: 'cmd 2.mp3 3.mp3', id: '3' },
@@ -139,7 +199,8 @@ describe('cli', function () {
           { commandLine: 'cmd 2.mp3 5.mp3', id: '5' } ]);
 
       templateUtils.parseParametricSweep(
-        { parameterSets: [
+        { 
+          parameterSets: [
             {start:1, end:3}
           ], 
           repeatTask : { 

@@ -67,25 +67,23 @@
             },
             "taskFactory": {
                 "type": "parametricSweep",
-                "properties": {
-                    "parameterSets": [
-                        {
-                            "start": "[parameters('jobStart')]",
-                            "end": "[parameters('jobEnd')]",
-                            "step": 1
-                        }
-                    ],
-                    "repeatTask": {
-                        "commandLine": "ffmpeg -i sampleVideo{0}.mkv -vcodec copy -acodec copy output{0}.mp4 -y",
-                        "resourceFiles": [
-                            {
-                                "source": { 
-                                    "fileGroup": "[parameters('dataGroup')]",
-                                    "path": "sampleVideo{0}.mkv"
-                                }
-                            }
-                        ]
+                "parameterSets": [
+                    {
+                        "start": "[parameters('jobStart')]",
+                        "end": "[parameters('jobEnd')]",
+                        "step": 1
                     }
+                ],
+                "repeatTask": {
+                    "commandLine": "ffmpeg -i sampleVideo{0}.mkv -vcodec copy -acodec copy output{0}.mp4 -y",
+                    "resourceFiles": [
+                        {
+                            "source": { 
+                                "fileGroup": "[parameters('dataGroup')]",
+                                "path": "sampleVideo{0}.mkv"
+                            }
+                        }
+                    ]
                 }
             }
         }
