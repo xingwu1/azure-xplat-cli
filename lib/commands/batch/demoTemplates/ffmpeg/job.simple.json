@@ -67,10 +67,16 @@
                         ],
                         "outputFiles": [
                             {
-                                "filePath": "output.mp4",
-                                "containerDestination": "[parameters('outputFileStorageUrl')]",
-                                "format": "Raw",
-                                "uploadMode": "TaskCompletion"
+                                "filePattern": "output.mp4",
+                                "destination": {
+                                    "container": {
+                                        "path": "mytask1output.mp4",
+                                        "containerSas": "[parameters('outputFileStorageUrl')]"
+                                    }
+                                },
+                                "uploadDetails": {
+                                    "taskStatus": "TaskCompletion"
+                                }
                             }
                         ]
                     },
@@ -87,10 +93,16 @@
                         ],
                         "outputFiles": [
                             {
-                                "filePath": "output.mp4",
-                                "containerDestination": "[parameters('outputFileStorageUrl')]",
-                                "format": "Raw",
-                                "uploadMode": "TaskCompletion"
+                                "filePattern": "output.mp4",
+                                "destination": {
+                                    "container": {
+                                        "path": "mytask2output.mp4",
+                                        "containerSas": "[parameters('outputFileStorageUrl')]"
+                                    }
+                                },
+                                "uploadDetails": {
+                                    "taskStatus": "TaskCompletion"
+                                }
                             }
                         ]
                     }
