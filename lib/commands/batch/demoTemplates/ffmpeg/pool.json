@@ -50,7 +50,7 @@
                 "nodeAgentSKUId": "batch.node.debian 8"
             },
             "vmSize": "[parameters('vmSize')]",
-            "vmCount": "[parameters('vmCount')]",
+            "targetDedicated": "[parameters('vmCount')]",
             "enableAutoScale": false
         }
     }
