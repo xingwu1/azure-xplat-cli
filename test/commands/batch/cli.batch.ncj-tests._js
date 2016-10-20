@@ -40,18 +40,18 @@ var batchAccountEndpoint;
 
 // return array which value contain subString
 function getValueFromJson(obj, val) {
-	var objects = [];
-	for (var i in obj) {
-	  if (!obj.hasOwnProperty(i)) continue;
-	  if (typeof obj[i] == 'object') {
-	    objects = objects.concat(getValueFromJson(obj[i], val));
-	  } else if (typeof obj[i] == 'string') {
-	    if (obj[i].indexOf(val) !== -1) {
-	      objects.push(i);
-	    }
-	  }
-	}
-	return objects;
+  var objects = [];
+  for (var i in obj) {
+    if (!obj.hasOwnProperty(i)) continue;
+    if (typeof obj[i] == 'object') {
+      objects = objects.concat(getValueFromJson(obj[i], val));
+    } else if (typeof obj[i] == 'string') {
+      if (obj[i].indexOf(val) !== -1) {
+        objects.push(i);
+      }
+    }
+  }
+  return objects;
 };
 
 describe('cli', function () {
@@ -129,9 +129,69 @@ describe('cli', function () {
       done();
     });
 
+    it('should correct parse taskCollection taskfactory', function(done) {
+     
+      var result = templateUtils.parseTaskFactory(
+        { 
+          "type": "taskCollection",
+          "tasks": [
+            {
+              "id" : "mytask1",
+              "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+              "resourceFiles": [
+                {
+                  "filePath": "sampleVideo1.mkv",
+                  "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+                }
+              ],
+              "outputFiles": [
+                {
+                  "filePath": "output.mp4",
+                  "containerDestination": "[parameters('outputFileStorageUrl')]",
+                  "format": "Raw",
+                  "uploadMode": "TaskCompletion"
+                }
+              ]
+            }
+          ]
+        }
+      ).should.eql(
+      [
+        {
+          "id" : "mytask1",
+          "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+          "resourceFiles": [
+            {
+              "filePath": "sampleVideo1.mkv",
+              "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+            }
+          ]
+        }
+      ]);
+
+      done();
+    });
+
+    it('should correct parse parametric sweep taskfactory', function (done) {
+      templateUtils.parseTaskFactory({ 
+        "type": "parametricSweep",
+        parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" } 
+      }).should.eql(  
+        [ 
+          { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
+          { commandLine: 'cmd 1.mp3 4.mp3', id: '1' },
+          { commandLine: 'cmd 1.mp3 5.mp3', id: '2' },
+          { commandLine: 'cmd 2.mp3 3.mp3', id: '3' },
+          { commandLine: 'cmd 2.mp3 4.mp3', id: '4' },
+          { commandLine: 'cmd 2.mp3 5.mp3', id: '5' } ]);
+
+      done();
+    });
+
     it('should correct parse parametric sweep', function (done) {
       templateUtils.parseParametricSweep({ parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" } }).should.eql(  
-        [ { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
+        [ 
+          { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
           { commandLine: 'cmd 1.mp3 4.mp3', id: '1' },
           { commandLine: 'cmd 1.mp3 5.mp3', id: '2' },
           { commandLine: 'cmd 2.mp3 3.mp3', id: '3' },
@@ -139,7 +199,8 @@ describe('cli', function () {
           { commandLine: 'cmd 2.mp3 5.mp3', id: '5' } ]);
 
       templateUtils.parseParametricSweep(
-        { parameterSets: [
+        { 
+          parameterSets: [
             {start:1, end:3}
           ], 
           repeatTask : { 
@@ -334,16 +395,14 @@ describe('cli', function () {
       });
     });
 
-    it('should correctly generate container name from fileGroup', function (_) {
-      fileUtils.getContainerName("data", _).should.equal('fgrp-data');
-      fileUtils.getContainerName("Data", _).should.equal('fgrp-data');
-      fileUtils.getContainerName("data__test--", _).should.equal('fgrp-data-test-6640b0b7acfec6867ab146c9cf185206b5f0bdcb');
-      var name = fileUtils.getContainerName("data-test-really-long-name-with-no-special-characters-o8724578o2476", _);
+    it('should correctly generate container name from fileGroup', function (done) {
+      fileUtils.getContainerName("data").should.equal('fgrp-data');
+      fileUtils.getContainerName("Data").should.equal('fgrp-data');
+      fileUtils.getContainerName("data__test--").should.equal('fgrp-data-test-6640b0b7acfec6867ab146c9cf185206b5f0bdcb');
+      var name = fileUtils.getContainerName("data-test-really-long-name-with-no-special-characters-o8724578o2476");
       name.should.equal('fgrp-data-test-reall-cc5bdae242ec8cee81a2b85a35a0f538991472c2');
-      fileUtils.getContainerName("data-#$%", function (error, value) {
-        should.exist(error);
-        should.not.exist(value);
-      });
+      (function() { fileUtils.getContainerName("data-#$%")}).should.throw();
+      done();
     });
 
     it('should correctly resolve file paths', function (done) {
@@ -532,6 +591,72 @@ describe('cli', function () {
       resources[1].blobSource.should.equal("https://blob.proj-data/subdir/more/data2.txt");
       resources[1].filePath.should.equal("subdir/more/data2.txt");
 
+    });
+
+    it('should validate the parameter value', function (done) {
+
+      var parameterContent = {
+        'a': {
+          "type": "int",
+          "maxValue": 5,
+          "minValue": 3
+        },
+        'b': {
+          "type": "string",
+          "maxLength": 5,
+          "minLength": 3
+        },
+        'c': {
+          "type": "string",
+          "allowedValues": [
+              "STANDARD_A1",
+              "STANDARD_A2",
+              "STANDARD_A3",
+              "STANDARD_A4",
+              "STANDARD_D1",
+              "STANDARD_D2",
+              "STANDARD_D3",
+              "STANDARD_D4"
+          ]
+        },
+        'd': {
+          "type": "bool"
+        }
+      };
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], {'a': 3}).should.equal(true);
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], {'a': 5}).should.equal(true);
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], {'a': 1}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], {'a': 10}).should.equal(false);
+      var input = {'a': '3'};
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], input).should.equal(true);
+      input.a.should.equal(3);
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], {'a': '3.1'}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'a', parameterContent['a'], {'a': '1'}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'b', parameterContent['b'], {'b': 'abcd'}).should.equal(true);
+      templateUtils.validateParameter(undefined, 'b', parameterContent['b'], {'b': 'a'}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'b', parameterContent['b'], {'b': 'abcdeffg'}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'b', parameterContent['b'], {'b': 1}).should.equal(false);
+      input = {'b': 100};
+      templateUtils.validateParameter(undefined, 'b', parameterContent['b'], input).should.equal(true);
+      input.b.should.equal('100');
+      templateUtils.validateParameter(undefined, 'c', parameterContent['c'], {'c': 'STANDARD_A1'}).should.equal(true);
+      templateUtils.validateParameter(undefined, 'c', parameterContent['c'], {'c': 'STANDARD_C1'}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'c', parameterContent['c'], {'c': 'standard_a1'}).should.equal(false);
+      input = {'d': true};
+      templateUtils.validateParameter(undefined, 'd', parameterContent['d'], input).should.equal(true);
+      input.d.should.equal(true);
+      input = {'d': false};
+      templateUtils.validateParameter(undefined, 'd', parameterContent['d'], input).should.equal(true);
+      input.d.should.equal(false);
+      input = {'d': 'false'};
+      templateUtils.validateParameter(undefined, 'd', parameterContent['d'], input).should.equal(true);
+      input.d.should.equal(false);
+      input = {'d': 'true'};
+      templateUtils.validateParameter(undefined, 'd', parameterContent['d'], input).should.equal(true);
+      input.d.should.equal(true);
+      templateUtils.validateParameter(undefined, 'd', parameterContent['d'], {'d': 'true1'}).should.equal(false);
+      templateUtils.validateParameter(undefined, 'd', parameterContent['d'], {'d': 3}).should.equal(false);
+      done();
     });
 
   });
