@@ -94,6 +94,10 @@ describe('cli', function () {
       templateUtils.replacementParameter("cmd {0:3}.mp3 {0}.mp3", [5, 10]).should.equal('cmd 005.mp3 5.mp3');
       templateUtils.replacementParameter("cmd {0:3}.mp3 {1:3}.mp3", [5, 1234]).should.equal('cmd 005.mp3 1234.mp3');
       templateUtils.replacementParameter("cmd {{}}.mp3", [5, 1234]).should.equal('cmd {}.mp3');
+      templateUtils.replacementParameter(
+        "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={0}-%03d.png -r250 {0}.pdf && for f in *.png; do tesseract $f ${{f%.*}};done", 
+        [5]).should.equal(
+          'gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile=5-%03d.png -r250 5.pdf && for f in *.png; do tesseract $f ${f%.*};done');
       done();
     });
 
