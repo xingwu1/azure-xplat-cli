@@ -522,6 +522,20 @@ describe('cli', function () {
             'taskIdRanges': [{ 'start': 1, 'end': 10 }]
           },
           'displayName': 'Task Display Name',
+          'outputFiles': [
+            {
+              "filePattern": "*.txt",
+              "destination": {
+                "container": {
+                  "path": "{0}",
+                  "containerSas": "[parameters('outputFileStorageUrl')]"
+                }
+              },
+              "uploadDetails": {
+                "taskStatus": "TaskSuccess"
+              }
+            }
+          ],
           'clientExtensions': {
             'dockerOptions': {
               'image': 'ncj/caffe:cpu'
@@ -543,7 +557,7 @@ describe('cli', function () {
         }
       }
       var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromFactory(taskFactory);
-      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints'];
+      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints', 'outputFiles' ];
       ignoredProperties.forEach(function (property) {
         expectedIgnoredProperties.indexOf(property).should.not.eql(-1);
       });

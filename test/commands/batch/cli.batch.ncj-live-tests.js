@@ -81,19 +81,19 @@ describe('cli', function () {
     });
   });
   
-  describe('batch Shipyard integration', function () {
+  describe('batch shipyard integration', function () {
     var requiredEnvironment = [
       { name: 'AZURE_BATCH_ACCOUNT', defaultValue: 'defaultaccount' },
       { name: 'AZURE_BATCH_ACCESS_KEY', defaultValue: 'non null default value' },
       { name: 'AZURE_BATCH_ENDPOINT', defaultValue: 'https://defaultaccount.westus.batch.azure.com' },
-      { name: 'AZURE_BATCH_SHIPYARD_PATH', defaultValue: 'D:\\batch-shipyard\\shipyard.py' }
+      { name: 'AZURE_BATCH_SHIPYARD_PATH', defaultValue: path.join('D:', 'batch-shipyard', 'shipyard.py') }
     ];
     
     var poolId = 'ncj-shipyard-test-pool01';
     var jobId = 'ncj-shipyard-test-job01';
     var taskId = 'task01';
-    var poolTemplate = path.resolve(__dirname, '../../data/batch.shipyard.pool.json');
-    var jobTemplate = path.resolve(__dirname, '../../data/batch.shipyard.job.json');
+    var poolTemplate = path.resolve(__dirname, path.join('..', '..', 'data', 'batch.shipyard.pool.json'));
+    var jobTemplate = path.resolve(__dirname, path.join('..', '..', 'data', 'batch.shipyard.job.json'));
     
     before(function (done) {
       suite = new CLITest(this, testPrefix, requiredEnvironment);
@@ -127,14 +127,15 @@ describe('cli', function () {
     });
     
     afterEach(function (done) {
-      suite.teardownTest(done);
+      suite.execute('batch job delete %s -q --json', jobId, function (result) {
+        suite.teardownTest(done);
+      });
     });
   
     // TODO: It seems like there's a 10 minute timeout on these tests by default?
     // When the full pool setup via Batch Shipyard is executed, the test will end after about 10 
     // minutes with no messages indicating why. For now, the test will create a pool normally with 
-    // the same id and let Batch  Shipyard return a conflict error. Batch Shipyard will get through 
-    // the initial Storage setup, the pool add request creation, and its submission to the service. 
+    // the same id and let Batch Shipyard return a conflict error.
     // Need to investigate if it's possible to extend the timeout.
     it('should attempt to create a pool using Batch Shipyard', function (done) {
       suite.execute('batch pool create -i %s -S standard_a1 -p Canonical -O UbuntuServer -K 16.04.0-LTS -t 0 -n %s --account-name %s --account-key %s --account-endpoint %s --json',  
