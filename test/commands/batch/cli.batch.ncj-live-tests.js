@@ -80,4 +80,89 @@ describe('cli', function () {
       });
     });
   });
+  
+  describe('batch Shipyard integration', function () {
+    var requiredEnvironment = [
+      { name: 'AZURE_BATCH_ACCOUNT', defaultValue: 'defaultaccount' },
+      { name: 'AZURE_BATCH_ACCESS_KEY', defaultValue: 'non null default value' },
+      { name: 'AZURE_BATCH_ENDPOINT', defaultValue: 'https://defaultaccount.westus.batch.azure.com' },
+      { name: 'AZURE_BATCH_SHIPYARD_PATH', defaultValue: 'D:\\batch-shipyard\\shipyard.py' }
+    ];
+    
+    var poolId = 'ncj-shipyard-test-pool01';
+    var jobId = 'ncj-shipyard-test-job01';
+    var taskId = 'task01';
+    var poolTemplate = path.resolve(__dirname, '../../data/batch.shipyard.pool.json');
+    var jobTemplate = path.resolve(__dirname, '../../data/batch.shipyard.job.json');
+    
+    before(function (done) {
+      suite = new CLITest(this, testPrefix, requiredEnvironment);
+      
+      if (suite.isMocked || suite.isPlayback()) {
+        throw new Error('NCJ Live tests are not recorded and can only be run in live mode');
+      }
+      
+      suite.setupSuite(function () {
+        batchAccount = process.env.AZURE_BATCH_ACCOUNT;
+        batchAccountKey = process.env.AZURE_BATCH_ACCESS_KEY;
+        batchAccountEndpoint = process.env.AZURE_BATCH_ENDPOINT;
+        
+        // Check if job exists, since Batch Shipyard will throw an error if the job already exists.
+        // TODO: Should we just delete it and wait for it to disappear?
+        suite.execute('batch job show %s --json', jobId, function (result) {
+          if (result.text !== '') {
+            throw new Error('Job ' + jobId + ' must be deleted in order to run this test.');
+          }
+          done();
+        });
+      });
+    });
+    
+    after(function (done) {
+      suite.teardownSuite(done);
+    });
+    
+    beforeEach(function (_) {
+      suite.setupTest(_);
+    });
+    
+    afterEach(function (done) {
+      suite.teardownTest(done);
+    });
+  
+    // TODO: It seems like there's a 10 minute timeout on these tests by default?
+    // When the full pool setup via Batch Shipyard is executed, the test will end after about 10 
+    // minutes with no messages indicating why. For now, the test will create a pool normally with 
+    // the same id and let Batch  Shipyard return a conflict error. Batch Shipyard will get through 
+    // the initial Storage setup, the pool add request creation, and its submission to the service. 
+    // Need to investigate if it's possible to extend the timeout.
+    it('should attempt to create a pool using Batch Shipyard', function (done) {
+      suite.execute('batch pool create -i %s -S standard_a1 -p Canonical -O UbuntuServer -K 16.04.0-LTS -t 0 -n %s --account-name %s --account-key %s --account-endpoint %s --json',  
+        poolId, 'batch.node.ubuntu 16.04', batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+        suite.execute('batch pool create --template %s', poolTemplate, function (result) {
+          result.exitStatus.should.not.equal(0);
+          result.errorText.should.not.be.null;
+          result.errorText.should.containEql('Command failed: python ' + process.env['AZURE_BATCH_SHIPYARD_PATH']);
+          done();
+        });
+      });
+    });
+    
+    it('should create a job and task using Batch Shipyard', function (done) {
+      suite.execute('batch job create --template %s', jobTemplate, function (result) {
+        result.exitStatus.should.equal(0);
+        suite.execute('batch job show %s --json', jobId, function (result) {
+          result.exitStatus.should.equal(0);
+          var job = JSON.parse(result.text);
+          job.id.should.equal(jobId);
+          suite.execute('batch task show %s %s --json', jobId, taskId, function (result) {
+            result.exitStatus.should.equal(0);
+            var task = JSON.parse(result.text);
+            task.id.should.equal(taskId);
+            done();
+          });
+        });
+      });
+    });
+  });
 });

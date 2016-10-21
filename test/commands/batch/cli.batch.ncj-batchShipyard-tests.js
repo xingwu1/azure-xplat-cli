@@ -95,6 +95,9 @@ var jobBody = {
   'constraints': {
     'maxTaskRetryCount': 5
   },
+  'poolInfo': {
+    'poolId': 'pool01'
+  },
   'taskFactory': {
   }
 }
@@ -332,6 +335,17 @@ describe('cli', function () {
       batchShipyardPoolJson.should.eql(expectedPoolJson);
       done();
     });
+    
+    it('should create the correct Batch Shipyard pool json given a job body', function (done) {
+      var batchShipyardPoolJson = batchShipyardUtils.createBatchShipyardPoolJsonFromJob(jobBody);
+      var expectedPoolJson = {
+        'pool_specification': {
+          'id': 'pool01'
+        }
+      };
+      batchShipyardPoolJson.should.eql(expectedPoolJson);
+      done();
+    });
 
     it('should identify the ignored properties in the supplied pool body', function (done) {
       var ignoredProperties = batchShipyardUtils.getIgnoredPoolPropertyNames(poolBody);
@@ -460,51 +474,9 @@ describe('cli', function () {
 
     it('should identify the ignored properties in the supplied task collection factory', function (done) {
       var taskFactory = {
-        'properties': {
-          'tasks': [
-            {
-              'id': 'myTask',
-              'commandLine': 'cmd.exe',
-              'dependsOn': {
-                'taskIds': ['2', 'orange'],
-                'taskIdRanges': [{ 'start': 1, 'end': 10 }]
-              },
-              'displayName': 'Task Display Name',
-              'clientExtensions': {
-                'dockerOptions': {
-                  'image': 'ncj/caffe:cpu'
-                }
-              }
-            },
-            {
-              'id': 'myTask',
-              'commandLine': 'cmd.exe',
-              'constraints': {
-                'maxTaskRetryCount': 3,
-              },
-              'displayName': 'Task Display Name',
-              'clientExtensions': {
-                'dockerOptions': {
-                  'image': 'ncj/caffe:cpu'
-                }
-              }
-            }
-          ]
-        }
-      }
-      var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromFactory(taskFactory);
-      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints' ];
-      ignoredProperties.forEach(function (property) {
-        expectedIgnoredProperties.indexOf(property).should.not.eql(-1);
-      });
-      expectedIgnoredProperties.length.should.eql(ignoredProperties.length);
-      done();
-    });
-
-    it('should identify the ignored properties in the supplied parametric sweep', function (done) {
-      var taskFactory = {
-        'properties': {
-          'repeatTask': {
+        'tasks': [
+          {
+            'id': 'myTask',
             'commandLine': 'cmd.exe',
             'dependsOn': {
               'taskIds': ['2', 'orange'],
@@ -517,9 +489,9 @@ describe('cli', function () {
               }
             }
           },
-          'mergeTask': {
-            'id': 'merge',
-            'commandLine': 'merge.exe',
+          {
+            'id': 'myTask',
+            'commandLine': 'cmd.exe',
             'constraints': {
               'maxTaskRetryCount': 3,
             },
@@ -528,6 +500,44 @@ describe('cli', function () {
               'dockerOptions': {
                 'image': 'ncj/caffe:cpu'
               }
+            }
+          }
+        ]
+      }
+      var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromFactory(taskFactory);
+      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints' ];
+      ignoredProperties.forEach(function (property) {
+        expectedIgnoredProperties.indexOf(property).should.not.eql(-1);
+      });
+      expectedIgnoredProperties.length.should.eql(ignoredProperties.length);
+      done();
+    });
+
+    it('should identify the ignored properties in the supplied parametric sweep', function (done) {
+      var taskFactory = {
+        'repeatTask': {
+          'commandLine': 'cmd.exe',
+          'dependsOn': {
+            'taskIds': ['2', 'orange'],
+            'taskIdRanges': [{ 'start': 1, 'end': 10 }]
+          },
+          'displayName': 'Task Display Name',
+          'clientExtensions': {
+            'dockerOptions': {
+              'image': 'ncj/caffe:cpu'
+            }
+          }
+        },
+        'mergeTask': {
+          'id': 'merge',
+          'commandLine': 'merge.exe',
+          'constraints': {
+            'maxTaskRetryCount': 3,
+          },
+          'displayName': 'Task Display Name',
+          'clientExtensions': {
+            'dockerOptions': {
+              'image': 'ncj/caffe:cpu'
             }
           }
         }
@@ -541,7 +551,7 @@ describe('cli', function () {
       done();
     });
 
-    it('should throw error when a shared volume on a pool has no name', function (done) {
+    it('should throw an error when a shared volume on a pool has no name', function (done) {
       var poolBodyWithUnNamedSharedVolume = {
         'id': 'poolId',
         'clientExtensions': {
@@ -559,8 +569,27 @@ describe('cli', function () {
       (function () { batchShipyardUtils.createConfigJsonFromPool(poolBodyWithUnNamedSharedVolume) }).should.throw('Shared data volume must have a name.');
       done();
     });
+    
+    it('should throw an error when a shared volume is not supported', function (done) {
+      var poolBodyWithUnsupportedSharedVolume = {
+        'id': 'poolId',
+        'clientExtensions': {
+          'dockerOptions': {
+            'image': 'ncj/caffe:cpu',
+            'sharedDataVolumes': [
+              {
+                'volumeType': 'unknowntype',
+                'azureFileShareName': 'fileShare1'
+              }
+            ]
+          }
+        }
+      };
+      (function () { batchShipyardUtils.createConfigJsonFromPool(poolBodyWithUnsupportedSharedVolume) }).should.throw('Shared data volume must set the volumeType to "azurefile".');
+      done();
+    });
 
-    it('should throw error when a shared volume on a task has no name', function (done) {
+    it('should throw an error when a shared volume on a task has no name', function (done) {
       var taskBodyWithUnNamedSharedVolume = {
         'id': 'taskId',
         'clientExtensions': {
@@ -576,6 +605,28 @@ describe('cli', function () {
         }
       };
       (function () { batchShipyardUtils.createConfigJsonFromTasks([taskBodyWithUnNamedSharedVolume]) }).should.throw('Shared data volume must have a name.');
+      done();
+    });
+
+    it('should throw an error when a job does not reference a pool id', function (done) {
+      var jobBodyWithoutPoolId = {
+        'id': 'myJob',
+        'poolInfo': {
+          'autoPoolSpecification': {
+            'poolLifetimeOption': 'job',
+            'pool': {
+              'vmSize': 'small',
+              'targetDedicated': 1,
+              'cloudServiceConfiguration': {
+                'osFamily': '4',
+                'targetOSVersion': '*'
+              }
+            }
+          }
+        }
+      };
+      (function () { batchShipyardUtils.createBatchShipyardPoolJsonFromJob(jobBodyWithoutPoolId) }).should.throw(
+        'When specifying dockerOptions on your tasks, the job.poolInfo.poolId property must be set.');
       done();
     });
   });
