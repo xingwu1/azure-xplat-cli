@@ -150,4 +150,17 @@ nock('https://test1.westus.batch.azure.com:443')
   dataserviceversion: '3.0',
   date: 'Mon, 17 Oct 2016 20:56:39 GMT',
   connection: 'close' });
- return result; }]];
+ return result; },
+ function (nock) { 
+var result = 
+nock('https://test1.westus.batch.azure.com:443')
+  .delete('/jobs/helloworld?api-version=2016-02-01.3.0&timeout=30')
+  .reply(202, "", { 'transfer-encoding': 'chunked',
+  server: 'Microsoft-HTTPAPI/2.0',
+  'request-id': '04b16eb8-181e-4527-a36e-6cbb8d090c97',
+  'strict-transport-security': 'max-age=31536000; includeSubDomains',
+  'client-request-id': '3fa1de2d-12b8-428f-97fa-fadd8405f8e4',
+  dataserviceversion: '3.0',
+  date: 'Fri, 15 Apr 2016 20:14:05 GMT',
+  connection: 'close' });
+ return result; },]];

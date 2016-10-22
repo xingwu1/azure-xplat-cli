@@ -119,7 +119,9 @@ describe('cli', function () {
     });
     
     after(function (done) {
-      suite.teardownSuite(done);
+      suite.execute('batch job delete %s -q --json', jobId, function (result) {
+        suite.teardownSuite(done);
+      });
     });
     
     beforeEach(function (_) {
@@ -127,9 +129,7 @@ describe('cli', function () {
     });
     
     afterEach(function (done) {
-      suite.execute('batch job delete %s -q --json', jobId, function (result) {
-        suite.teardownTest(done);
-      });
+      suite.teardownTest(done);
     });
   
     // TODO: It seems like there's a 10 minute timeout on these tests by default?

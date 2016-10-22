@@ -664,7 +664,7 @@ describe('cli', function () {
     });
 
     it('should preserve clientExtensions when parsing a task collection', function (done) {
-      templateUtils.parseSimpleTaskFactory(
+      templateUtils.parseTaskCollectionTaskFactory(
         {
           tasks: [
             {
