@@ -3052,6 +3052,95 @@
           ],
           "categories": {}
         },
+        "file": {
+          "name": "file",
+          "description": "Commands to manage your Batch input files",
+          "fullName": "batch file",
+          "usage": "[options] [command]",
+          "options": [],
+          "commands": [
+            {
+              "name": "upload",
+              "description": "Upload a specified file or directory of files to the specified storage path",
+              "fullName": "batch file upload",
+              "usage": "[options] [local-path] [file-group]",
+              "filePath": "commands/batch/batch.file._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-p, --path <path>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--path",
+                  "description": "Optional group subdirectory under which files will be uploaded"
+                },
+                {
+                  "flags": "-f, --flatten",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-f",
+                  "long": "--flatten",
+                  "description": "If set, will not retain local directory structure in storage"
+                },
+                {
+                  "flags": "-a, --account-name <account-name>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--account-name",
+                  "description": "the Batch account name"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "the resource group name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription id"
+                }
+              ]
+            }
+          ],
+          "categories": {}
+        },
         "task-file": {
           "name": "task-file",
           "description": "Commands to manage your Batch task files",
@@ -4084,6 +4173,24 @@
                   "short": "-u",
                   "long": "--account-endpoint",
                   "description": "the Batch account URL"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "the resource group name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription id"
                 }
               ]
             },
@@ -7316,6 +7423,24 @@
                   "short": "-u",
                   "long": "--account-endpoint",
                   "description": "the Batch account URL"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "the resource group name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription id"
                 }
               ]
             },
