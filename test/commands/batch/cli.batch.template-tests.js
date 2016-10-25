@@ -104,7 +104,6 @@ describe('cli', function () {
       suite.execute('batch pool create --template %s --parameters %s  --account-name %s --account-key %s --account-endpoint %s --json', 
           simplePoolTemplate, simplePoolParameter, 
           batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
-        console.log(JSON.stringify(result, null, 2));
         result.exitStatus.should.equal(0);
         var createdPool = JSON.parse(result.text);
         createdPool.should.not.be.null;
