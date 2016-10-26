@@ -2,14 +2,14 @@
     "parameters": {
         "dataGroup": {
             "type": "string",
-            "defaultValue": "video_data",
+            "defaultValue": "convert_data",
             "metadata": {
                 "description": "The auto-storage group where the input data is stored"
             }
         },
         "inputType": {
             "type": "string",
-            "defaultValue": "mkv",
+            "defaultValue": "wav",
             "metadata": {
                 "description": "The extension of the input data"
             }
@@ -46,62 +46,57 @@
             "poolInfo": {
                 "poolId": "[parameters('poolName')]"
             },
-            "jobPreparationTask": {
-                "commandLine" : "sudo apt-get install ffmpeg -y",
-                "runElevated": true,
-                "waitForSuccess": true
-            },
             "taskFactory": {
                 "type": "taskCollection",
                 "tasks": [
                     {
                         "id" : "mytask1",
-                        "commandLine": "ffmpeg -i sampleVideo1.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
+                        "commandLine": "ffmpeg -y -i sample1.[parameters('inputType')] -acodec libmp3lame output.mp3",
                         "resourceFiles": [
                             {
                                 "source": { 
                                     "fileGroup": "[parameters('dataGroup')]",
-                                    "prefix": "sampleVideo1.[parameters('inputType')]"
+                                    "prefix": "sample1.[parameters('inputType')]"
                                 }
                             }
                         ],
                         "outputFiles": [
                             {
-                                "filePattern": "output.mp4",
+                                "filePattern": "output.mp3",
                                 "destination": {
                                     "container": {
-                                        "path": "mytask1output.mp4",
+                                        "path": "audio1.mp3",
                                         "containerSas": "[parameters('outputFileStorageUrl')]"
                                     }
                                 },
                                 "uploadDetails": {
-                                    "taskStatus": "TaskCompletion"
+                                    "taskStatus": "TaskSuccess"
                                 }
                             }
                         ]
                     },
                     {
                         "id" : "mytask2",
-                        "commandLine": "ffmpeg -i sampleVideo2.[parameters('inputType')] -vcodec copy -acodec copy output.mp4 -y",
+                        "commandLine": "ffmpeg -y -i sample2.[parameters('inputType')] -acodec libmp3lame output.mp3",
                         "resourceFiles": [
                             {
                                 "source": { 
                                     "fileGroup": "[parameters('dataGroup')]",
-                                    "prefix": "sampleVideo2.[parameters('inputType')]"
+                                    "prefix": "sample2.[parameters('inputType')]"
                                 }
                             }
                         ],
                         "outputFiles": [
                             {
-                                "filePattern": "output.mp4",
+                                "filePattern": "output.mp3",
                                 "destination": {
                                     "container": {
-                                        "path": "mytask2output.mp4",
+                                        "path": "audio2.mp3",
                                         "containerSas": "[parameters('outputFileStorageUrl')]"
                                     }
                                 },
                                 "uploadDetails": {
-                                    "taskStatus": "TaskCompletion"
+                                    "taskStatus": "TaskSuccess"
                                 }
                             }
                         ]
