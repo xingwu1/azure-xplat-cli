@@ -61,7 +61,7 @@
                             {
                                 "source": { 
                                     "fileGroup": "[parameters('dataGroup')]",
-                                    "path": "sampleVideo1.[parameters('inputType')]"
+                                    "prefix": "sampleVideo1.[parameters('inputType')]"
                                 }
                             }
                         ],
@@ -81,7 +81,7 @@
                             {
                                 "source": { 
                                     "fileGroup": "[parameters('dataGroup')]",
-                                    "path": "sampleVideo2.[parameters('inputType')]"
+                                    "prefix": "sampleVideo2.[parameters('inputType')]"
                                 }
                             }
                         ],

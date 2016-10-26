@@ -77,7 +77,7 @@
                                 {
                                     "source": { 
                                         "fileGroup": "[parameters('dataGroup')]",
-                                        "path": "coordination-cmd"
+                                        "prefix": "coordination-cmd"
                                     }
                                 }                                    
                             ]                                
@@ -86,13 +86,13 @@
                             {
                                 "source": { 
                                     "fileGroup": "[parameters('dataGroup')]",
-                                    "path": "application-cmd"
+                                    "prefix": "application-cmd"
                                 }
                             },
                             {
                                 "source": { 
                                     "fileGroup": "[parameters('dataGroup')]",
-                                    "path": "azure_storage_helper.py"
+                                    "prefix": "azure_storage_helper.py"
                                 }
                             }
                         ],
