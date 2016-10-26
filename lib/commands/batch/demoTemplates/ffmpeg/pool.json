@@ -36,7 +36,7 @@
         "osType": {
             "publisher": "Canonical",
             "offer": "UbuntuServer",
-            "sku": "15.10",
+            "sku": "16.04.0-LTS",
             "version": "latest"
         }
     },    
@@ -47,11 +47,17 @@
             "id": "[parameters('poolName')]",
             "virtualMachineConfiguration": {
                 "imageReference": "[variables('osType')]",
-                "nodeAgentSKUId": "batch.node.debian 8"
+                "nodeAgentSKUId": "batch.node.ubuntu 16.04"
             },
             "vmSize": "[parameters('vmSize')]",
             "targetDedicated": "[parameters('vmCount')]",
-            "enableAutoScale": false
+            "enableAutoScale": false,
+            "packageReferences": [
+              {
+                "type": "aptPackage",
+                "id": "ffmpeg"
+              }
+            ]
         }
     }
 }

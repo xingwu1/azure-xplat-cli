@@ -796,4 +796,215 @@ describe('cli', function () {
       done();
     });
   });
+
+  describe('batch package manager', function () {
+    it('should handle simple package manager in Linux VM', function(done) {
+      var pool = {
+        "id": "testpool",
+        "virtualMachineConfiguration": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "15.10",
+              "version": "latest"
+            },
+            "nodeAgentSKUId": "batch.node.debian 8"
+        },
+        "vmSize": "10",
+        "targetDedicated": "STANDARD_A1",
+        "enableAutoScale": false,
+        "packageReferences": [
+          {
+            "type": "aptPackage",
+            "id": "ffmpeg"
+          },
+          {
+            "type": "aptPackage",
+            "id": "apache2",
+            "version": "12.34"
+          }
+        ]
+      };
+      templateUtils.parsePackageReferences(pool);
+      should.exist(pool.startTask);
+      pool.startTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
+      pool.startTask.runElevated.should.be.equal(true);
+      pool.startTask.waitForSuccess.should.be.equal(true);
+
+      done();
+    });
+
+    it('should handle simple package manager in Windows VM', function(done) {
+      var pool = {
+        "id": "testpool",
+        "virtualMachineConfiguration": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "15.10",
+              "version": "latest"
+            },
+            "nodeAgentSKUId": "batch.node.debian 8"
+        },
+        "vmSize": "10",
+        "targetDedicated": "STANDARD_A1",
+        "enableAutoScale": false,
+        "packageReferences": [
+          {
+            "type": "chocolateyPackage",
+            "id": "ffmpeg"
+          },
+          {
+            "type": "chocolateyPackage",
+            "id": "testpkg",
+            "version": "12.34",
+            "allowEmptyChecksums": true
+          }
+        ]
+      };
+
+      templateUtils.parsePackageReferences(pool);
+      should.exist(pool.startTask);
+      pool.startTask.commandLine.should.be.equal('cmd.exe /c "powershell -NoProfile -ExecutionPolicy unrestricted -Command "(iex ((new-object net.webclient).DownloadString(\'https://chocolatey.org/install.ps1\')))" && SET PATH="%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin" && choco feature enable -n=allowGlobalConfirmation & choco install ffmpeg & choco install testpkg --version 12.34 --allow-empty-checksums"');
+      pool.startTask.runElevated.should.be.equal(true);
+      pool.startTask.waitForSuccess.should.be.equal(true);
+
+      done();
+    });
+
+    it('should handle simple package manager with existing start task', function(done) {
+      var pool = {
+        "id": "testpool",
+        "virtualMachineConfiguration": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "15.10",
+              "version": "latest"
+            },
+            "nodeAgentSKUId": "batch.node.debian 8"
+        },
+        "vmSize": 10,
+        "targetDedicated": "STANDARD_A1",
+        "enableAutoScale": false,
+        "startTask": {
+            "commandLine": "/bin/bash -c 'set -e; set -o pipefail; nodeprep-cmd' ; wait",
+            "runElevated": true,
+            "waitForSuccess": true,
+            "resourceFiles": [
+                {
+                    "source": { 
+                        "fileGroup": "abc",
+                        "path": "nodeprep-cmd"
+                    }
+                }
+            ]
+        },
+        "packageReferences": [
+          {
+            "type": "aptPackage",
+            "id": "ffmpeg"
+          },
+          {
+            "type": "aptPackage",
+            "id": "apache2",
+            "version": "12.34"
+          }
+        ]
+      };
+      templateUtils.parsePackageReferences(pool);
+      should.exist(pool.startTask);
+      pool.vmSize.should.equal(10);
+      pool.startTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34;/bin/bash -c \'set -e; set -o pipefail; nodeprep-cmd\' ; wait\'');
+      pool.startTask.runElevated.should.be.equal(true);
+      should.exist(pool.startTask.resourceFiles);
+
+      done();
+    });
+
+    it('should handle bad package manager configuration', function(done) {
+      var pool = {
+        "id": "testpool",
+        "vmSize": "10",
+        "targetDedicated": "STANDARD_A1",
+        "enableAutoScale": false,
+        "virtualMachineConfiguration": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "15.10",
+              "version": "latest"
+            },
+            "nodeAgentSKUId": "batch.node.debian 8"
+        },
+        "packageReferences": [
+          {
+            "type": "newPackage",
+            "id": "ffmpeg"
+          },
+          {
+            "type": "aptPackage",
+            "id": "apache2",
+            "version": "12.34"
+          }
+        ]
+      };
+      (function(){ templateUtils.parsePackageReferences(pool); }).should.throw("Unknown PackageReference type newPackage for id ffmpeg.");
+
+      pool = {
+        "id": "testpool",
+        "virtualMachineConfiguration": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "15.10",
+              "version": "latest"
+            },
+            "nodeAgentSKUId": "batch.node.debian 8"
+        },
+        "vmSize": "10",
+        "targetDedicated": "STANDARD_A1",
+        "enableAutoScale": false,
+        "packageReferences": [
+          {
+            "type": "chocolateyPackage",
+            "id": "ffmpeg"
+          },
+          {
+            "type": "aptPackage",
+            "id": "apache2",
+            "version": "12.34"
+          }
+        ]
+      };
+      (function(){ templateUtils.parsePackageReferences(pool); }).should.throw("PackageReferences can only contain a single type package references.");
+
+      pool = {
+        "id": "testpool",
+        "virtualMachineConfiguration": {
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "15.10",
+              "version": "latest"
+            },
+            "nodeAgentSKUId": "batch.node.debian 8"
+        },
+        "vmSize": "10",
+        "targetDedicated": "STANDARD_A1",
+        "enableAutoScale": false,
+        "packageReferences": [
+          {
+            "type": "chocolateyPackage",
+            "version": "123"
+          }
+        ]
+      };
+      (function(){ templateUtils.parsePackageReferences(pool); }).should.throw("A PackageReference must have a type or id element.");
+
+      done();
+    });
+        
+  });
+  
 });
