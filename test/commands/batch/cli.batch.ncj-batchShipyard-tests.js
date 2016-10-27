@@ -20,6 +20,7 @@ var should = require('should');
 var utils = require('../../../lib/util/utils');
 var CLITest = require('../../framework/arm-cli-test');
 var batchShipyardUtils = require('../../../lib/commands/batch/batch.batchShipyardUtils');
+var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
 
 var requiredEnvironment = [
 ];
@@ -504,7 +505,8 @@ describe('cli', function () {
           }
         ]
       }
-      var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromFactory(taskFactory);
+      var tasks = templateUtils.parseTaskCollectionTaskFactory(taskFactory);
+      var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromCollection(tasks);
       var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints' ];
       ignoredProperties.forEach(function (property) {
         expectedIgnoredProperties.indexOf(property).should.not.eql(-1);
@@ -543,7 +545,6 @@ describe('cli', function () {
           }
         },
         'mergeTask': {
-          'id': 'merge',
           'commandLine': 'merge.exe',
           'constraints': {
             'maxTaskRetryCount': 3,
@@ -554,10 +555,12 @@ describe('cli', function () {
               'image': 'ncj/caffe:cpu'
             }
           }
-        }
+        },
+        'parameterSets': [ {start:1, end:2} ]        
       }
-      var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromFactory(taskFactory);
-      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints', 'outputFiles' ];
+      var tasks = templateUtils.parseParametricSweep(taskFactory);
+      var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromCollection(tasks);
+      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints' ];
       ignoredProperties.forEach(function (property) {
         expectedIgnoredProperties.indexOf(property).should.not.eql(-1);
       });
