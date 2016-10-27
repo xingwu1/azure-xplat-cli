@@ -80,7 +80,7 @@
                         {
                             "source": { 
                                 "fileGroup": "[parameters('dataGroup')]",
-                                "path": "sampleVideo{0}.mkv"
+                                "prefix": "sampleVideo{0}.mkv"
                             }
                         }
                     ]

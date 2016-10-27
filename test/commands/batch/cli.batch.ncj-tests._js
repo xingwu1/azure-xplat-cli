@@ -526,7 +526,7 @@ describe('cli', function () {
       resources[1].filePath.should.equal("data2.txt");
 
       resource = {
-        'source': { 'project': 'data', 'path': 'data1.txt'},
+        'source': { 'project': 'data', 'prefix': 'data1.txt'},
         'filePath': 'localFile'
       };
       blobs = [
@@ -539,7 +539,7 @@ describe('cli', function () {
       resources[0].filePath.should.equal("localFile");
 
       resource = {
-        'source': { 'project': 'data', 'path': 'data1'},
+        'source': { 'project': 'data', 'prefix': 'data1'},
         'filePath': 'localFile'
       };
       blobs = [
@@ -552,7 +552,7 @@ describe('cli', function () {
       resources[0].filePath.should.equal("localFile/data1.txt");
 
       resource = {
-        'source': { 'project': 'data', 'path': 'subdir/data'},
+        'source': { 'project': 'data', 'prefix': 'subdir/data'},
         'filePath': 'localFile'
       };
       blobs = [
@@ -568,7 +568,7 @@ describe('cli', function () {
       resources[1].filePath.should.equal("localFile/subdir/data2.txt");
 
       resource = {
-        'source': { 'project': 'data', 'path': 'subdir/data'},
+        'source': { 'project': 'data', 'prefix': 'subdir/data'},
         'filePath': 'localFile/'
       };
       blobs = [
@@ -581,7 +581,20 @@ describe('cli', function () {
       resources[0].filePath.should.equal("localFile/subdir/data1.txt");
 
       resource = {
-        'source': { 'project': 'data', 'path': 'subdir/data'},
+        'source': { 'project': 'data', 'prefix': 'subdir/data'},
+        'filePath': 'localFile/'
+      };
+      blobs = [
+        { 'name': 'subdir/data1.txt'}
+      ];
+      resources = fileUtils.convertBlobsToResourceFiles(blobs, resource, container, client, _);
+      should.exist(resources);
+      resources.length.should.equal(1);
+      resources[0].blobSource.should.equal("https://blob.proj-data/subdir/data1.txt");
+      resources[0].filePath.should.equal("localFile/subdir/data1.txt");
+
+      resource = {
+        'source': { 'project': 'data', 'prefix': 'subdir/data'},
       };
       blobs = [
         { 'name': 'subdir/data1.txt'},
