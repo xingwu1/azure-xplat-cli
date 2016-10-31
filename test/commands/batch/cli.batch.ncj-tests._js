@@ -19,7 +19,6 @@ var should = require('should');
 var sinon = require('sinon');
 var utils = require('../../../lib/util/utils');
 var Interactor = require('../../../lib/util/interaction');
-var util = require('util');
 var CLITest = require('../../framework/arm-cli-test');
 var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
 var fileUtils = require('../../../lib/commands/batch/batch.fileUtils');
@@ -138,32 +137,34 @@ describe('cli', function () {
      
       var result = templateUtils.parseTaskFactory(
         { 
-          "type": "taskCollection",
-          "tasks": [
-            {
-              "id" : "mytask1",
-              "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
-              "resourceFiles": [
-                {
-                  "filePath": "sampleVideo1.mkv",
-                  "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
-                }
-              ],
-              "outputFiles": [
-                {
-                  "filePattern": "output.mp4",
-                  "destination": {
-                    "container": {
-                      "containerSas": "[parameters('outputFileStorageUrl')]"
-                    }
-                  },
-                  "uploadDetails": {
-                    "taskStatus": "TaskCompletion"
+		  "taskFactory": { 
+            "type": "taskCollection",
+            "tasks": [
+              {
+                "id" : "mytask1",
+                "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+                "resourceFiles": [
+                  {
+                    "filePath": "sampleVideo1.mkv",
+                    "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
                   }
-                }
-              ]
-            }
-          ]
+                ],
+                "outputFiles": [
+                  {
+                    "filePattern": "output.mp4",
+                    "destination": {
+                      "container": {
+                        "containerSas": "[parameters('outputFileStorageUrl')]"
+                      }
+                    },
+                    "uploadDetails": {
+                      "taskStatus": "TaskCompletion"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
         }
       ).should.eql(
       [
@@ -196,9 +197,12 @@ describe('cli', function () {
     });
 
     it('should correct parse parametric sweep taskfactory', function (done) {
-      templateUtils.parseTaskFactory({ 
-        "type": "parametricSweep",
-        parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" } 
+      templateUtils.parseTaskFactory(
+	  {
+        "taskFactory": {
+          "type": "parametricSweep",
+          parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" }
+        } 
       }).should.eql(  
         [ 
           { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
@@ -919,7 +923,9 @@ describe('cli', function () {
           }
         ]
       };
-      templateUtils.parsePackageReferences(pool);
+
+      var cmds = [templateUtils.parsePoolPackageReferences(pool)];
+      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
       should.exist(pool.startTask);
       pool.startTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
       pool.startTask.runElevated.should.be.equal(true);
@@ -957,7 +963,8 @@ describe('cli', function () {
         ]
       };
 
-      templateUtils.parsePackageReferences(pool);
+      var cmds = [templateUtils.parsePoolPackageReferences(pool)];
+      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
       should.exist(pool.startTask);
       pool.startTask.commandLine.should.be.equal('cmd.exe /c "powershell -NoProfile -ExecutionPolicy unrestricted -Command "(iex ((new-object net.webclient).DownloadString(\'https://chocolatey.org/install.ps1\')))" && SET PATH="%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin" && choco feature enable -n=allowGlobalConfirmation & choco install ffmpeg & choco install testpkg --version 12.34 --allow-empty-checksums"');
       pool.startTask.runElevated.should.be.equal(true);
@@ -1006,12 +1013,50 @@ describe('cli', function () {
           }
         ]
       };
-      templateUtils.parsePackageReferences(pool);
+      var cmds = [templateUtils.parsePoolPackageReferences(pool)];
+      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
       should.exist(pool.startTask);
       pool.vmSize.should.equal(10);
-      pool.startTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34;/bin/bash -c \'set -e; set -o pipefail; nodeprep-cmd\' ; wait\'');
+      pool.startTask.commandLine.should.be.equal('/bin/bash -c \"apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34;/bin/bash -c \'set -e; set -o pipefail; nodeprep-cmd\' ; wait\"');
       pool.startTask.runElevated.should.be.equal(true);
       should.exist(pool.startTask.resourceFiles);
+
+      done();
+    });
+
+
+    it('should handle simple package manager task factory', function(done) {
+      var job = {
+        taskFactory: {
+          type: "parametricSweep",
+          parameterSets: [{start:1, end:2}, {start: 3, end: 5}], 
+          repeatTask : { 
+            commandLine: "cmd {0}.mp3 {1}.mp3",
+            packageReferences: [
+              {
+                "type": "aptPackage",
+                "id": "ffmpeg"
+              },
+              {
+                "type": "aptPackage",
+                "id": "apache2",
+                "version": "12.34"
+              }
+            ]
+          }
+        } 
+      };
+      var collection = templateUtils.parseTaskFactory(job);
+
+      var commands = [];
+      commands.push(templateUtils.parseTaskPackageReferences(job, collection));
+      commands.push(undefined);
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands);
+      should.exist(job.jobPreparationTask);
+      should.not.exist(job.taskFactory);
+      job.jobPreparationTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
+      job.jobPreparationTask.runElevated.should.be.equal(true);
+      job.jobPreparationTask.waitForSuccess.should.be.equal(true);
 
       done();
     });
@@ -1043,7 +1088,7 @@ describe('cli', function () {
           }
         ]
       };
-      (function(){ templateUtils.parsePackageReferences(pool); }).should.throw("Unknown PackageReference type newPackage for id ffmpeg.");
+      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("Unknown PackageReference type newPackage for id ffmpeg.");
 
       pool = {
         "id": "testpool",
@@ -1071,7 +1116,7 @@ describe('cli', function () {
           }
         ]
       };
-      (function(){ templateUtils.parsePackageReferences(pool); }).should.throw("PackageReferences can only contain a single type package references.");
+      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("PackageReferences can only contain a single type package references.");
 
       pool = {
         "id": "testpool",
@@ -1094,7 +1139,7 @@ describe('cli', function () {
           }
         ]
       };
-      (function(){ templateUtils.parsePackageReferences(pool); }).should.throw("A PackageReference must have a type or id element.");
+      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("A PackageReference must have a type and id element.");
 
       done();
     });
@@ -1145,8 +1190,13 @@ describe('cli', function () {
       var task = { id: 'test', commandLine: 'foo.exe', outputFiles: outputFiles }
       var taskList = [task];
       var job = { id: 'myJob' };
-      
-      var newJob = templateUtils.processJobForOutputFiles(job, taskList);
+
+      var commands = [];
+      commands.push(undefined);
+      commands.push(templateUtils.processJobForOutputFiles(job, taskList));
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands);
+      var newJob = job;
+
       var expectedCommandLine = '/bin/bash -c "foo.exe;$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.sh > $AZ_BATCH_TASK_DIR/uploadlog.txt 2>&1"';
       
       newJob.id.should.equal(job.id);

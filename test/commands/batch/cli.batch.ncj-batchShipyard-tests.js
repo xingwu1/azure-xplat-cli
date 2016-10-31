@@ -560,7 +560,7 @@ describe('cli', function () {
       }
       var tasks = templateUtils.parseParametricSweep(taskFactory);
       var ignoredProperties = batchShipyardUtils.getIgnoredTaskPropertyNamesFromCollection(tasks);
-      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints' ];
+      var expectedIgnoredProperties = ['displayName', 'dependsOn.taskIdRanges', 'constraints', 'outputFiles' ];
       ignoredProperties.forEach(function (property) {
         expectedIgnoredProperties.indexOf(property).should.not.eql(-1);
       });
