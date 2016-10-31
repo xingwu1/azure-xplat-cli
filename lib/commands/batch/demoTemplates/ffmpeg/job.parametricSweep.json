@@ -2,7 +2,7 @@
     "parameters": {
         "dataGroup": {
             "type": "string",
-            "defaultValue": "video_data",
+            "defaultValue": "convert_data",
             "metadata": {
                 "description": "The auto-storage group where the input data is stored"
             }
@@ -11,6 +11,13 @@
             "type": "string",
             "metadata": {
                 "description": "The url of Azure storage container which hold the output file"
+            }
+        },
+        "inputType": {
+            "type": "string",
+            "defaultValue": "wav",
+            "metadata": {
+                "description": "The extension of the input data"
             }
         },
         "poolName": {
@@ -24,13 +31,6 @@
             "type": "string",
             "metadata": {
                 "description": "The name of Azure Batch job"
-            }
-        },
-        "runAsAdmin": {
-            "type": "bool",
-            "defaultValue": true,
-            "metadata": {
-                "description": "Run pool start task with elevated permission"
             }
         },
         "jobStart": {
@@ -60,11 +60,6 @@
             "poolInfo": {
                 "poolId": "[parameters('poolName')]"
             },
-            "jobPreparationTask": {
-                "commandLine" : "sudo apt-get install ffmpeg -y",
-                "runElevated": "[parameters('runAsAdmin')]",
-                "waitForSuccess": true
-            },
             "taskFactory": {
                 "type": "parametricSweep",
                 "parameterSets": [
@@ -75,12 +70,26 @@
                     }
                 ],
                 "repeatTask": {
-                    "commandLine": "ffmpeg -i sampleVideo{0}.mkv -vcodec copy -acodec copy output{0}.mp4 -y",
+                    "commandLine": "ffmpeg -y -i sample{0}.[parameters('inputType')] -acodec libmp3lame output.mp3",
                     "resourceFiles": [
                         {
                             "source": { 
                                 "fileGroup": "[parameters('dataGroup')]",
-                                "prefix": "sampleVideo{0}.mkv"
+                                "prefix": "sample{0}.[parameters('inputType')]"
+                            }
+                        }
+                    ],
+                    "outputFiles": [
+                        {
+                            "filePattern": "output.mp3",
+                            "destination": {
+                                "container": {
+                                    "path": "audio{0}.mp3",
+                                    "containerSas": "[parameters('outputFileStorageUrl')]"
+                                }
+                            },
+                            "uploadDetails": {
+                                "taskStatus": "TaskSuccess"
                             }
                         }
                     ]

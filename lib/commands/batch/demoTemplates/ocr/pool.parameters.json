@@ -1,0 +1,11 @@
+{
+  "vmSize": {
+    "value": "STANDARD_D1_V2"
+  },
+  "poolId": {
+    "value": "ocrpool"
+  },
+  "vmCount": {
+    "value": "3"
+  }
+}

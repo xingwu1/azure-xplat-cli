@@ -1,0 +1,20 @@
+{
+  "jobId": {
+    "value": "ocr_demo_01"
+  },
+  "poolId": {
+    "value": "ocrpool"
+  },
+  "firstPdfId": {
+    "value": ""
+  },
+  "lastPdfId": {
+    "value": ""
+  },
+  "inputFileGroup": {
+    "value": ""
+  },
+  "outputFileStorageUrl": {
+    "value": ""
+  }
+}

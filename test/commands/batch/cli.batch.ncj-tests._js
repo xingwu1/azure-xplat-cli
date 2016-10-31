@@ -19,6 +19,7 @@ var should = require('should');
 var sinon = require('sinon');
 var utils = require('../../../lib/util/utils');
 var Interactor = require('../../../lib/util/interaction');
+var util = require('util');
 var CLITest = require('../../framework/arm-cli-test');
 var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
 var fileUtils = require('../../../lib/commands/batch/batch.fileUtils');
@@ -150,10 +151,15 @@ describe('cli', function () {
               ],
               "outputFiles": [
                 {
-                  "filePath": "output.mp4",
-                  "containerDestination": "[parameters('outputFileStorageUrl')]",
-                  "format": "Raw",
-                  "uploadMode": "TaskCompletion"
+                  "filePattern": "output.mp4",
+                  "destination": {
+                    "container": {
+                      "containerSas": "[parameters('outputFileStorageUrl')]"
+                    }
+                  },
+                  "uploadDetails": {
+                    "taskStatus": "TaskCompletion"
+                  }
                 }
               ]
             }
@@ -168,6 +174,19 @@ describe('cli', function () {
             {
               "filePath": "sampleVideo1.mkv",
               "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+            }
+          ],
+          "outputFiles": [
+            {
+              "filePattern": "output.mp4",
+              "destination": {
+                "container": {
+                  "containerSas": "[parameters('outputFileStorageUrl')]"
+                }
+              },
+              "uploadDetails": {
+                "taskStatus": "TaskCompletion"
+              }
             }
           ]
         }
@@ -203,57 +222,119 @@ describe('cli', function () {
           { commandLine: 'cmd 2.mp3 5.mp3', id: '5' } ]);
 
       templateUtils.parseParametricSweep(
-        { 
+        {
           parameterSets: [
-            {start:1, end:3}
-          ], 
-          repeatTask : { 
-            commandLine: "cmd {0}.mp3", 
-            resourceFiles : [
-              { 
+            { start: 1, end: 3 }
+          ],
+          repeatTask: {
+            commandLine: "cmd {0}.mp3",
+            resourceFiles: [
+              {
                 filePath: "run.exe",
                 blobSource: "http://account.blob/run.exe"
               },
-              { 
+              {
                 filePath: "{0}.mp3",
                 blobSource: "http://account.blob/{0}.dat"
               }
-            ] 
-          } 
-        }).should.eql(  
-        [ { commandLine: 'cmd 1.mp3',              
-            resourceFiles : [
-              { 
-                filePath: "run.exe",
-                blobSource: "http://account.blob/run.exe"
-              },
-              { 
-                filePath: "1.mp3",
-                blobSource: "http://account.blob/1.dat"
+            ],
+            outputFiles: [
+              {
+                filePattern: "{0}.txt",
+                destination: {
+                  container: {
+                    path: "{0}",
+                    containerSas: "{0}sas"
+                  }
+                },
+                uploadDetails: {
+                  taskStatus: "TaskSuccess"
+                }
               }
-            ], id: '0' },
-          { commandLine: 'cmd 2.mp3',
-            resourceFiles : [
-              { 
-                filePath: "run.exe",
-                blobSource: "http://account.blob/run.exe"
+            ]
+          }
+        }).should.eql(
+        [{
+          commandLine: 'cmd 1.mp3',
+          resourceFiles: [
+            {
+              filePath: "run.exe",
+              blobSource: "http://account.blob/run.exe"
+            },
+            {
+              filePath: "1.mp3",
+              blobSource: "http://account.blob/1.dat"
+            }
+          ], id: '0',
+          outputFiles: [
+            {
+              filePattern: "1.txt",
+              destination: {
+                container: {
+                  path: "1",
+                  containerSas: "1sas"
+                }
               },
-              { 
-                filePath: "2.mp3",
-                blobSource: "http://account.blob/2.dat"
+              uploadDetails: {
+                taskStatus: "TaskSuccess"
               }
-            ], id: '1' },
-          { commandLine: 'cmd 3.mp3',
-            resourceFiles : [
-              { 
-                filePath: "run.exe",
-                blobSource: "http://account.blob/run.exe"
+            }
+          ]
+        },
+        {
+          commandLine: 'cmd 2.mp3',
+          resourceFiles: [
+            {
+              filePath: "run.exe",
+              blobSource: "http://account.blob/run.exe"
+            },
+            {
+              filePath: "2.mp3",
+              blobSource: "http://account.blob/2.dat"
+            }
+          ], id: '1',
+          outputFiles: [
+            {
+              filePattern: "2.txt",
+              destination: {
+                container: {
+                  path: "2",
+                  containerSas: "2sas"
+                }
               },
-              { 
-                filePath: "3.mp3",
-                blobSource: "http://account.blob/3.dat"
+              uploadDetails: {
+                taskStatus: "TaskSuccess"
               }
-            ], id: '2' }
+            }
+          ]
+        },
+        {
+          commandLine: 'cmd 3.mp3',
+          resourceFiles: [
+            {
+              filePath: "run.exe",
+              blobSource: "http://account.blob/run.exe"
+            },
+            {
+              filePath: "3.mp3",
+              blobSource: "http://account.blob/3.dat"
+            }
+          ], id: '2',
+          outputFiles: [
+            {
+              filePattern: "3.txt",
+              destination: {
+                container: {
+                  path: "3",
+                  containerSas: "3sas"
+                }
+              },
+              uploadDetails: {
+                taskStatus: "TaskSuccess"
+              }
+            }
+          ]
+        }
         ]);
 
       templateUtils.parseParametricSweep(
@@ -1020,4 +1101,67 @@ describe('cli', function () {
         
   });
   
+  describe('batch file egress', function () {
+    it('should handle simple outputFiles configuration', function(done) {
+      
+      var outputFiles = [ {
+        filePattern: '*.txt',
+        destination: {
+          container: {
+            containerSas: 'sas'
+          }
+        },
+        uploadDetails: {
+          taskStatus: 'TaskSuccess'
+        }
+       }]
+      var task = { id: 'test', commandLine: 'foo.exe && /bin/bash -c "echo test"', outputFiles: outputFiles }
+
+      var newTask = templateUtils.parseTaskOutputFiles(task);
+      var expectedCommandLine = "/bin/bash -c 'foo.exe && /bin/bash -c \"echo test\";$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.sh > $AZ_BATCH_TASK_DIR/uploadlog.txt 2>&1'";
+
+      newTask.commandLine.should.equal(expectedCommandLine);
+      should.not.exist(newTask.outputFiles);
+      should.exist(newTask.environmentSettings);
+      newTask.environmentSettings.length.should.equal(1);
+      newTask.environmentSettings[0].name.should.equal(templateUtils.fileEgressEnvName);
+      newTask.environmentSettings[0].value.indexOf('filePattern').should.be.above(-1);
+      
+      done();
+    });
+
+    it('should correctly construct jobPrepTask for outputFiles', function(done) {
+      var outputFiles = [ {
+        filePattern: '*.txt',
+        destination: {
+          container: {
+            containerSas: 'sas'
+          }
+        },
+        uploadDetails: {
+          taskStatus: 'TaskSuccess'
+        }
+       }]
+      var task = { id: 'test', commandLine: 'foo.exe', outputFiles: outputFiles }
+      var taskList = [task];
+      var job = { id: 'myJob' };
+      
+      var newJob = templateUtils.processJobForOutputFiles(job, taskList);
+      var expectedCommandLine = '/bin/bash -c "foo.exe;$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.sh > $AZ_BATCH_TASK_DIR/uploadlog.txt 2>&1"';
+      
+      newJob.id.should.equal(job.id);
+      should.not.exist(taskList[0].outputFiles);
+      should.exist(taskList[0].environmentSettings);
+      taskList[0].environmentSettings.length.should.equal(1);
+      taskList[0].environmentSettings[0].name.should.equal(templateUtils.fileEgressEnvName);
+      taskList[0].environmentSettings[0].value.indexOf('filePattern').should.be.above(-1);
+
+      should.exist(newJob.jobPreparationTask);
+      newJob.jobPreparationTask.commandLine.should.equal("/bin/bash -c 'setup.sh > $AZ_BATCH_JOB_PREP_DIR/uploadsetuplog.txt 2>&1'");
+      should.exist(newJob.jobPreparationTask.resourceFiles);
+      newJob.jobPreparationTask.resourceFiles.length.should.equal(7);
+      
+      done();
+    })
+  });
 });
