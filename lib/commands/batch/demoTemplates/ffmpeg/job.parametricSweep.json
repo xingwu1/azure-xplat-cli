@@ -92,6 +92,12 @@
                                 "taskStatus": "TaskSuccess"
                             }
                         }
+                    ],
+                    "packageReferences": [
+                        {
+                            "type": "aptPackage",
+                            "id": "ffmpeg"
+                        }
                     ]
                 }
             }

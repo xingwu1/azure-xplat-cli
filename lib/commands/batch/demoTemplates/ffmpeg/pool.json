@@ -51,13 +51,7 @@
             },
             "vmSize": "[parameters('vmSize')]",
             "targetDedicated": "[parameters('vmCount')]",
-            "enableAutoScale": false,
-            "packageReferences": [
-              {
-                "type": "aptPackage",
-                "id": "ffmpeg"
-              }
-            ]
+            "enableAutoScale": false
         }
     }
 }
