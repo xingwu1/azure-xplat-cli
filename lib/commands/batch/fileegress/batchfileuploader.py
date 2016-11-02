@@ -22,20 +22,25 @@ import json
 import sys
 import traceback
 
-import azure.common
-
 import uploader
 import configuration
 
 UPLOAD_LOG_NAME = 'uploadlog.txt'
 _error_mapping = {
-    400: (configuration.ErrorCode.InternalError, False),  # Bad request
-    403: (configuration.ErrorCode.AuthenticationFailed, True),  # Unauthenticated
-    404: (configuration.ErrorCode.ContainerNotFound, True),  # Not found
-    409: (configuration.ErrorCode.Conflict, True),  # Conflict
-    412: (configuration.ErrorCode.PreconditionFailed, False),  # Precondition failed
-    500: (configuration.ErrorCode.InternalError, False),  # Internal server error
-    503: (configuration.ErrorCode.InternalError, False),  # ServerBusy
+    # Bad request
+    400: (configuration.ErrorCode.InternalError, False),
+    # Unauthenticated
+    403: (configuration.ErrorCode.AuthenticationFailed, True),
+    # Not found
+    404: (configuration.ErrorCode.ContainerNotFound, True),
+    # Conflict
+    409: (configuration.ErrorCode.Conflict, True),
+    # Precondition failed
+    412: (configuration.ErrorCode.PreconditionFailed, False),
+    # Internal server error
+    500: (configuration.ErrorCode.InternalError, False),
+    # ServerBusy
+    503: (configuration.ErrorCode.InternalError, False),
 }
 
 
@@ -55,7 +60,8 @@ def load_specification_from_env(env):
     # type: str -> configuration.Specification
     """Loads a specification from an environment variable.
 
-    :param env: The name of the environment variable to load the specification from
+    :param env: The name of the environment variable to load
+    the specification from
     :return: The specification object
     """
     spec = json.loads(os.environ[env])
@@ -69,7 +75,8 @@ def generate_error_specification(exception):
             code, user_error = _error_mapping[error.status_code]
         except (KeyError, AttributeError):
             code, user_error = configuration.ErrorCode.UnknownError, False
-        result = configuration.ErrorSpecification(code, user_error, pattern, file)
+        result = configuration.ErrorSpecification(
+            code, user_error, pattern, file)
     except Exception:
         result = configuration.ErrorSpecification(
             configuration.ErrorCode.UnknownError, False, None, None)
@@ -109,8 +116,12 @@ def parseargs(args):
     parser = argparse.ArgumentParser(
         description='Azure Batch File uploader')
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--file', help='File containing the upload specification.')
-    group.add_argument('--env', help='Environment variable containing the upload specification')
+    group.add_argument(
+        '--file',
+        help='File containing the upload specification.')
+    group.add_argument(
+        '--env',
+        help='Environment variable containing the upload specification')
     success_failure_group = parser.add_mutually_exclusive_group()
     success_failure_group.add_argument(
         '-s', '--success',

@@ -110,7 +110,6 @@ def datetime_utcnow():
     return datetime.datetime.utcnow()
 
 
-
 def datetime_now(tz=None):
     # type: (datetime.tzinfo) -> datetime.datetime
     """

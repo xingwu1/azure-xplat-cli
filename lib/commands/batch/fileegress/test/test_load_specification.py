@@ -16,7 +16,8 @@ def test_load_specification_basic_valid(tmpdir, use_env):
         'outputFiles': [
             {
                 'filePattern': '*.txt',
-                'destination': {'container': {'containerSas': 'sas', 'path': 'a/b/c'}},
+                'destination': {'container': {
+                    'containerSas': 'sas', 'path': 'a/b/c'}},
                 'uploadDetails': {'taskStatus': 'TaskFailure'}
             }
         ]
@@ -32,7 +33,8 @@ def test_load_specification_basic_valid(tmpdir, use_env):
     assert spec.output_files[0].file_pattern == '*.txt'
     assert spec.output_files[0].destination.container.container_sas == 'sas'
     assert spec.output_files[0].destination.container.path == 'a/b/c'
-    assert spec.output_files[0].upload_details.task_status == configuration.TaskStatus.TaskFailure
+    assert spec.output_files[0].upload_details.task_status == \
+        configuration.TaskStatus.TaskFailure
 
 
 @pytest.mark.parametrize('use_env', [True, False])
@@ -67,15 +69,18 @@ def test_load_specification_multiple_specifications(tmpdir, use_env):
     assert len(spec.output_files) == 3
     assert spec.output_files[0].file_pattern == 'a.txt'
     assert spec.output_files[0].destination.container.container_sas == 'sas'
-    assert spec.output_files[0].upload_details.task_status == configuration.TaskStatus.TaskFailure
+    assert spec.output_files[0].upload_details.task_status == \
+        configuration.TaskStatus.TaskFailure
 
     assert spec.output_files[1].file_pattern == 'b.txt'
-    assert spec.output_files[1].destination.container.container_sas== 'sas'
-    assert spec.output_files[1].upload_details.task_status == configuration.TaskStatus.TaskSuccess
+    assert spec.output_files[1].destination.container.container_sas == 'sas'
+    assert spec.output_files[1].upload_details.task_status == \
+        configuration.TaskStatus.TaskSuccess
 
     assert spec.output_files[2].file_pattern == 'c.txt'
     assert spec.output_files[2].destination.container.container_sas == 'sas'
-    assert spec.output_files[2].upload_details.task_status == configuration.TaskStatus.TaskCompletion
+    assert spec.output_files[2].upload_details.task_status == \
+        configuration.TaskStatus.TaskCompletion
 
 
 @pytest.mark.parametrize('use_env', [True, False])
@@ -130,7 +135,8 @@ def test_load_specification_invalid_child_type(tmpdir, use_env):
         'outputFiles': [
             {
                 'filePattern': '*.txt',
-                'destination': {'container': {'containerSas': 'sas'}, 'bar': 'test'},
+                'destination': {'container': {
+                    'containerSas': 'sas'}, 'bar': 'test'},
                 'uploadDetails': {'taskStatus': 'TaskFailure'}
             }
         ]

@@ -33,17 +33,22 @@ class Fixture:
 def generate_sas(blob_client, container):
     sas = blob_client.generate_container_shared_access_signature(
         container,
-        permission=azure.storage.blob.ContainerPermissions(read=True, write=True),
+        permission=azure.storage.blob.ContainerPermissions(
+            read=True, write=True),
         expiry=util.datetime_utcnow() + datetime.timedelta(days=1))
 
     print("Generated SAS: {}".format(sas))
 
-    url_segments = ['https', '{}.blob.core.windows.net'.format(blob_client.account_name), container, sas, '']
+    url_segments = [
+        'https',
+        '{}.blob.core.windows.net'.format(blob_client.account_name),
+        container,
+        sas,
+        '']
     full_container_sas = urlparse.urlunsplit(url_segments)
 
     print("full container sas: {}".format(full_container_sas))
     return full_container_sas
-
 
 
 @pytest.fixture()
@@ -97,15 +102,19 @@ def create_files(count, rootdir, directory, file_size=None):
             file.write('\0')
 
 
-def create_specification(file_pattern, sas, destination_path=None, task_status=None):
+def create_specification(
+        file_pattern, sas, destination_path=None, task_status=None):
     if task_status is None:
         task_status = configuration.TaskStatus.TaskCompletion
     file_mapping = configuration.Specification()
     file_mapping.output_files.append(configuration.OutputFile(
         file_pattern=file_pattern,
         destination=configuration.OutputFileDestination(
-            container=configuration.BlobContainerDestination(container_sas=sas, path=destination_path)),
-        upload_details=configuration.OutputFileUploadDetails(task_status=task_status)))
+            container=configuration.BlobContainerDestination(
+                container_sas=sas,
+                path=destination_path)),
+        upload_details=configuration.OutputFileUploadDetails(
+            task_status=task_status)))
     return file_mapping
 
 
@@ -117,35 +126,56 @@ _success_and_status_pairs = [
     (False, configuration.TaskStatus.TaskCompletion)]
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_single_file_after_process_exit(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_single_file_after_process_exit(
+        fixture, tmpdir, task_success, upload_task_status):
     file_path = os.path.join(str(tmpdir), 'test1.txt')
 
-    spec = create_specification(file_path, fixture.sas, task_status=upload_task_status)
+    spec = create_specification(
+        file_path,
+        fixture.sas,
+        task_status=upload_task_status)
     with io.open(file_path, mode='wb') as file:
         file.write('test')
 
     fixture.file_uploader.run(spec, task_success=task_success)
 
-    blob_properties = fixture.blob_client.get_blob_properties(fixture.container, 'test1.txt')
-    assert os.path.getsize(file_path) == blob_properties.properties.content_length
+    blob_properties = fixture.blob_client.get_blob_properties(
+        fixture.container, 'test1.txt')
+    assert os.path.getsize(file_path) == \
+        blob_properties.properties.content_length
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_directory_after_process_exit(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_directory_after_process_exit(
+        fixture, tmpdir, task_success, upload_task_status):
     file_count = 10
     create_files(file_count, str(tmpdir), 'abc')
 
-    spec = create_specification(os.path.join(str(tmpdir), 'abc', '*.txt'), fixture.sas, task_status=upload_task_status)
+    spec = create_specification(
+        os.path.join(
+            str(tmpdir),
+            'abc',
+            '*.txt'),
+        fixture.sas,
+        task_status=upload_task_status)
 
     fixture.file_uploader.run(spec, task_success=task_success)
-    assert file_count == len(list(fixture.blob_client.list_blobs(fixture.container)))
+    assert file_count == len(list(
+        fixture.blob_client.list_blobs(fixture.container)))
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_missing_file_after_process_exit(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_missing_file_after_process_exit(
+        fixture, tmpdir, task_success, upload_task_status):
     file_path = os.path.join(str(tmpdir), 'missing_file.txt')
-    spec = create_specification(file_path, fixture.sas, task_status=upload_task_status)
+    spec = create_specification(
+        file_path,
+        fixture.sas,
+        task_status=upload_task_status)
 
     fixture.file_uploader.run(spec, task_success=task_success)
 
@@ -153,8 +183,10 @@ def test_upload_missing_file_after_process_exit(fixture, tmpdir, task_success, u
     assert 0 == len(list(blobs))
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_and_reroot_directory_after_process_exit(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_and_reroot_directory_after_process_exit(
+        fixture, tmpdir, task_success, upload_task_status):
     file_count = 10
     create_files(file_count, str(tmpdir), 'abc')
 
@@ -174,24 +206,34 @@ def test_upload_and_reroot_directory_after_process_exit(fixture, tmpdir, task_su
         assert blob.name.startswith(sub_directory)
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_and_rename_single_file_after_process_exit(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_and_rename_single_file_after_process_exit(
+        fixture, tmpdir, task_success, upload_task_status):
     file_path = os.path.join(str(tmpdir), 'test1.txt')
     destination_blob_name = 'foo.txt'
-    spec = create_specification(file_path, fixture.sas, destination_blob_name, task_status=upload_task_status)
+    spec = create_specification(
+        file_path,
+        fixture.sas,
+        destination_blob_name,
+        task_status=upload_task_status)
     with io.open(file_path, mode='wb') as file:
         file.write('test')
 
     fixture.file_uploader.run(spec, task_success=task_success)
 
-    blob_properties = fixture.blob_client.get_blob_properties(fixture.container, destination_blob_name)
-    assert os.path.getsize(file_path) == blob_properties.properties.content_length
+    blob_properties = fixture.blob_client.get_blob_properties(
+        fixture.container,
+        destination_blob_name)
+    assert os.path.getsize(file_path) == \
+        blob_properties.properties.content_length
 
 
 @pytest.mark.parametrize(('task_success', 'upload_task_status'),
                          [(False, configuration.TaskStatus.TaskSuccess),
                           (True, configuration.TaskStatus.TaskFailure)])
-def test_upload_files_skipped_on_unmatching_task_status(fixture, tmpdir, task_success, upload_task_status):
+def test_upload_files_skipped_on_unmatching_task_status(
+        fixture, tmpdir, task_success, upload_task_status):
     file_path = os.path.join(str(tmpdir), 'test1.txt')
     destination_blob_name = 'foo.txt'
     spec = create_specification(
@@ -209,12 +251,18 @@ def test_upload_files_skipped_on_unmatching_task_status(fixture, tmpdir, task_su
     assert 0 == len(list(blobs))
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_with_bad_sas_fails(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_with_bad_sas_fails(
+        fixture, tmpdir, task_success, upload_task_status):
     file_path = os.path.join(str(tmpdir), 'test1.txt')
     destination_blob_name = 'foo.txt'
     bad_sas = fixture.sas[:-6]
-    spec = create_specification(file_path, bad_sas, destination_blob_name, task_status=upload_task_status)
+    spec = create_specification(
+        file_path,
+        bad_sas,
+        destination_blob_name,
+        task_status=upload_task_status)
     with io.open(file_path, mode='wb') as file:
         file.write('test')
 
@@ -229,12 +277,18 @@ def test_upload_with_bad_sas_fails(fixture, tmpdir, task_success, upload_task_st
     print(repr(agg.value))
 
 
-@pytest.mark.parametrize(('task_success', 'upload_task_status'), _success_and_status_pairs)
-def test_upload_to_nonexistant_container(fixture, tmpdir, task_success, upload_task_status):
+@pytest.mark.parametrize(
+    ('task_success', 'upload_task_status'), _success_and_status_pairs)
+def test_upload_to_nonexistant_container(
+        fixture, tmpdir, task_success, upload_task_status):
     file_path = os.path.join(str(tmpdir), 'test1.txt')
     destination_blob_name = 'foo.txt'
     bad_sas = generate_sas(fixture.blob_client, 'nonexistcontainer')
-    spec = create_specification(file_path, bad_sas, destination_blob_name, task_status=upload_task_status)
+    spec = create_specification(
+        file_path,
+        bad_sas,
+        destination_blob_name,
+        task_status=upload_task_status)
     with io.open(file_path, mode='wb') as file:
         file.write('test')
 

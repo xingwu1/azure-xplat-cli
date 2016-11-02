@@ -50,7 +50,8 @@ if 'WindowsError' not in __builtins__:
 
 def _extract_container_sas_token(container_sas):
     # type: str -> Tuple[str, str, str]
-    """Parses a full container sas and returns the account name, container name, and sas token
+    """Parses a full container sas and returns the account name,
+    container name, and sas token
 
     :param container_sas: The fully qualified container sas
     :return: A tuple of account_name, container_name, and sas_token
@@ -67,9 +68,11 @@ def _extract_pathinfo(input_pattern):
 
     :param input_pattern: The input pattern
     :return: A 4-tuple of base_path, pattern, fullpath, recursive.
-    base_path is the most-resolved path not including an actual file name and before any wildcards.
+    base_path is the most-resolved path not including an actual file name
+        and before any wildcards.
     pattern is input_pattern with environment variable substitution performed.
-    fullpath is True if the pattern was for a single file (no wildcards were specified).
+    fullpath is True if the pattern was for a single file
+        (no wildcards were specified).
     recursive is True if the pattern included a '**'.
     """
     # replace any parts of the path that have env vars
@@ -116,10 +119,12 @@ def _extract_pathinfo(input_pattern):
 
 def normalize_blob_name(root, file):
     # type: (str, str) -> str
-    """Creates a valid Azure Storage blob name given a relative root and a file path.
+    """Creates a valid Azure Storage blob name given a
+    relative root and a file path.
 
-    For example, if root='C:/users/tasks/task1' and file='C:/users/tasks/task1/foo/bar/test.txt',
-    then the blob name would be 'foo/bar/test.txt'
+    For example, if root='C:/users/tasks/task1' and
+    file='C:/users/tasks/task1/foo/bar/test.txt', then the blob name
+    would be 'foo/bar/test.txt'
     :param root: The root which the file is relative to.
     :param file: The file path
     :return: A blob name.
@@ -173,15 +178,19 @@ class ResolvedFileMapping(object):
         :return: The full blob destination
         """
 
+        # Handle the case where there were no wildcards (so the
+        # destination IS a target blob name)
         if self.is_full_path:
-            # Handle the case where there were no wildcards (so the destination IS a target blob name)
-            if self.destination_path is None:  # Default to the name of the file
+            # Default to the name of the file
+            if self.destination_path is None:
                 destination = normalize_blob_name(self.base_path, file)
             else:
                 destination = self.destination_path
+        # Handle the case where there were wildcards,
+        # so the destination path is a virtual directory
         else:
-            # Handle the case where there were wildcards, so the destination path is a virtual directory
-            if self.destination_path is None:  # Default to the name of the file
+            # Default to the name of the file
+            if self.destination_path is None:
                 destination = normalize_blob_name(self.base_path, file)
             else:
                 destination = '{}/{}'.format(
@@ -191,11 +200,12 @@ class ResolvedFileMapping(object):
         return destination
 
     def __repr__(self):
-        return 'Resolved mapping - base_path: {}, full_pattern: {}, recursive: {}, destination: {}'.format(
-            self.base_path,
-            self.full_pattern,
-            self.recursive,
-            self.destination_path)
+        return 'Resolved mapping - base_path: {}, ' \
+               'full_pattern: {}, recursive: {}, destination: {}'.format(
+                    self.base_path,
+                    self.full_pattern,
+                    self.recursive,
+                    self.destination_path)
 
 
 # TODO: The C# is leaking...
@@ -209,8 +219,10 @@ class AggregateException(Exception):
         self.errors = errors  # type: List[Tuple[str, str, Exception]]
 
     def __repr__(self):
-        result = ', '.join('file: {} from pattern: {} hit error: {}'.format(file, pattern, repr(error))
-                           for file, pattern, error in self.errors)
+        result = ', '.join('file: {} from pattern: {} hit error: {}'.format(
+            file,
+            pattern,
+            repr(error)) for file, pattern, error in self.errors)
         return result
 
     def __str__(self):
@@ -228,11 +240,12 @@ class FileUploader(object):
         self.task_id = task_id  # type: str
 
         # Set up the logger
-        self.logger = logging.getLogger('{}-{}'.format(self.job_id, self.task_id))
+        self.logger = logging.getLogger('{}-{}'.format(
+            self.job_id, self.task_id))
         self.logger.setLevel('INFO')
         # TODO: This is ignored right now
         # handler = logging.FileHandler(log_path)
-        handler = logging.StreamHandler(stream=sys.stdout);
+        handler = logging.StreamHandler(stream=sys.stdout)
         formatter = logging.Formatter('%(asctime)-15s %(message)s')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
@@ -253,27 +266,38 @@ class FileUploader(object):
         :param path: The path of the file to upload
         :param blob_name: The blob name
         """
-        self.logger.info('Uploading file: %s to container: %s blob: %s', path, container_name, blob_name)
+        self.logger.info('Uploading file: %s to container: %s blob: %s',
+                         path, container_name, blob_name)
         start_time = util.datetime_utcnow()
 
         blob_client.create_blob_from_path(
-            container_name, blob_name, path, max_connections=_NUM_STORAGE_WORKERS)
+            container_name,
+            blob_name,
+            path,
+            max_connections=_NUM_STORAGE_WORKERS)
 
         end_time = util.datetime_utcnow()
-        self.logger.info('Upload of %s done in %s', path, end_time - start_time)
+        self.logger.info(
+            'Upload of %s done in %s',
+            path, end_time - start_time)
 
     # TODO: This could be async
     @staticmethod
-    def _gather_files_to_upload(file_info):
-        # type: List[ResolvedFileMapping] -> List[Tuple[ResolvedFileMapping, Iterable]]
+    def _gather_files_to_upload(
+            file_info  # type: List[ResolvedFileMapping]
+    ):
+        # type: (...) -> List[Tuple[ResolvedFileMapping, Iterable]]
         """Gathers all of the files which should be uploaded
 
         :param file_info: A list of file mappings
-        :return: A 2-tuple (mapping, Iterable). The mapping is associated with the individual Iterable of files.
+        :return: A 2-tuple (mapping, Iterable).
+        The mapping is associated with the individual Iterable of files.
         """
         files = []
         for resolved_mapping in file_info:
-            matched_files = glob_files(resolved_mapping.base_path, resolved_mapping.full_pattern)
+            matched_files = glob_files(
+                resolved_mapping.base_path,
+                resolved_mapping.full_pattern)
             files.append((resolved_mapping, matched_files))
         return files
 
@@ -287,7 +311,9 @@ class FileUploader(object):
         files = self._gather_files_to_upload(file_info)
         errors = []
         for resolved_mapping, file_iter in files:
-            self.logger.info('Uploading all files matching pattern %s', resolved_mapping.full_pattern)
+            self.logger.info(
+                'Uploading all files matching pattern %s',
+                resolved_mapping.full_pattern)
             for file in file_iter:
                 try:
                     self._upload_file(
@@ -296,7 +322,8 @@ class FileUploader(object):
                         str(file),
                         resolved_mapping.calculate_destination(file))
                 except Exception as e:
-                    errors.append((str(file), resolved_mapping.full_pattern, e))
+                    errors.append(
+                        (str(file), resolved_mapping.full_pattern, e))
 
         if errors:
             raise AggregateException(errors)
@@ -306,17 +333,25 @@ class FileUploader(object):
         """Runs the uploader
 
         :param config: The configuration
-        :param task_success: True if the task succeeded, False if the task failed.
+        :param task_success: True if the task succeeded,
+            False if the task failed.
         None means don't upload either TaskSuccess or TaskFailure files
         """
 
         file_info = []
         for output_file in config.output_files:
             # Determine if this pattern should be skipped or not
+            file_success = output_file.upload_details.task_status == \
+                configuration.TaskStatus.TaskSuccess
+            file_failure = output_file.upload_details.task_status == \
+                configuration.TaskStatus.TaskFailure
+            file_completion = output_file.upload_details.task_status == \
+                configuration.TaskStatus.TaskCompletion
+
             should_upload = (
-                (output_file.upload_details.task_status == configuration.TaskStatus.TaskSuccess and task_success) or
-                (output_file.upload_details.task_status == configuration.TaskStatus.TaskFailure and not task_success)
-                or output_file.upload_details.task_status == configuration.TaskStatus.TaskCompletion)
+                (file_success and task_success) or
+                (file_failure and not task_success)
+                or file_completion)
 
             # Skip this pattern
             if not should_upload:
@@ -324,13 +359,15 @@ class FileUploader(object):
 
             destination = output_file.destination
             storage_account, container, sas_token = \
-                _extract_container_sas_token(destination.container.container_sas)
+                _extract_container_sas_token(
+                    destination.container.container_sas)
 
             # set up clients
             blob_client = azure.storage.blob.BlockBlobService(
                 storage_account, sas_token=sas_token)
 
-            base_path, pattern, fullpath, recursive = _extract_pathinfo(output_file.file_pattern)
+            base_path, pattern, fullpath, recursive = _extract_pathinfo(
+                output_file.file_pattern)
             file_info.append(ResolvedFileMapping(
                 base_path,
                 pattern,
