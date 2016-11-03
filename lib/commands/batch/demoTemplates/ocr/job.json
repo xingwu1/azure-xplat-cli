@@ -46,11 +46,6 @@
             "poolInfo": {
                 "poolId": "[parameters('poolId')]"
             },
-            "jobPreparationTask": {
-                "commandLine" : "apt-get install ghostscript tesseract-ocr -y",
-                "runElevated": true,
-                "waitForSuccess": true
-            },
             "taskFactory": {
                 "type": "parametricSweep",
                 "parameterSets": [
@@ -95,7 +90,17 @@
                                 "taskStatus": "TaskFailure"
                             }
                         }
-                    ]
+                    ],
+                    "packageReferences": [
+                        {
+                            "type": "aptPackage",
+                            "id": "ghostscript"
+                        },
+                        {
+                            "type": "aptPackage",
+                            "id": "tesseract-ocr"
+                        }
+                    ]                    
                 }
             }
         }

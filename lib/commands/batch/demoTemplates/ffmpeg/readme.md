@@ -1,2 +1,48 @@
-# TODO
-Fill me in
+# Azure Batch FFMpeg Pool/Job Template
+This template shows how to use `ffmpeg` to convert one kind of media file (`WAV`) to another type media file (`MP3`).
+
+## Prerequisites
+You must have an Azure Batch account set up with a linked Azure Storage account.
+
+## Create a pool
+Edit the `pool.parameters.json` file to supply the parameters of your pool. If you have a large number of media files 
+to convert, you should use a larger pool or bigger VMs in the pool.
+
+Run `azure batch pool create --template pool.json --parameters pool.parameters.json` to create your pool. If you want to just use the template
+defaults you can omit the `--parameters pool.parameters.json`.
+
+**You are billed for your Azure Batch pools, so don't forget to delete it when you're done.**
+
+## Upload files
+Run command `azure batch file upload <path> <group>` on a folder containing media files (`*.wav`) which are named with numerically increasing names with `sample` prefix (i.e. `sample1.wav`, `sample2.wave`, `sample3.wav`, etc).
+
+## Work with simple tasks
+Edit the `job.parameters.json` file to supply parameters to the template.
+
+1. `poolName` must match the pool you created earlier.
+2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
+3. `outputFileStorageUrl` must be a writable SAS to an Azure Storage container.
+4. `jobName` is the name of job, which must not exist in current Batch account.
+
+## Run the job with simple tasks
+Run `azure batch job create --template job.simple.json --parameters job.parameters.json` to create your job and tasks.
+
+## Create a job with parametric sweep tasks
+Edit the `job.parameters.json` file to supply parameters to the template.
+
+1. `poolName` must match the pool you created earlier.
+2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
+3. `outputFileStorageUrl` must be a writable SAS to an Azure Storage container.
+4. `jobName` is the name of job, which must not exist in current Batch account.
+5. `jobStart` must match the first WAV file you uploaded earlier (specify `1` to reference `sample1.pdf`).
+6. `jobEnd` must match the last WAV file you uploaded earlier (specify `10` to reference `sample10.pdf`).
+
+## Run the job
+Run `azure batch job create --template job.parametricSweep.json --parameters job.parameters.json` to create your job and tasks.
+
+## Monitor the job
+You can use the `azure batch task list --job-id <jobid>` to monitor the tasks in the job and their progress.
+You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
+
+The outputs of the tasks will be uploaded to the Azure Storage container which you specified as the individual tasks complete.
+The target container will contain a new virtual directory for each task that ran.
