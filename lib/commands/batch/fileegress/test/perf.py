@@ -14,7 +14,11 @@ def file_fixture(tmpdir, request):
     file_size_mb = request.param[1]
     print('creating {} files of size {} mb'.format(file_count, file_size_mb))
     file_size_bytes = 1024*1024*file_size_mb
-    test_end_to_end.create_files(file_count, str(tmpdir), 'abc', file_size_bytes)
+    test_end_to_end.create_files(
+        file_count,
+        str(tmpdir),
+        'abc',
+        file_size_bytes)
     yield file_count, file_size_mb
 
     # clean up files afterwards
@@ -35,5 +39,8 @@ def test_perf(fixture, file_fixture, tmpdir):  # noqa: F811
     end = time.clock()
     runtime = end - start
 
-    print('Took {}s to run, avg {} mbps'.format(runtime, (file_count * file_size_mb * 8) / runtime))
-    assert file_count == len(list(fixture.blob_client.list_blobs(fixture.container)))
+    print('Took {}s to run, avg {} mbps'.format(
+        runtime,
+        (file_count * file_size_mb * 8) / runtime))
+    assert file_count == len(list(
+        fixture.blob_client.list_blobs(fixture.container)))

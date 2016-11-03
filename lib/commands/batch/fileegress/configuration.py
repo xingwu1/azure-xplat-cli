@@ -20,7 +20,8 @@ import enum
 class Specification(object):
     def __init__(self, output_files=None):
         # type: (List[OutputFile]) -> None
-        self.output_files = output_files if output_files else []  # type: List[OutputFile]
+        self.output_files = \
+            output_files if output_files else []  # type: List[OutputFile]
 
     @staticmethod
     def from_dict(dict):
