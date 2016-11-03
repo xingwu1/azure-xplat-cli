@@ -73,7 +73,13 @@
                                     "taskStatus": "TaskSuccess"
                                 }
                             }
-                        ]
+                        ],
+                        "packageReferences": [
+                            {
+                                "type": "aptPackage",
+                                "id": "ffmpeg"
+                            }
+                        ]                        
                     },
                     {
                         "id" : "mytask2",
@@ -98,6 +104,12 @@
                                 "uploadDetails": {
                                     "taskStatus": "TaskSuccess"
                                 }
+                            }
+                        ],
+                        "packageReferences": [
+                            {
+                                "type": "aptPackage",
+                                "id": "ffmpeg"
                             }
                         ]
                     }
