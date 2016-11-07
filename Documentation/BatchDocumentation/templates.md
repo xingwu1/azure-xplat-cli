@@ -20,7 +20,7 @@ For further reading on ARM templates, see [Authoring Azure Resource Manager temp
 
 ### Parameters
 
-This section consists of a set of parameters, with accompanying metadata and constraints.
+This section consists of a set of parameter definitions, with accompanying metadata and constraints.
 For example: 
 ```json
 {
@@ -34,6 +34,8 @@ For example:
     }
 }
 ```
+Parameters can be referenced using ARM-template parameter syntax: `[parameters('parameterName')]`.
+
 The following options for a parameter are currently supported:
 - `type`
     - `int`, `string` or `bool`
@@ -46,12 +48,12 @@ The following options for a parameter are currently supported:
 - `metadata`
     - `description`
 
-Parameters can be referenced using ARM-template parameter syntax: `[parameters('parameterName')]`.
-
 ### Variables
 
 In this section you can construct complex JSON fragments that can be used throughout the template. Typically
-variables also include references to values defined in `parameters`. For example:
+variables also include references to values defined in `parameters`. Variables can be referenced using ARM-template variable syntax: `[variables('variableName')]`. 
+
+For example:
 ```json
 {
     "variables": {
@@ -78,7 +80,12 @@ Valid `type` options are:
 **Note:** Unlike true ARM templates, Batch CLI templates must contain only a single definition for either a Batch job or pool.
 Additionally, not all ARM template syntax is supported. We currently support the following expressions and functions:
 
-- `concat()`
+- `parameters()`: A function to inject the value of a defined parameter into the JSON.
+    - Example: `"id": "[parameters('jobId')]"`
+- `variables()`: A function to inject the fragment of a defined variable into the JSON.
+    - Example: `"poolInfo": "[variables('autoPool')]"`
+- `concat()`: A function to join two strings together.
+    - Example: `"displayName": "[concat("Processing: ", parameters('inputName'))]"`
 
 
 Example templates and their accomanying parameter files can be found at
