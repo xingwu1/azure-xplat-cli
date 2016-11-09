@@ -20,29 +20,27 @@
                 "description": "The extension of the input data"
             }
         },
-        "poolName": {
+        "poolId": {
             "type": "string",
-            "defaultValue": "ffmpegpool",
+            "defaultValue": "ffmpeg-pool",
             "metadata": {
                 "description": "The name of Azure Batch pool which runs the job"
             }
         },
-        "jobName": {
+        "jobId": {
             "type": "string",
             "metadata": {
                 "description": "The name of Azure Batch job"
             }
         },
-        "jobStart": {
+        "taskStart": {
             "type": "int",
-            "defaultValue": 1,
             "metadata": {
                 "description": "The sweep start parameter"
             }
         },
-        "jobEnd": {
+        "taskEnd": {
             "type": "int",
-            "defaultValue": 5,
             "metadata": {
                 "description": "The sweep end parameter"
             }
@@ -52,20 +50,20 @@
         "type": "Microsoft.Batch/batchAccounts/jobs",
         "apiVersion": "2016-12-01",
         "properties": {
-            "id": "[parameters('jobName')]",
+            "id": "[parameters('jobId')]",
             "constraints": {
                 "maxWallClockTime": "PT5H",
                 "maxTaskRetryCount": 1
             },
             "poolInfo": {
-                "poolId": "[parameters('poolName')]"
+                "poolId": "[parameters('poolId')]"
             },
             "taskFactory": {
                 "type": "parametricSweep",
                 "parameterSets": [
                     {
-                        "start": "[parameters('jobStart')]",
-                        "end": "[parameters('jobEnd')]",
+                        "start": "[parameters('taskStart')]",
+                        "end": "[parameters('taskEnd')]",
                         "step": 1
                     }
                 ],
