@@ -8,11 +8,10 @@ This template shows how to use `ghostscript` and `tesseract-ocr` to transform PD
 You must have an Azure Batch account set up with a linked Azure Storage account.
 
 ## Create a pool
-Edit the `pool.parameters.json` file to supply the parameters of your pool. If you have a large number of PDF files 
-to convert, you should use a larger pool or bigger VMs in the pool.
+Run `azure batch pool create --template pool.json` to create your pool using the default settings (A pool named 'ocr-pool' with 3 STANDARD_D1_V2 VMs). 
 
-Run `azure batch pool create --template pool.json --parameters pool.parameters.json` to create your pool. If you want to just use the template
-defaults you can omit the `--parameters pool.parameters.json`.
+If you want to change the default values of the pool creation, you can create a JSON file to supply the parameters of your pool. If you have a large number of files 
+to convert, you should use a larger pool or bigger VMs in the pool. In order to create the pool with your own configurations, run `azure batch pool create --template pool.json --parameters <your settings JSON file>`.
 
 **You are billed for your Azure Batch pools, so don't forget to delete it when you're done.**
 
@@ -20,7 +19,7 @@ defaults you can omit the `--parameters pool.parameters.json`.
 Run command `azure batch file upload <path> <group>` on a folder containing PDF files which are named with numerically increasing names (i.e. `1.pdf`, `2.pdf`, `3.pdf`, etc).
 
 ## Create a job and tasks
-Edit the `job.parameters.json` file to supply parameters to the template.
+Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.json` parameters section to see what options are available.
 
 1. `poolId` must match the pool you created earlier.
 2. `firstPdfId` must match the first PDF file you uploaded earlier (specify `1` to reference `1.pdf`).

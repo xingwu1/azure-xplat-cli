@@ -108,7 +108,7 @@
     "xml2js": "0.1.x",
     "xmlbuilder": "0.4.x",
     "read": "^1.0.7",
-    "shell-quote": "1.6.1"
+    "shell-escape": "0.2.0"
   },
   "devDependencies": {
     "istanbul": "0.3.19",

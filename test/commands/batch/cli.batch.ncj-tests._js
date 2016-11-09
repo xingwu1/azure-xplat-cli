@@ -1017,7 +1017,7 @@ describe('cli', function () {
       pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
       should.exist(pool.startTask);
       pool.vmSize.should.equal(10);
-      pool.startTask.commandLine.should.be.equal('/bin/bash -c \"apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34;/bin/bash -c \'set -e; set -o pipefail; nodeprep-cmd\' ; wait\"');
+      pool.startTask.commandLine.should.be.equal("/bin/bash -c 'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34;/bin/bash -c '\\''set -e; set -o pipefail; nodeprep-cmd'\\'' ; wait'");
       pool.startTask.runElevated.should.be.equal(true);
       should.exist(pool.startTask.resourceFiles);
 
@@ -1057,6 +1057,27 @@ describe('cli', function () {
       job.jobPreparationTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
       job.jobPreparationTask.runElevated.should.be.equal(true);
       job.jobPreparationTask.waitForSuccess.should.be.equal(true);
+
+      done();
+    });
+
+    it('should not create start task if no package manager', function(done) {
+      var job = {
+        taskFactory: {
+          type: "parametricSweep",
+          parameterSets: [{start:1, end:2}, {start: 3, end: 5}], 
+          repeatTask : { 
+            commandLine: "cmd {0}.mp3 {1}.mp3"
+          }
+        } 
+      };
+      var collection = templateUtils.parseTaskFactory(job);
+
+      var commands = [];
+      commands.push(templateUtils.parseTaskPackageReferences(job, collection));
+      commands.push(undefined);
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands);
+      should.not.exist(job.jobPreparationTask);
 
       done();
     });
@@ -1116,7 +1137,7 @@ describe('cli', function () {
           }
         ]
       };
-      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("PackageReferences can only contain a single type package references.");
+      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("PackageReferences can only contain a single type of package reference.");
 
       pool = {
         "id": "testpool",

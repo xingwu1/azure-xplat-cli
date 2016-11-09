@@ -2,19 +2,16 @@
   "jobId": {
     "value": "ocr_demo_01"
   },
-  "poolId": {
-    "value": "ocrpool"
-  },
   "firstPdfId": {
-    "value": ""
+    "value": <the first id of pdf file>
   },
   "lastPdfId": {
-    "value": ""
+    "value": <the last id of pdf file>
   },
   "inputFileGroup": {
-    "value": ""
+    "value": "<Auto-storage group name>"
   },
   "outputFileStorageUrl": {
-    "value": ""
+    "value": "<the storage url to hold output file>"
   }
 }
