@@ -4,9 +4,8 @@ Here are a collection of samples to demonstrate the new features in this Batch p
 
 ## [FFmpeg](ffmpeg)
 
-FFmpeg is an open-source command line tool for processing multimedia files. Here are two samples demonstrating
-video transcoding with Azure Batch on both a small set of files, and a large number of numerically-named files 
-using a parametric sweep.
+FFmpeg is an open-source command line tool for processing multimedia files. This is a sample demonstrating
+audio compression with Azure Batch on a large number of numerically-named files using a parametric sweep.
 
 ## [OCR](ocr)
 
