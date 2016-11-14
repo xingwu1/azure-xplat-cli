@@ -20,7 +20,7 @@ To provision Batch compute nodes that use Docker containers, you must supply a `
   * `private`: (optional, object) Controls settings for private registries.
     * `allowPublicPullOnMissing`: (required, bool) Whether to allow pass-through of Docker image retrieval to public Docker Hub if the image is missing in the private registry.
 * `sharedDataVolumes`: (optional, array) Configures the initialization of persistent shared storage volumes. Each array item has the following properties:
-  * `name`: (required, string) The name used to identify the shared data volume.
+  * `name`: (required, string) The name used to identify the shared data volume. This name is created by the user and only used as a reference in dockerOptions definitions on pool and task bodies.
   * `volumeType`: (required, string) The type of the shared data volume. Currently, the only supported value is "azurefile".
   * `azureFileShareName`: (required, string) The Azure File share name. Note that this share must already be created in the Batch account's linked storage account. The linked storage account must also be in the same region as the Batch account. For more information on linked storage accounts, see [this article](https://azure.microsoft.com/documentation/articles/batch-account-create-portal/#linked-azure-storage-account). 
 
@@ -56,7 +56,7 @@ The following is an example pool specification with its clientExtensions.dockerO
 ```
 
 ## Scheduling a Docker workflow
-To schedule Docker workflows, you must supply a clientExtensions.dockerOptions definition on your task bodies within your taskFactory. The following is the dockerOptions schema:
+To schedule Docker workflows, you must supply a clientExtensions.dockerOptions definition on your task bodies within your taskFactory when using the 'batch job create' command. The following is the dockerOptions schema:
 `dockerOptions`:
 * `image`: (required, string) The Docker image to use for this task. This image must be available on the pool that the task is scheduled against.
 * `additionalDockerRunOptions`: (optional, array) The additional `docker run` option strings to pass to the Docker daemon when starting the container.
@@ -64,7 +64,7 @@ To schedule Docker workflows, you must supply a clientExtensions.dockerOptions d
   * `hostPath`: (optional, string) The path on the host node which will be mounted in the container. 
   * `containerPath`: (required, string) The path in the container where the data volume will be mounted/found.
 * `sharedDataVolumes`: (optional, array) The persisted shared storage volumes to use in the container. Each array item has the following properties:
-  * `name`: (required, string) The name used to identify the shared data volume. A volume with this name must have been configured on the pool that the task is scheduled against.
+  * `name`: (required, string) The name used to identify the shared data volume. A volume with this name must have been configured on the pool that the task is scheduled against (i.e. If you reference a shared data volume with name 'myShare' on your task, then you must have a shared data volume with name 'myShare' defined on your pool).
   * `volumeType`: (required, string) The type of the shared data volume. Currently, the only supported value is "azurefile".
   * `containerPath`: (required, string) The path in the container where the shared data volume will be mounted.
 * `removeContainerAfterExit`: (optional, bool) Whether the container should be automatically removed after the task completes. If unspecified, the default value of false will be used.
