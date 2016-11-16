@@ -6,8 +6,12 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: '6e0b24a6-2bef-4598-9bd3-f87e9700e24c',
-    name: 'Windows Azure Internal Consumption',
+    id: '46241355-bb95-46a9-ba6c-42b554d71925',
+    managementCertificate: {
+      key: 'mockedKey',
+      cert: 'mockedCert'
+    },
+    name: 'Microsoft Azure Internal Consumption',
     user: {
       name: 'user@domain.example',
       type: 'user'
@@ -23,35 +27,35 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_BATCH_ACCOUNT'] = 'test1';
-  process.env['AZURE_BATCH_ENDPOINT'] = 'https://test1.westus.batch.azure.com';
+  process.env['AZURE_BATCH_ACCOUNT'] = 'jstesteastus2';
+  process.env['AZURE_BATCH_ENDPOINT'] = 'https://jstesteastus2.eastus2.batch.azure.com';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://test1.westus.batch.azure.com:443')
-  .get('/poolusagemetrics?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#poolusagemetrics\",\"value\":[\r\n    {\r\n      \"poolId\":\"xingwu-pool1test\",\"startTime\":\"2016-05-17T22:30:00Z\",\"endTime\":\"2016-05-17T23:00:00Z\",\"vmSize\":\"standard_d1\",\"totalCoreHours\":0.075731165555555549,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"xplattestpool\",\"startTime\":\"2016-05-17T22:30:00Z\",\"endTime\":\"2016-05-17T23:00:00Z\",\"vmSize\":\"small\",\"totalCoreHours\":0.017914414944444443,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
+nock('http://jstesteastus2.eastus2.batch.azure.com:443')
+  .get('/poolusagemetrics?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#poolusagemetrics\",\"value\":[\r\n    {\r\n      \"poolId\":\"centos\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a2\",\"totalCoreHours\":3.0000000000000013,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"test\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a1\",\"totalCoreHours\":1.5000000000000007,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"ubuntupool3\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a1\",\"totalCoreHours\":0.49999999999999994,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"windowspool\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"small\",\"totalCoreHours\":0.49999999999999994,\"dataIngressGiB\":2.5711953639984131E-05,\"dataEgressGiB\":8.9881941676139832E-06\r\n    },{\r\n      \"poolId\":\"xplattestlinuxpool\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a1\",\"totalCoreHours\":0.49999999999999994,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"xplattestpool\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"small\",\"totalCoreHours\":1.5000000000000007,\"dataIngressGiB\":2.8051435947418213E-06,\"dataEgressGiB\":1.6093254089355469E-06\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'e8f757bb-f82e-43a1-8143-53bdb14fcefe',
+  'request-id': '1be8be82-b45b-49fc-9013-cc91363c96ac',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '6188c998-fbf8-44ca-a19b-40e2bc0b48ef',
+  'client-request-id': 'e4f8b652-2470-4065-aacb-61b17c3384d9',
   dataserviceversion: '3.0',
-  date: 'Fri, 20 May 2016 05:36:36 GMT',
+  date: 'Mon, 12 Sep 2016 23:36:17 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://test1.westus.batch.azure.com:443')
-  .get('/poolusagemetrics?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#poolusagemetrics\",\"value\":[\r\n    {\r\n      \"poolId\":\"xingwu-pool1test\",\"startTime\":\"2016-05-17T22:30:00Z\",\"endTime\":\"2016-05-17T23:00:00Z\",\"vmSize\":\"standard_d1\",\"totalCoreHours\":0.075731165555555549,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"xplattestpool\",\"startTime\":\"2016-05-17T22:30:00Z\",\"endTime\":\"2016-05-17T23:00:00Z\",\"vmSize\":\"small\",\"totalCoreHours\":0.017914414944444443,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
+nock('https://jstesteastus2.eastus2.batch.azure.com:443')
+  .get('/poolusagemetrics?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#poolusagemetrics\",\"value\":[\r\n    {\r\n      \"poolId\":\"centos\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a2\",\"totalCoreHours\":3.0000000000000013,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"test\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a1\",\"totalCoreHours\":1.5000000000000007,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"ubuntupool3\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a1\",\"totalCoreHours\":0.49999999999999994,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"windowspool\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"small\",\"totalCoreHours\":0.49999999999999994,\"dataIngressGiB\":2.5711953639984131E-05,\"dataEgressGiB\":8.9881941676139832E-06\r\n    },{\r\n      \"poolId\":\"xplattestlinuxpool\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"standard_a1\",\"totalCoreHours\":0.49999999999999994,\"dataIngressGiB\":0.0,\"dataEgressGiB\":0.0\r\n    },{\r\n      \"poolId\":\"xplattestpool\",\"startTime\":\"2016-09-12T20:00:00Z\",\"endTime\":\"2016-09-12T20:30:00Z\",\"vmSize\":\"small\",\"totalCoreHours\":1.5000000000000007,\"dataIngressGiB\":2.8051435947418213E-06,\"dataEgressGiB\":1.6093254089355469E-06\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'e8f757bb-f82e-43a1-8143-53bdb14fcefe',
+  'request-id': '1be8be82-b45b-49fc-9013-cc91363c96ac',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '6188c998-fbf8-44ca-a19b-40e2bc0b48ef',
+  'client-request-id': 'e4f8b652-2470-4065-aacb-61b17c3384d9',
   dataserviceversion: '3.0',
-  date: 'Fri, 20 May 2016 05:36:36 GMT',
+  date: 'Mon, 12 Sep 2016 23:36:17 GMT',
   connection: 'close' });
  return result; }]];

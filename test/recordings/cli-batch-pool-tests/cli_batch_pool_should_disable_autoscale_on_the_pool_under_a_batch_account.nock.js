@@ -6,8 +6,12 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: '6e0b24a6-2bef-4598-9bd3-f87e9700e24c',
-    name: 'Windows Azure Internal Consumption',
+    id: '46241355-bb95-46a9-ba6c-42b554d71925',
+    managementCertificate: {
+      key: 'mockedKey',
+      cert: 'mockedCert'
+    },
+    name: 'Microsoft Azure Internal Consumption',
     user: {
       name: 'user@domain.example',
       type: 'user'
@@ -23,71 +27,71 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_BATCH_ACCOUNT'] = 'test1';
-  process.env['AZURE_BATCH_ENDPOINT'] = 'https://test1.westus.batch.azure.com';
+  process.env['AZURE_BATCH_ACCOUNT'] = 'jstesteastus2';
+  process.env['AZURE_BATCH_ENDPOINT'] = 'https://jstesteastus2.eastus2.batch.azure.com';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://test1.westus.batch.azure.com:443')
-  .post('/pools/xplatTestPool/disableautoscale?api-version=2016-02-01.3.0&timeout=30')
+nock('http://jstesteastus2.eastus2.batch.azure.com:443')
+  .post('/pools/xplatTestPool/disableautoscale?api-version=2016-07-01.3.1&timeout=30')
   .reply(200, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 20 May 2016 05:36:34 GMT',
-  etag: '0x8D38070B4943C73',
+  'last-modified': 'Mon, 12 Sep 2016 23:36:13 GMT',
+  etag: '0x8D3DB6595BB9AB0',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'f6897146-67d9-4434-a5b0-a9f945d7463b',
+  'request-id': '8f1f5670-982d-44fc-b516-2ab1345873a6',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'b52ad525-785b-46c0-8f1c-5c6a00409510',
+  'client-request-id': '0eaa1460-5d05-44c1-93e3-668bd1d508ff',
   dataserviceversion: '3.0',
-  dataserviceid: 'https://test1.westus.batch.azure.com/pools/xplatTestPool/disableautoscale',
-  date: 'Fri, 20 May 2016 05:36:34 GMT',
+  dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/disableautoscale',
+  date: 'Mon, 12 Sep 2016 23:36:14 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://test1.westus.batch.azure.com:443')
-  .post('/pools/xplatTestPool/disableautoscale?api-version=2016-02-01.3.0&timeout=30')
+nock('https://jstesteastus2.eastus2.batch.azure.com:443')
+  .post('/pools/xplatTestPool/disableautoscale?api-version=2016-07-01.3.1&timeout=30')
   .reply(200, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 20 May 2016 05:36:34 GMT',
-  etag: '0x8D38070B4943C73',
+  'last-modified': 'Mon, 12 Sep 2016 23:36:13 GMT',
+  etag: '0x8D3DB6595BB9AB0',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'f6897146-67d9-4434-a5b0-a9f945d7463b',
+  'request-id': '8f1f5670-982d-44fc-b516-2ab1345873a6',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'b52ad525-785b-46c0-8f1c-5c6a00409510',
+  'client-request-id': '0eaa1460-5d05-44c1-93e3-668bd1d508ff',
   dataserviceversion: '3.0',
-  dataserviceid: 'https://test1.westus.batch.azure.com/pools/xplatTestPool/disableautoscale',
-  date: 'Fri, 20 May 2016 05:36:34 GMT',
+  dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/disableautoscale',
+  date: 'Mon, 12 Sep 2016 23:36:14 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('http://test1.westus.batch.azure.com:443')
-  .get('/pools/xplatTestPool?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#pools/@Element\",\"id\":\"xplatTestPool\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool\",\"eTag\":\"0x8D38070B4943C73\",\"lastModified\":\"2016-05-20T05:36:34.3678067Z\",\"creationTime\":\"2016-05-20T05:27:04.3621595Z\",\"state\":\"active\",\"stateTransitionTime\":\"2016-05-20T05:27:04.3621595Z\",\"allocationState\":\"resizing\",\"allocationStateTransitionTime\":\"2016-05-20T05:36:34.3678067Z\",\"vmSize\":\"small\",\"resizeTimeout\":\"PT2M\",\"currentDedicated\":3,\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":true,\"startTask\":{\r\n    \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n  },\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n    \"nodeFillType\":\"Spread\"\r\n  },\"cloudServiceConfiguration\":{\r\n    \"osFamily\":\"4\",\"targetOSVersion\":\"*\",\"currentOSVersion\":\"*\"\r\n  }\r\n}", { 'transfer-encoding': 'chunked',
+nock('http://jstesteastus2.eastus2.batch.azure.com:443')
+  .get('/pools/xplatTestPool?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#pools/@Element\",\"id\":\"xplatTestPool\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool\",\"eTag\":\"0x8D3DB6595BB9AB0\",\"lastModified\":\"2016-09-12T23:36:13.965176Z\",\"creationTime\":\"2016-09-08T18:22:24.970271Z\",\"state\":\"active\",\"stateTransitionTime\":\"2016-09-08T18:22:24.970271Z\",\"allocationState\":\"steady\",\"allocationStateTransitionTime\":\"2016-09-12T23:36:15.2924833Z\",\"vmSize\":\"small\",\"resizeTimeout\":\"PT2M\",\"currentDedicated\":3,\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":true,\"startTask\":{\r\n    \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n  },\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n    \"nodeFillType\":\"Spread\"\r\n  },\"cloudServiceConfiguration\":{\r\n    \"osFamily\":\"4\",\"targetOSVersion\":\"*\",\"currentOSVersion\":\"*\"\r\n  }\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
-  'last-modified': 'Fri, 20 May 2016 05:36:34 GMT',
-  etag: '0x8D38070B4943C73',
+  'last-modified': 'Mon, 12 Sep 2016 23:36:13 GMT',
+  etag: '0x8D3DB6595BB9AB0',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '85bcabaa-a5b4-4239-9357-8d50a683a89e',
+  'request-id': '6ba0b889-dffc-4188-b114-1c40448de596',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'd270edf3-3e93-47e2-9284-3d53719ea7b0',
+  'client-request-id': 'ed5f878c-1a16-408c-87e6-e9ee16a4df84',
   dataserviceversion: '3.0',
-  date: 'Fri, 20 May 2016 05:36:36 GMT',
+  date: 'Mon, 12 Sep 2016 23:36:16 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://test1.westus.batch.azure.com:443')
-  .get('/pools/xplatTestPool?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#pools/@Element\",\"id\":\"xplatTestPool\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool\",\"eTag\":\"0x8D38070B4943C73\",\"lastModified\":\"2016-05-20T05:36:34.3678067Z\",\"creationTime\":\"2016-05-20T05:27:04.3621595Z\",\"state\":\"active\",\"stateTransitionTime\":\"2016-05-20T05:27:04.3621595Z\",\"allocationState\":\"resizing\",\"allocationStateTransitionTime\":\"2016-05-20T05:36:34.3678067Z\",\"vmSize\":\"small\",\"resizeTimeout\":\"PT2M\",\"currentDedicated\":3,\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":true,\"startTask\":{\r\n    \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n  },\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n    \"nodeFillType\":\"Spread\"\r\n  },\"cloudServiceConfiguration\":{\r\n    \"osFamily\":\"4\",\"targetOSVersion\":\"*\",\"currentOSVersion\":\"*\"\r\n  }\r\n}", { 'transfer-encoding': 'chunked',
+nock('https://jstesteastus2.eastus2.batch.azure.com:443')
+  .get('/pools/xplatTestPool?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#pools/@Element\",\"id\":\"xplatTestPool\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool\",\"eTag\":\"0x8D3DB6595BB9AB0\",\"lastModified\":\"2016-09-12T23:36:13.965176Z\",\"creationTime\":\"2016-09-08T18:22:24.970271Z\",\"state\":\"active\",\"stateTransitionTime\":\"2016-09-08T18:22:24.970271Z\",\"allocationState\":\"steady\",\"allocationStateTransitionTime\":\"2016-09-12T23:36:15.2924833Z\",\"vmSize\":\"small\",\"resizeTimeout\":\"PT2M\",\"currentDedicated\":3,\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":true,\"startTask\":{\r\n    \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n  },\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n    \"nodeFillType\":\"Spread\"\r\n  },\"cloudServiceConfiguration\":{\r\n    \"osFamily\":\"4\",\"targetOSVersion\":\"*\",\"currentOSVersion\":\"*\"\r\n  }\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
-  'last-modified': 'Fri, 20 May 2016 05:36:34 GMT',
-  etag: '0x8D38070B4943C73',
+  'last-modified': 'Mon, 12 Sep 2016 23:36:13 GMT',
+  etag: '0x8D3DB6595BB9AB0',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '85bcabaa-a5b4-4239-9357-8d50a683a89e',
+  'request-id': '6ba0b889-dffc-4188-b114-1c40448de596',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'd270edf3-3e93-47e2-9284-3d53719ea7b0',
+  'client-request-id': 'ed5f878c-1a16-408c-87e6-e9ee16a4df84',
   dataserviceversion: '3.0',
-  date: 'Fri, 20 May 2016 05:36:36 GMT',
+  date: 'Mon, 12 Sep 2016 23:36:16 GMT',
   connection: 'close' });
  return result; }]];

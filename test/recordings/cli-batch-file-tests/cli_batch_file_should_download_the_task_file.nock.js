@@ -34,36 +34,36 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/jobs/xplatJobForFileTests/tasks/xplatTask/files/wd%2FtaskOut.txt?api-version=2016-02-01.3.0&timeout=30')
+  .get('/jobs/xplatJobForFileTests/tasks/xplatTask/files/wd%2FtaskOut.txt?api-version=2016-07-01.3.1&timeout=30')
   .reply(200, "test \r\n", { 'transfer-encoding': 'chunked',
   'content-type': 'application/octet-stream',
-  'last-modified': 'Mon, 11 Apr 2016 18:52:27 GMT',
+  'last-modified': 'Mon, 12 Sep 2016 23:35:29 GMT',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '765b8f16-663c-425a-ab09-b487c0e38d74',
+  'request-id': 'b3b0d777-1447-4aec-a22a-6338ae51a471',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'dfec4ca8-1000-4c1c-af8c-f55550ef32f5',
+  'client-request-id': '06c7a0c9-e670-4285-9b1e-74ba43fd8efa',
   dataserviceversion: '3.0',
-  'ocp-creation-time': 'Mon, 11 Apr 2016 18:52:27 GMT',
+  'ocp-creation-time': 'Mon, 12 Sep 2016 23:35:29 GMT',
   'ocp-batch-file-isdirectory': 'False',
   'ocp-batch-file-url': 'https%3A%2F%2Fjstesteastus2.eastus2.batch.azure.com%2Fjobs%2FxplatJobForFileTests%2Ftasks%2FxplatTask%2Ffiles%2Fwd%2FtaskOut.txt',
-  date: 'Mon, 11 Apr 2016 18:52:34 GMT',
+  date: 'Mon, 12 Sep 2016 23:35:36 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/jobs/xplatJobForFileTests/tasks/xplatTask/files/wd%2FtaskOut.txt?api-version=2016-02-01.3.0&timeout=30')
+  .get('/jobs/xplatJobForFileTests/tasks/xplatTask/files/wd%2FtaskOut.txt?api-version=2016-07-01.3.1&timeout=30')
   .reply(200, "test \r\n", { 'transfer-encoding': 'chunked',
   'content-type': 'application/octet-stream',
-  'last-modified': 'Mon, 11 Apr 2016 18:52:27 GMT',
+  'last-modified': 'Mon, 12 Sep 2016 23:35:29 GMT',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '765b8f16-663c-425a-ab09-b487c0e38d74',
+  'request-id': 'b3b0d777-1447-4aec-a22a-6338ae51a471',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'dfec4ca8-1000-4c1c-af8c-f55550ef32f5',
+  'client-request-id': '06c7a0c9-e670-4285-9b1e-74ba43fd8efa',
   dataserviceversion: '3.0',
-  'ocp-creation-time': 'Mon, 11 Apr 2016 18:52:27 GMT',
+  'ocp-creation-time': 'Mon, 12 Sep 2016 23:35:29 GMT',
   'ocp-batch-file-isdirectory': 'False',
   'ocp-batch-file-url': 'https%3A%2F%2Fjstesteastus2.eastus2.batch.azure.com%2Fjobs%2FxplatJobForFileTests%2Ftasks%2FxplatTask%2Ffiles%2Fwd%2FtaskOut.txt',
-  date: 'Mon, 11 Apr 2016 18:52:34 GMT',
+  date: 'Mon, 12 Sep 2016 23:35:36 GMT',
   connection: 'close' });
  return result; }]];

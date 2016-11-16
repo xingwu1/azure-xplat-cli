@@ -13,21 +13,21 @@ commands/cli.account.environment-tests.js
 commands/cli.account.affinitygroup-tests.js
 commands/cli.help-tests.js
 commands/cli.telemetry-test.js
-commands/cli.mobile-tests.js
-commands/cli.mobile.api-tests.js
-commands/cli.mobile.appsetting-tests.js
-commands/cli.mobile.auth-tests.js
-commands/cli.mobile.config-tests.js
-commands/cli.mobile.domain-tests.js
-commands/cli.mobile.job-tests.js
-commands/cli.mobile.key-tests.js
-commands/cli.mobile.log-tests.js
-commands/cli.mobile.preview-tests.js
-commands/cli.mobile.push-tests.js
-commands/cli.mobile.scale-tests.js
-commands/cli.mobile.script-tests.js
-commands/cli.mobile.table-tests.js
-commands/cli.mobilerecover-tests.js
+#commands/cli.mobile-tests.js
+#commands/cli.mobile.api-tests.js
+#commands/cli.mobile.appsetting-tests.js
+#commands/cli.mobile.auth-tests.js
+#commands/cli.mobile.config-tests.js
+#commands/cli.mobile.domain-tests.js
+#commands/cli.mobile.job-tests.js
+#commands/cli.mobile.key-tests.js
+#commands/cli.mobile.log-tests.js
+#commands/cli.mobile.preview-tests.js
+#commands/cli.mobile.push-tests.js
+#commands/cli.mobile.scale-tests.js
+#commands/cli.mobile.script-tests.js
+#commands/cli.mobile.table-tests.js
+#commands/cli.mobilerecover-tests.js
 commands/cli.sb-tests.js
 commands/cli.service-tests.js
 commands/cli.service.cert-tests.js
@@ -53,6 +53,7 @@ commands/cli.network.application-gateway.js
 commands/cli.network.application.gateway-config.js
 commands/cli.network.route-table.js
 commands/cli.network.traffic-manager-profile.js
+commands/cli.network.migration-tests.js
 include:./testlist-vm.txt
 commands/cli.vm.create_loc_vnet_vm-tests.js
 # TODO: The test should be able to create a vm and delete it. It expects a vm is already there.
@@ -65,7 +66,6 @@ commands/cli.vm.create_staticvm_neg-tests.js
 commands/cli.vm.extension-tests.js
 commands/cli.vm.extension_get-tests.js
 commands/cli.vm.extension_get-chef-tests.js
-commands/cli.vm.extension_set-tests.js
 commands/cli.vm.extension_set-custom_disable.js
 commands/cli.vm.extension_set-chef.js
 commands/cli.vm.loadbalancer-tests.js
@@ -74,6 +74,7 @@ commands/cli.vm.create_staticvm-tests.js
 commands/cli.vm.staticvm_create-from-tests.js
 commands/cli.vm.staticvm_docker-tests.js
 commands/cli.vm.create_docker-tests.js
+#commands/cli.servicefabric-tests.js
 commands/cli.sql-tests.js
 commands/cli.storage.account-tests.js
 commands/cli.storage.blob-tests.js
@@ -112,3 +113,4 @@ util/authentication/win-credstore-parser-tests.js
 # Testing token cache class which works with adal-node
 util/authentication/token-cache-tests.js
 util/authentication/token-storage-tests.js
+util/interaction-tests.js

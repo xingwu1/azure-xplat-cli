@@ -6,8 +6,12 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: '6e0b24a6-2bef-4598-9bd3-f87e9700e24c',
-    name: 'Windows Azure Internal Consumption',
+    id: '46241355-bb95-46a9-ba6c-42b554d71925',
+    managementCertificate: {
+      key: 'mockedKey',
+      cert: 'mockedCert'
+    },
+    name: 'Microsoft Azure Internal Consumption',
     user: {
       name: 'user@domain.example',
       type: 'user'
@@ -23,69 +27,69 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_BATCH_ACCOUNT'] = 'test1';
-  process.env['AZURE_BATCH_ENDPOINT'] = 'https://test1.westus.batch.azure.com';
+  process.env['AZURE_BATCH_ACCOUNT'] = 'jstesteastus2';
+  process.env['AZURE_BATCH_ENDPOINT'] = 'https://jstesteastus2.eastus2.batch.azure.com';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://test1.westus.batch.azure.com:443')
-  .get('/pools/xplatTestPool/nodes?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#nodes\",\"value\":[\r\n    {\r\n      \"id\":\"tvm-3426989531_1-20160520t052823z\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool/nodes/tvm-3426989531_1-20160520t052823z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-05-20T05:31:28.3987593Z\",\"lastBootTime\":\"2016-05-20T05:31:26.984701Z\",\"allocationTime\":\"2016-05-20T05:28:23.7264525Z\",\"ipAddress\":\"100.83.80.56\",\"affinityId\":\"TVM:tvm-3426989531_1-20160520t052823z\",\"vmSize\":\"small\",\"totalTasksRun\":3,\"totalTasksSucceeded\":1,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-05-20T05:31:28.2457495Z\",\"endTime\":\"2016-05-20T05:31:28.3987593Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3426989531_2-20160520t052823z\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool/nodes/tvm-3426989531_2-20160520t052823z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-05-20T05:31:30.2132762Z\",\"lastBootTime\":\"2016-05-20T05:31:28.8262596Z\",\"allocationTime\":\"2016-05-20T05:28:23.7264525Z\",\"ipAddress\":\"100.83.118.32\",\"affinityId\":\"TVM:tvm-3426989531_2-20160520t052823z\",\"vmSize\":\"small\",\"totalTasksRun\":2,\"totalTasksSucceeded\":2,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-05-20T05:31:30.0182717Z\",\"endTime\":\"2016-05-20T05:31:30.2132762Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3426989531_3-20160520t052823z\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool/nodes/tvm-3426989531_3-20160520t052823z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-05-20T05:31:38.7874094Z\",\"lastBootTime\":\"2016-05-20T05:31:37.5673877Z\",\"allocationTime\":\"2016-05-20T05:28:23.7264525Z\",\"ipAddress\":\"100.83.92.46\",\"affinityId\":\"TVM:tvm-3426989531_3-20160520t052823z\",\"vmSize\":\"small\",\"totalTasksRun\":2,\"totalTasksSucceeded\":2,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-05-20T05:31:38.649408Z\",\"endTime\":\"2016-05-20T05:31:38.7874094Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
+nock('http://jstesteastus2.eastus2.batch.azure.com:443')
+  .get('/pools/xplatTestPool/nodes?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#nodes\",\"value\":[\r\n    {\r\n      \"id\":\"tvm-3850571994_1-20160908t182327z\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/nodes/tvm-3850571994_1-20160908t182327z\",\"state\":\"rebooting\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-09-12T23:35:50.641071Z\",\"lastBootTime\":\"2016-09-08T18:29:42.3920502Z\",\"allocationTime\":\"2016-09-08T18:23:27.9145685Z\",\"ipAddress\":\"100.72.172.87\",\"affinityId\":\"TVM:tvm-3850571994_1-20160908t182327z\",\"vmSize\":\"small\",\"totalTasksRun\":6,\"totalTasksSucceeded\":2,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-09-08T18:29:44.4090618Z\",\"endTime\":\"2016-09-08T18:29:44.6060647Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3850571994_2-20160908t182327z\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/nodes/tvm-3850571994_2-20160908t182327z\",\"state\":\"reimaging\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-09-12T23:35:51.8875427Z\",\"lastBootTime\":\"2016-09-08T18:27:14.8054608Z\",\"allocationTime\":\"2016-09-08T18:23:27.9145685Z\",\"ipAddress\":\"100.72.220.50\",\"affinityId\":\"TVM:tvm-3850571994_2-20160908t182327z\",\"vmSize\":\"small\",\"totalTasksRun\":3,\"totalTasksSucceeded\":0,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-09-08T18:27:17.011462Z\",\"endTime\":\"2016-09-08T18:27:17.2014649Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3850571994_3-20160908t182327z\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/nodes/tvm-3850571994_3-20160908t182327z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-09-08T18:30:16.6522661Z\",\"lastBootTime\":\"2016-09-08T18:30:15.0450767Z\",\"allocationTime\":\"2016-09-08T18:23:27.9145685Z\",\"ipAddress\":\"100.72.210.80\",\"affinityId\":\"TVM:tvm-3850571994_3-20160908t182327z\",\"vmSize\":\"small\",\"totalTasksRun\":4,\"totalTasksSucceeded\":1,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-09-08T18:30:16.5272648Z\",\"endTime\":\"2016-09-08T18:30:16.6522661Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'd17c055c-b4e9-42ee-a503-aca2e4c0ac21',
+  'request-id': '0a0d2c6a-9433-44de-822d-7b97d5c311fd',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'a74fde9f-e3cf-409a-8921-fb8ef6115b3c',
+  'client-request-id': '460768b5-5aaa-45a8-8483-ce8fbc5cc64c',
   dataserviceversion: '3.0',
-  date: 'Fri, 20 May 2016 05:36:41 GMT',
+  date: 'Mon, 12 Sep 2016 23:36:23 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://test1.westus.batch.azure.com:443')
-  .get('/pools/xplatTestPool/nodes?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#nodes\",\"value\":[\r\n    {\r\n      \"id\":\"tvm-3426989531_1-20160520t052823z\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool/nodes/tvm-3426989531_1-20160520t052823z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-05-20T05:31:28.3987593Z\",\"lastBootTime\":\"2016-05-20T05:31:26.984701Z\",\"allocationTime\":\"2016-05-20T05:28:23.7264525Z\",\"ipAddress\":\"100.83.80.56\",\"affinityId\":\"TVM:tvm-3426989531_1-20160520t052823z\",\"vmSize\":\"small\",\"totalTasksRun\":3,\"totalTasksSucceeded\":1,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-05-20T05:31:28.2457495Z\",\"endTime\":\"2016-05-20T05:31:28.3987593Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3426989531_2-20160520t052823z\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool/nodes/tvm-3426989531_2-20160520t052823z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-05-20T05:31:30.2132762Z\",\"lastBootTime\":\"2016-05-20T05:31:28.8262596Z\",\"allocationTime\":\"2016-05-20T05:28:23.7264525Z\",\"ipAddress\":\"100.83.118.32\",\"affinityId\":\"TVM:tvm-3426989531_2-20160520t052823z\",\"vmSize\":\"small\",\"totalTasksRun\":2,\"totalTasksSucceeded\":2,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-05-20T05:31:30.0182717Z\",\"endTime\":\"2016-05-20T05:31:30.2132762Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3426989531_3-20160520t052823z\",\"url\":\"https://test1.westus.batch.azure.com/pools/xplatTestPool/nodes/tvm-3426989531_3-20160520t052823z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-05-20T05:31:38.7874094Z\",\"lastBootTime\":\"2016-05-20T05:31:37.5673877Z\",\"allocationTime\":\"2016-05-20T05:28:23.7264525Z\",\"ipAddress\":\"100.83.92.46\",\"affinityId\":\"TVM:tvm-3426989531_3-20160520t052823z\",\"vmSize\":\"small\",\"totalTasksRun\":2,\"totalTasksSucceeded\":2,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-05-20T05:31:38.649408Z\",\"endTime\":\"2016-05-20T05:31:38.7874094Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
+nock('https://jstesteastus2.eastus2.batch.azure.com:443')
+  .get('/pools/xplatTestPool/nodes?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#nodes\",\"value\":[\r\n    {\r\n      \"id\":\"tvm-3850571994_1-20160908t182327z\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/nodes/tvm-3850571994_1-20160908t182327z\",\"state\":\"rebooting\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-09-12T23:35:50.641071Z\",\"lastBootTime\":\"2016-09-08T18:29:42.3920502Z\",\"allocationTime\":\"2016-09-08T18:23:27.9145685Z\",\"ipAddress\":\"100.72.172.87\",\"affinityId\":\"TVM:tvm-3850571994_1-20160908t182327z\",\"vmSize\":\"small\",\"totalTasksRun\":6,\"totalTasksSucceeded\":2,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-09-08T18:29:44.4090618Z\",\"endTime\":\"2016-09-08T18:29:44.6060647Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3850571994_2-20160908t182327z\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/nodes/tvm-3850571994_2-20160908t182327z\",\"state\":\"reimaging\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-09-12T23:35:51.8875427Z\",\"lastBootTime\":\"2016-09-08T18:27:14.8054608Z\",\"allocationTime\":\"2016-09-08T18:23:27.9145685Z\",\"ipAddress\":\"100.72.220.50\",\"affinityId\":\"TVM:tvm-3850571994_2-20160908t182327z\",\"vmSize\":\"small\",\"totalTasksRun\":3,\"totalTasksSucceeded\":0,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-09-08T18:27:17.011462Z\",\"endTime\":\"2016-09-08T18:27:17.2014649Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    },{\r\n      \"id\":\"tvm-3850571994_3-20160908t182327z\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/nodes/tvm-3850571994_3-20160908t182327z\",\"state\":\"idle\",\"schedulingState\":\"enabled\",\"stateTransitionTime\":\"2016-09-08T18:30:16.6522661Z\",\"lastBootTime\":\"2016-09-08T18:30:15.0450767Z\",\"allocationTime\":\"2016-09-08T18:23:27.9145685Z\",\"ipAddress\":\"100.72.210.80\",\"affinityId\":\"TVM:tvm-3850571994_3-20160908t182327z\",\"vmSize\":\"small\",\"totalTasksRun\":4,\"totalTasksSucceeded\":1,\"runningTasksCount\":0,\"startTask\":{\r\n        \"commandLine\":\"cmd /c echo test\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":true\r\n      },\"startTaskInfo\":{\r\n        \"state\":\"completed\",\"startTime\":\"2016-09-08T18:30:16.5272648Z\",\"endTime\":\"2016-09-08T18:30:16.6522661Z\",\"exitCode\":0,\"retryCount\":0\r\n      }\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'd17c055c-b4e9-42ee-a503-aca2e4c0ac21',
+  'request-id': '0a0d2c6a-9433-44de-822d-7b97d5c311fd',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'a74fde9f-e3cf-409a-8921-fb8ef6115b3c',
+  'client-request-id': '460768b5-5aaa-45a8-8483-ce8fbc5cc64c',
   dataserviceversion: '3.0',
-  date: 'Fri, 20 May 2016 05:36:41 GMT',
+  date: 'Mon, 12 Sep 2016 23:36:23 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('http://test1.westus.batch.azure.com:443')
+nock('http://jstesteastus2.eastus2.batch.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.post('/pools/xplatTestPool/removenodes?api-version=2016-02-01.3.0&timeout=30', '*')
+.post('/pools/xplatTestPool/removenodes?api-version=2016-07-01.3.1&timeout=30', '*')
   .reply(202, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 20 May 2016 05:36:42 GMT',
-  etag: '0x8D38070B98B9B9A',
+  'last-modified': 'Mon, 12 Sep 2016 23:36:23 GMT',
+  etag: '0x8D3DB659B39C56A',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '2fd72dbb-3b44-4387-a449-4e4a1a7c62b4',
+  'request-id': '69a7001b-2caa-4e59-9bf7-5f728c4182e3',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '52a2ba70-4429-4590-b588-a9fa44df4e12',
+  'client-request-id': 'f4409723-ceee-4ea8-a1f7-2e4d3e7339ec',
   dataserviceversion: '3.0',
-  dataserviceid: 'https://test1.westus.batch.azure.com/pools/xplatTestPool/removenodes',
-  date: 'Fri, 20 May 2016 05:36:43 GMT',
+  dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/removenodes',
+  date: 'Mon, 12 Sep 2016 23:36:23 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://test1.westus.batch.azure.com:443')
+nock('https://jstesteastus2.eastus2.batch.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.post('/pools/xplatTestPool/removenodes?api-version=2016-02-01.3.0&timeout=30', '*')
+.post('/pools/xplatTestPool/removenodes?api-version=2016-07-01.3.1&timeout=30', '*')
   .reply(202, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 20 May 2016 05:36:42 GMT',
-  etag: '0x8D38070B98B9B9A',
+  'last-modified': 'Mon, 12 Sep 2016 23:36:23 GMT',
+  etag: '0x8D3DB659B39C56A',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '2fd72dbb-3b44-4387-a449-4e4a1a7c62b4',
+  'request-id': '69a7001b-2caa-4e59-9bf7-5f728c4182e3',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '52a2ba70-4429-4590-b588-a9fa44df4e12',
+  'client-request-id': 'f4409723-ceee-4ea8-a1f7-2e4d3e7339ec',
   dataserviceversion: '3.0',
-  dataserviceid: 'https://test1.westus.batch.azure.com/pools/xplatTestPool/removenodes',
-  date: 'Fri, 20 May 2016 05:36:43 GMT',
+  dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/removenodes',
+  date: 'Mon, 12 Sep 2016 23:36:23 GMT',
   connection: 'close' });
  return result; }]];

@@ -34,64 +34,64 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://jstesteastus2.eastus2.batch.azure.com:443')
-  .post('/jobschedules/xplatJobSchedule/terminate?api-version=2016-02-01.3.0&timeout=30')
+  .post('/jobschedules/xplatJobSchedule/terminate?api-version=2016-07-01.3.1&timeout=30')
   .reply(202, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 15 Apr 2016 19:01:53 GMT',
-  etag: '0x8D3656068A6A900',
+  'last-modified': 'Mon, 12 Sep 2016 23:31:36 GMT',
+  etag: '0x8D3DB64F06EB599',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'b690ceb5-eb81-435b-b583-0d75ad6b0a13',
+  'request-id': '38528706-668b-4277-8090-4d32af61df39',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '0a54bda1-8689-4165-9ef7-cd7621a30736',
+  'client-request-id': '89c687f8-58e9-4add-96a5-eb63a799e46d',
   dataserviceversion: '3.0',
   dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/jobschedules/xplatJobSchedule/terminate',
-  date: 'Fri, 15 Apr 2016 19:01:52 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:36 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://jstesteastus2.eastus2.batch.azure.com:443')
-  .post('/jobschedules/xplatJobSchedule/terminate?api-version=2016-02-01.3.0&timeout=30')
+  .post('/jobschedules/xplatJobSchedule/terminate?api-version=2016-07-01.3.1&timeout=30')
   .reply(202, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 15 Apr 2016 19:01:53 GMT',
-  etag: '0x8D3656068A6A900',
+  'last-modified': 'Mon, 12 Sep 2016 23:31:36 GMT',
+  etag: '0x8D3DB64F06EB599',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'b690ceb5-eb81-435b-b583-0d75ad6b0a13',
+  'request-id': '38528706-668b-4277-8090-4d32af61df39',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '0a54bda1-8689-4165-9ef7-cd7621a30736',
+  'client-request-id': '89c687f8-58e9-4add-96a5-eb63a799e46d',
   dataserviceversion: '3.0',
   dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/jobschedules/xplatJobSchedule/terminate',
-  date: 'Fri, 15 Apr 2016 19:01:52 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:36 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('http://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/jobschedules/xplatJobSchedule?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#jobschedules/@Element\",\"id\":\"xplatJobSchedule\",\"displayName\":\"displayName\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobschedules/xplatJobSchedule\",\"eTag\":\"0x8D3656068A6A900\",\"lastModified\":\"2016-04-15T19:01:53.63904Z\",\"creationTime\":\"2016-04-15T19:01:48.2246834Z\",\"state\":\"completed\",\"stateTransitionTime\":\"2016-04-15T19:01:53.7290382Z\",\"previousState\":\"active\",\"previousStateTransitionTime\":\"2016-04-15T19:01:51.1775263Z\",\"schedule\":{\r\n    \"startWindow\":\"P2D\",\"recurrenceInterval\":\"P1D\"\r\n  },\"jobSpecification\":{\r\n    \"displayName\":\"jobSpecDisplayName2\",\"priority\":1,\"usesTaskDependencies\":false,\"constraints\":{\r\n      \"maxWallClockTime\":\"P1D\",\"maxTaskRetryCount\":5\r\n    },\"jobManagerTask\":{\r\n      \"id\":\"jobManager2\",\"displayName\":\"jobManagerDisplay\",\"commandLine\":\"cmd /c dir /s\",\"resourceFiles\":[\r\n        {\r\n          \"blobSource\":\"https://testacct.blob.core.windows.net/\",\"filePath\":\"filePath\"\r\n        }\r\n      ],\"constraints\":{\r\n        \"maxWallClockTime\":\"P10675199DT2H48M5.4775807S\",\"retentionTime\":\"P10675199DT2H48M5.4775807S\",\"maxTaskRetryCount\":5\r\n      },\"runElevated\":false,\"runExclusive\":true,\"killJobOnCompletion\":false\r\n    },\"poolInfo\":{\r\n      \"autoPoolSpecification\":{\r\n        \"autoPoolIdPrefix\":\"TestSpecPrefix\",\"poolLifetimeOption\":\"jobschedule\",\"keepAlive\":false,\"pool\":{\r\n          \"vmSize\":\"small\",\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n            \"nodeFillType\":\"Spread\"\r\n          },\"resizeTimeout\":\"PT15M\",\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":false,\"startTask\":{\r\n            \"commandLine\":\"cmd /c dir /s\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":false\r\n          },\"cloudServiceConfiguration\":{\r\n            \"osFamily\":\"4\",\"targetOSVersion\":\"*\"\r\n          }\r\n        }\r\n      }\r\n    }\r\n  },\"executionInfo\":{\r\n    \"recentJob\":{\r\n      \"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobs/xplatJobSchedule:job-1\",\"id\":\"xplatJobSchedule:job-1\"\r\n    },\"endTime\":\"2016-04-15T19:01:53.7290382Z\"\r\n  },\"metadata\":[\r\n    {\r\n      \"name\":\"meta3\",\"value\":\"value3\"\r\n    },{\r\n      \"name\":\"meta4\",\"value\":\"value4\"\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
+  .get('/jobschedules/xplatJobSchedule?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#jobschedules/@Element\",\"id\":\"xplatJobSchedule\",\"displayName\":\"displayName\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobschedules/xplatJobSchedule\",\"eTag\":\"0x8D3DB64F06EB599\",\"lastModified\":\"2016-09-12T23:31:36.6371737Z\",\"creationTime\":\"2016-09-12T23:31:29.060485Z\",\"state\":\"completed\",\"stateTransitionTime\":\"2016-09-12T23:31:36.6468404Z\",\"previousState\":\"active\",\"previousStateTransitionTime\":\"2016-09-12T23:31:32.702186Z\",\"schedule\":{\r\n    \"startWindow\":\"P2D\",\"recurrenceInterval\":\"P1D\"\r\n  },\"jobSpecification\":{\r\n    \"displayName\":\"jobSpecDisplayName2\",\"priority\":1,\"usesTaskDependencies\":false,\"constraints\":{\r\n      \"maxWallClockTime\":\"P1D\",\"maxTaskRetryCount\":5\r\n    },\"jobManagerTask\":{\r\n      \"id\":\"jobManager2\",\"displayName\":\"jobManagerDisplay\",\"commandLine\":\"cmd /c dir /s\",\"resourceFiles\":[\r\n        {\r\n          \"blobSource\":\"https://testacct.blob.core.windows.net/\",\"filePath\":\"filePath\"\r\n        }\r\n      ],\"constraints\":{\r\n        \"maxWallClockTime\":\"P10675199DT2H48M5.4775807S\",\"retentionTime\":\"P10675199DT2H48M5.4775807S\",\"maxTaskRetryCount\":5\r\n      },\"runElevated\":false,\"runExclusive\":true,\"killJobOnCompletion\":false\r\n    },\"poolInfo\":{\r\n      \"autoPoolSpecification\":{\r\n        \"autoPoolIdPrefix\":\"TestSpecPrefix\",\"poolLifetimeOption\":\"jobschedule\",\"keepAlive\":false,\"pool\":{\r\n          \"vmSize\":\"small\",\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n            \"nodeFillType\":\"Spread\"\r\n          },\"resizeTimeout\":\"PT15M\",\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":false,\"startTask\":{\r\n            \"commandLine\":\"cmd /c dir /s\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":false\r\n          },\"cloudServiceConfiguration\":{\r\n            \"osFamily\":\"4\",\"targetOSVersion\":\"*\"\r\n          }\r\n        }\r\n      }\r\n    }\r\n  },\"executionInfo\":{\r\n    \"recentJob\":{\r\n      \"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobs/xplatJobSchedule:job-1\",\"id\":\"xplatJobSchedule:job-1\"\r\n    },\"endTime\":\"2016-09-12T23:31:36.6468404Z\"\r\n  },\"metadata\":[\r\n    {\r\n      \"name\":\"meta3\",\"value\":\"value3\"\r\n    },{\r\n      \"name\":\"meta4\",\"value\":\"value4\"\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
-  'last-modified': 'Fri, 15 Apr 2016 19:01:53 GMT',
-  etag: '0x8D3656068A6A900',
+  'last-modified': 'Mon, 12 Sep 2016 23:31:36 GMT',
+  etag: '0x8D3DB64F06EB599',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'd198c786-e533-4c3b-a305-ea60a9bde78b',
+  'request-id': '62008af1-599b-4056-85e4-fa87a5d607a7',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'd1b7ebae-05f7-4c7d-bd88-4733ddf0e994',
+  'client-request-id': 'e4a981c8-1f1d-499c-8dc1-e75642c357ac',
   dataserviceversion: '3.0',
-  date: 'Fri, 15 Apr 2016 19:01:53 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:37 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/jobschedules/xplatJobSchedule?api-version=2016-02-01.3.0&timeout=30')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#jobschedules/@Element\",\"id\":\"xplatJobSchedule\",\"displayName\":\"displayName\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobschedules/xplatJobSchedule\",\"eTag\":\"0x8D3656068A6A900\",\"lastModified\":\"2016-04-15T19:01:53.63904Z\",\"creationTime\":\"2016-04-15T19:01:48.2246834Z\",\"state\":\"completed\",\"stateTransitionTime\":\"2016-04-15T19:01:53.7290382Z\",\"previousState\":\"active\",\"previousStateTransitionTime\":\"2016-04-15T19:01:51.1775263Z\",\"schedule\":{\r\n    \"startWindow\":\"P2D\",\"recurrenceInterval\":\"P1D\"\r\n  },\"jobSpecification\":{\r\n    \"displayName\":\"jobSpecDisplayName2\",\"priority\":1,\"usesTaskDependencies\":false,\"constraints\":{\r\n      \"maxWallClockTime\":\"P1D\",\"maxTaskRetryCount\":5\r\n    },\"jobManagerTask\":{\r\n      \"id\":\"jobManager2\",\"displayName\":\"jobManagerDisplay\",\"commandLine\":\"cmd /c dir /s\",\"resourceFiles\":[\r\n        {\r\n          \"blobSource\":\"https://testacct.blob.core.windows.net/\",\"filePath\":\"filePath\"\r\n        }\r\n      ],\"constraints\":{\r\n        \"maxWallClockTime\":\"P10675199DT2H48M5.4775807S\",\"retentionTime\":\"P10675199DT2H48M5.4775807S\",\"maxTaskRetryCount\":5\r\n      },\"runElevated\":false,\"runExclusive\":true,\"killJobOnCompletion\":false\r\n    },\"poolInfo\":{\r\n      \"autoPoolSpecification\":{\r\n        \"autoPoolIdPrefix\":\"TestSpecPrefix\",\"poolLifetimeOption\":\"jobschedule\",\"keepAlive\":false,\"pool\":{\r\n          \"vmSize\":\"small\",\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n            \"nodeFillType\":\"Spread\"\r\n          },\"resizeTimeout\":\"PT15M\",\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":false,\"startTask\":{\r\n            \"commandLine\":\"cmd /c dir /s\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":false\r\n          },\"cloudServiceConfiguration\":{\r\n            \"osFamily\":\"4\",\"targetOSVersion\":\"*\"\r\n          }\r\n        }\r\n      }\r\n    }\r\n  },\"executionInfo\":{\r\n    \"recentJob\":{\r\n      \"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobs/xplatJobSchedule:job-1\",\"id\":\"xplatJobSchedule:job-1\"\r\n    },\"endTime\":\"2016-04-15T19:01:53.7290382Z\"\r\n  },\"metadata\":[\r\n    {\r\n      \"name\":\"meta3\",\"value\":\"value3\"\r\n    },{\r\n      \"name\":\"meta4\",\"value\":\"value4\"\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
+  .get('/jobschedules/xplatJobSchedule?api-version=2016-07-01.3.1&timeout=30')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#jobschedules/@Element\",\"id\":\"xplatJobSchedule\",\"displayName\":\"displayName\",\"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobschedules/xplatJobSchedule\",\"eTag\":\"0x8D3DB64F06EB599\",\"lastModified\":\"2016-09-12T23:31:36.6371737Z\",\"creationTime\":\"2016-09-12T23:31:29.060485Z\",\"state\":\"completed\",\"stateTransitionTime\":\"2016-09-12T23:31:36.6468404Z\",\"previousState\":\"active\",\"previousStateTransitionTime\":\"2016-09-12T23:31:32.702186Z\",\"schedule\":{\r\n    \"startWindow\":\"P2D\",\"recurrenceInterval\":\"P1D\"\r\n  },\"jobSpecification\":{\r\n    \"displayName\":\"jobSpecDisplayName2\",\"priority\":1,\"usesTaskDependencies\":false,\"constraints\":{\r\n      \"maxWallClockTime\":\"P1D\",\"maxTaskRetryCount\":5\r\n    },\"jobManagerTask\":{\r\n      \"id\":\"jobManager2\",\"displayName\":\"jobManagerDisplay\",\"commandLine\":\"cmd /c dir /s\",\"resourceFiles\":[\r\n        {\r\n          \"blobSource\":\"https://testacct.blob.core.windows.net/\",\"filePath\":\"filePath\"\r\n        }\r\n      ],\"constraints\":{\r\n        \"maxWallClockTime\":\"P10675199DT2H48M5.4775807S\",\"retentionTime\":\"P10675199DT2H48M5.4775807S\",\"maxTaskRetryCount\":5\r\n      },\"runElevated\":false,\"runExclusive\":true,\"killJobOnCompletion\":false\r\n    },\"poolInfo\":{\r\n      \"autoPoolSpecification\":{\r\n        \"autoPoolIdPrefix\":\"TestSpecPrefix\",\"poolLifetimeOption\":\"jobschedule\",\"keepAlive\":false,\"pool\":{\r\n          \"vmSize\":\"small\",\"maxTasksPerNode\":1,\"taskSchedulingPolicy\":{\r\n            \"nodeFillType\":\"Spread\"\r\n          },\"resizeTimeout\":\"PT15M\",\"targetDedicated\":3,\"enableAutoScale\":false,\"enableInterNodeCommunication\":false,\"startTask\":{\r\n            \"commandLine\":\"cmd /c dir /s\",\"runElevated\":false,\"maxTaskRetryCount\":0,\"waitForSuccess\":false\r\n          },\"cloudServiceConfiguration\":{\r\n            \"osFamily\":\"4\",\"targetOSVersion\":\"*\"\r\n          }\r\n        }\r\n      }\r\n    }\r\n  },\"executionInfo\":{\r\n    \"recentJob\":{\r\n      \"url\":\"https://jstesteastus2.eastus2.batch.azure.com/jobs/xplatJobSchedule:job-1\",\"id\":\"xplatJobSchedule:job-1\"\r\n    },\"endTime\":\"2016-09-12T23:31:36.6468404Z\"\r\n  },\"metadata\":[\r\n    {\r\n      \"name\":\"meta3\",\"value\":\"value3\"\r\n    },{\r\n      \"name\":\"meta4\",\"value\":\"value4\"\r\n    }\r\n  ]\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
-  'last-modified': 'Fri, 15 Apr 2016 19:01:53 GMT',
-  etag: '0x8D3656068A6A900',
+  'last-modified': 'Mon, 12 Sep 2016 23:31:36 GMT',
+  etag: '0x8D3DB64F06EB599',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'd198c786-e533-4c3b-a305-ea60a9bde78b',
+  'request-id': '62008af1-599b-4056-85e4-fa87a5d607a7',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': 'd1b7ebae-05f7-4c7d-bd88-4733ddf0e994',
+  'client-request-id': 'e4a981c8-1f1d-499c-8dc1-e75642c357ac',
   dataserviceversion: '3.0',
-  date: 'Fri, 15 Apr 2016 19:01:53 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:37 GMT',
   connection: 'close' });
  return result; }]];
