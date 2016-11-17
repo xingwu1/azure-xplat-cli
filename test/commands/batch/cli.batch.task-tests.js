@@ -29,8 +29,9 @@ var updateJsonFilePath = path.resolve(__dirname, '../../data/batchUpdateTask.jso
 var createMultipleJsonFilePath = path.resolve(__dirname, '../../data/batchCreateMultiTasks.json');
 
 var requiredEnvironment = [
-  { name: 'AZURE_BATCH_ACCOUNT', defaultValue: 'defaultaccount' },
-  { name: 'AZURE_BATCH_ENDPOINT', defaultValue: 'https://defaultaccount.westus.batch.azure.com' }
+  { name: 'AZURE_BATCH_ACCOUNT' },
+  { name: 'AZURE_BATCH_ENDPOINT' }
+  //Note we do not include AZURE_BATCH_ACCESS_KEY here because then it would be recorded
 ];
 
 var testPrefix = 'cli-batch-task-tests';
@@ -227,6 +228,39 @@ describe('cli', function () {
           originalTask.state.should.equal('completed');
           done();
         });
+      });
+    });
+
+    it('should reactivate the task', function (done) {
+      var reactivateTaskId = 'reactivateTask';
+      // Create a task which will fail with exit code 1
+      suite.execute('batch task create %s -i %s -c %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
+        reactivateTaskId, 'cmd /c dir abc.123', batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+        result.exitStatus.should.equal(0);
+        
+        setTimeout(function () {
+          suite.execute('batch task show %s %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, reactivateTaskId,
+            batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+            result.exitStatus.should.equal(0);
+            var failedTask = JSON.parse(result.text);
+            failedTask.state.should.equal('completed');
+            failedTask.executionInfo.should.not.be.null;
+            failedTask.executionInfo.exitCode.should.equal(1);
+            
+            suite.execute('batch task reactivate %s %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
+              reactivateTaskId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+              result.exitStatus.should.equal(0);
+
+              suite.execute('batch task show %s %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, reactivateTaskId,
+                batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+                result.exitStatus.should.equal(0);
+                var reactivatedTask = JSON.parse(result.text);
+                reactivatedTask.state.should.equal('active');
+                done();
+              });
+            });
+          });
+        }, suite.isPlayback() ? 0 : 10000);
       });
     });
     

@@ -14,8 +14,7 @@ exports.getMockedProfile = function () {
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
     state: 'Enabled',
-    registeredProviders: [],
-    _eventsCount: '1',
+    registeredProviders: ['mobileservice'],
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -28,37 +27,18 @@ exports.setEnvironment = function() {
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://management.azure.com:443')
-  .get('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces?api-version=2016-03-30')
-  .reply(200, "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"test-nic\",\r\n      \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces/test-nic\",\r\n      \"etag\": \"W/\\\"dbed4956-cd49-4ed3-b95e-920f7c64bfd8\\\"\",\r\n      \"type\": \"Microsoft.Network/networkInterfaces\",\r\n      \"location\": \"eastus\",\r\n      \"tags\": {\r\n        \"tag1\": \"aaa\",\r\n        \"tag2\": \"bbb\",\r\n        \"tag3\": \"ccc\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"37db75f4-8722-466b-9cc9-3540757c0577\",\r\n        \"ipConfigurations\": [\r\n          {\r\n            \"name\": \"default-ip-config\",\r\n            \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/default-ip-config\",\r\n            \"etag\": \"W/\\\"dbed4956-cd49-4ed3-b95e-920f7c64bfd8\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"privateIPAddress\": \"10.0.0.22\",\r\n              \"privateIPAllocationMethod\": \"Static\",\r\n              \"publicIPAddress\": {\r\n                \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/publicIPAddresses/test-ip\"\r\n              },\r\n              \"subnet\": {\r\n                \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-subnet\"\r\n              },\r\n              \"primary\": true,\r\n              \"privateIPAddressVersion\": \"IPv4\"\r\n            }\r\n          }\r\n        ],\r\n        \"dnsSettings\": {\r\n          \"dnsServers\": [],\r\n          \"appliedDnsServers\": [],\r\n          \"internalDnsNameLabel\": \"internal-dns-bar\",\r\n          \"internalFqdn\": \"internal-dns-bar.tcahnfgj4zcuzbqshlpqun2occ.bx.internal.cloudapp.net\",\r\n          \"internalDomainNameSuffix\": \"tcahnfgj4zcuzbqshlpqun2occ.bx.internal.cloudapp.net\"\r\n        },\r\n        \"enableIPForwarding\": true\r\n      }\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
-  pragma: 'no-cache',
-  'content-length': '2074',
-  'content-type': 'application/json; charset=utf-8',
-  expires: '-1',
-  'x-ms-request-id': '28c2f130-f804-479f-9439-77a865b65912',
-  'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14994',
-  'x-ms-correlation-request-id': '2e74978d-2f36-43c1-907e-dae14221a14f',
-  'x-ms-routing-request-id': 'WESTEUROPE:20160517T123931Z:2e74978d-2f36-43c1-907e-dae14221a14f',
-  date: 'Tue, 17 May 2016 12:39:31 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
 nock('https://management.azure.com:443')
-  .get('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces?api-version=2016-03-30')
-  .reply(200, "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"test-nic\",\r\n      \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces/test-nic\",\r\n      \"etag\": \"W/\\\"dbed4956-cd49-4ed3-b95e-920f7c64bfd8\\\"\",\r\n      \"type\": \"Microsoft.Network/networkInterfaces\",\r\n      \"location\": \"eastus\",\r\n      \"tags\": {\r\n        \"tag1\": \"aaa\",\r\n        \"tag2\": \"bbb\",\r\n        \"tag3\": \"ccc\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"37db75f4-8722-466b-9cc9-3540757c0577\",\r\n        \"ipConfigurations\": [\r\n          {\r\n            \"name\": \"default-ip-config\",\r\n            \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/default-ip-config\",\r\n            \"etag\": \"W/\\\"dbed4956-cd49-4ed3-b95e-920f7c64bfd8\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"privateIPAddress\": \"10.0.0.22\",\r\n              \"privateIPAllocationMethod\": \"Static\",\r\n              \"publicIPAddress\": {\r\n                \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/publicIPAddresses/test-ip\"\r\n              },\r\n              \"subnet\": {\r\n                \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-subnet\"\r\n              },\r\n              \"primary\": true,\r\n              \"privateIPAddressVersion\": \"IPv4\"\r\n            }\r\n          }\r\n        ],\r\n        \"dnsSettings\": {\r\n          \"dnsServers\": [],\r\n          \"appliedDnsServers\": [],\r\n          \"internalDnsNameLabel\": \"internal-dns-bar\",\r\n          \"internalFqdn\": \"internal-dns-bar.tcahnfgj4zcuzbqshlpqun2occ.bx.internal.cloudapp.net\",\r\n          \"internalDomainNameSuffix\": \"tcahnfgj4zcuzbqshlpqun2occ.bx.internal.cloudapp.net\"\r\n        },\r\n        \"enableIPForwarding\": true\r\n      }\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
+  .get('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces?api-version=2016-09-01')
+  .reply(200, "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"test-nic\",\r\n      \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces/test-nic\",\r\n      \"etag\": \"W/\\\"a2d21066-a6ec-4498-b46a-056f64184764\\\"\",\r\n      \"location\": \"westeurope\",\r\n      \"tags\": {\r\n        \"tag1\": \"aaa\",\r\n        \"tag2\": \"bbb\",\r\n        \"tag3\": \"ccc\"\r\n      },\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"resourceGuid\": \"094eec59-ce2b-4f89-9a56-9bc44b0c6991\",\r\n        \"ipConfigurations\": [\r\n          {\r\n            \"name\": \"default-ip-config\",\r\n            \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/default-ip-config\",\r\n            \"etag\": \"W/\\\"a2d21066-a6ec-4498-b46a-056f64184764\\\"\",\r\n            \"properties\": {\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"privateIPAddress\": \"10.0.0.22\",\r\n              \"privateIPAllocationMethod\": \"Static\",\r\n              \"publicIPAddress\": {\r\n                \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/publicIPAddresses/test-ip\"\r\n              },\r\n              \"subnet\": {\r\n                \"id\": \"/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-nic/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-subnet\"\r\n              },\r\n              \"primary\": true,\r\n              \"privateIPAddressVersion\": \"IPv4\"\r\n            }\r\n          }\r\n        ],\r\n        \"dnsSettings\": {\r\n          \"dnsServers\": [],\r\n          \"appliedDnsServers\": [],\r\n          \"internalDnsNameLabel\": \"internal-dns-bar\"\r\n        },\r\n        \"macAddress\": \"00-0D-3A-22-5D-FF\",\r\n        \"enableIPForwarding\": true\r\n      },\r\n      \"type\": \"Microsoft.Network/networkInterfaces\"\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
-  'content-length': '2074',
+  'content-length': '1929',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
-  'x-ms-request-id': '28c2f130-f804-479f-9439-77a865b65912',
+  'x-ms-request-id': 'f2c371c1-12c8-4fb9-809b-5bc04014f2a8',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14994',
-  'x-ms-correlation-request-id': '2e74978d-2f36-43c1-907e-dae14221a14f',
-  'x-ms-routing-request-id': 'WESTEUROPE:20160517T123931Z:2e74978d-2f36-43c1-907e-dae14221a14f',
-  date: 'Tue, 17 May 2016 12:39:31 GMT',
-  connection: 'close' });
+  server: 'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads': '14991',
+  'x-ms-correlation-request-id': '66c932a2-5a25-46e1-9d74-139edcda7864',
+  'x-ms-routing-request-id': 'WESTEUROPE:20160919T083345Z:66c932a2-5a25-46e1-9d74-139edcda7864',
+  date: 'Mon, 19 Sep 2016 08:33:45 GMT' });
  return result; }]];

@@ -74,13 +74,13 @@ describe('cli', function () {
 
     it('should expand template with parameter file', function (_) {
       this.interaction = new Interactor(this);
-      var templateFile = path.resolve(__dirname, '../../../lib/commands/batch/demoTemplates/ffmpeg/job.simple.json');
-      var parameterFile = path.resolve(__dirname, '../../../lib/commands/batch/demoTemplates/ffmpeg/job.parameters.json');
+      var templateFile = path.resolve(__dirname, '../../data/batch.job.simple.json');
+      var parameterFile = path.resolve(__dirname, '../../data/batch.job.parameters.json');
       var full = templateUtils.expandTemplate(this, templateFile, parameterFile, _);
       should.exist(full);
       should.exist(full.job);
-      full.job.properties.id.should.equal('ffmpeg_job_4');
-      full.job.properties.poolInfo.poolId.should.equal('ubuntu_16_04');
+      full.job.properties.id.should.equal('helloworld');
+      full.job.properties.poolInfo.poolId.should.equal('xplatTestPool');
       getValueFromJson(full, '[parameters(').should.be.empty;
     });
     

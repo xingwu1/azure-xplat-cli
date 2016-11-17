@@ -6,8 +6,12 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: '6e0b24a6-2bef-4598-9bd3-f87e9700e24c',
-    name: 'Windows Azure Internal Consumption',
+    id: '46241355-bb95-46a9-ba6c-42b554d71925',
+    managementCertificate: {
+      key: 'mockedKey',
+      cert: 'mockedCert'
+    },
+    name: 'Microsoft Azure Internal Consumption',
     user: {
       name: 'user@domain.example',
       type: 'user'
@@ -23,39 +27,39 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_BATCH_ACCOUNT'] = 'test1';
-  process.env['AZURE_BATCH_ENDPOINT'] = 'https://test1.westus.batch.azure.com';
+  process.env['AZURE_BATCH_ACCOUNT'] = 'jstesteastus2';
+  process.env['AZURE_BATCH_ENDPOINT'] = 'https://jstesteastus2.eastus2.batch.azure.com';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://test1.westus.batch.azure.com:443')
+nock('http://jstesteastus2.eastus2.batch.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.post('/pools/xplatTestPool/evaluateautoscale?api-version=2016-02-01.3.0&timeout=30', '*')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.AutoScaleRun\",\"timestamp\":\"2016-05-20T05:36:34.8518644Z\",\"results\":\"$TargetDedicated=3;$NodeDeallocationOption=requeue\"\r\n}", { 'transfer-encoding': 'chunked',
+.post('/pools/xplatTestPool/evaluateautoscale?api-version=2016-07-01.3.1&timeout=30', '*')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.AutoScaleRun\",\"timestamp\":\"2016-09-12T23:36:13.6673284Z\",\"results\":\"$TargetDedicated=3;$NodeDeallocationOption=requeue\"\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '99c7e72d-74c4-4da6-a52b-5ad091d1df4e',
+  'request-id': '647f1cea-12c7-47d8-97c3-b45aa085ec07',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '244b60ff-308a-4f2a-93d8-f412be9da8e8',
+  'client-request-id': '3dd52596-0753-47db-a976-5030a7b5a2de',
   dataserviceversion: '3.0',
-  dataserviceid: 'https://test1.westus.batch.azure.com/pools/xplatTestPool/evaluateautoscale',
-  date: 'Fri, 20 May 2016 05:36:34 GMT',
+  dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/evaluateautoscale',
+  date: 'Mon, 12 Sep 2016 23:36:13 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://test1.westus.batch.azure.com:443')
+nock('https://jstesteastus2.eastus2.batch.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.post('/pools/xplatTestPool/evaluateautoscale?api-version=2016-02-01.3.0&timeout=30', '*')
-  .reply(200, "{\r\n  \"odata.metadata\":\"https://test1.westus.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.AutoScaleRun\",\"timestamp\":\"2016-05-20T05:36:34.8518644Z\",\"results\":\"$TargetDedicated=3;$NodeDeallocationOption=requeue\"\r\n}", { 'transfer-encoding': 'chunked',
+.post('/pools/xplatTestPool/evaluateautoscale?api-version=2016-07-01.3.1&timeout=30', '*')
+  .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.AutoScaleRun\",\"timestamp\":\"2016-09-12T23:36:13.6673284Z\",\"results\":\"$TargetDedicated=3;$NodeDeallocationOption=requeue\"\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '99c7e72d-74c4-4da6-a52b-5ad091d1df4e',
+  'request-id': '647f1cea-12c7-47d8-97c3-b45aa085ec07',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '244b60ff-308a-4f2a-93d8-f412be9da8e8',
+  'client-request-id': '3dd52596-0753-47db-a976-5030a7b5a2de',
   dataserviceversion: '3.0',
-  dataserviceid: 'https://test1.westus.batch.azure.com/pools/xplatTestPool/evaluateautoscale',
-  date: 'Fri, 20 May 2016 05:36:34 GMT',
+  dataserviceid: 'https://jstesteastus2.eastus2.batch.azure.com/pools/xplatTestPool/evaluateautoscale',
+  date: 'Mon, 12 Sep 2016 23:36:13 GMT',
   connection: 'close' });
  return result; }]];

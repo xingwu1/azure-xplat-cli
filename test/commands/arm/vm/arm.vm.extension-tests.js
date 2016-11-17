@@ -29,6 +29,7 @@ var requiredEnvironment = [{
 }];
 var groupName,
   vmPrefix = 'xplatvmExt',
+  updateTag = 'extUpdateTag',
   nicName = 'xplatnicExt',
   location,
   username = 'azureuser',
@@ -51,6 +52,7 @@ var groupName,
   clientConfig = 'test/data/set-chef-extension-client-config.rb',
   validationPem = 'test/data/set-chef-extension-validation.pem',
   datafile = 'test/data/testdata.json';
+  
 
 describe('arm', function() {
   describe('compute', function() {
@@ -63,6 +65,7 @@ describe('arm', function() {
         location = process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.generateId(groupPrefix, null);
         vmPrefix = suite.isMocked ? vmPrefix : suite.generateId(vmPrefix, null);
+        updateTag = suite.isMocked ? updateTag : suite.generateId(updateTag, null);
         nicName = suite.isMocked ? nicName : suite.generateId(nicName, null);
         storageAccount = suite.generateId(storageAccount, null);
         storageCont = suite.generateId(storageCont, null);
@@ -162,7 +165,7 @@ describe('arm', function() {
       //Set extensions
       it('Set extensions for the created vm', function(done) {
         this.timeout(vmTest.timeoutLarge);
-        var cmd = util.format('vm extension set %s %s %s %s %s --json', groupName, vmPrefix, extension, publisherExt, version).split(' ');
+        var cmd = util.format('vm extension set %s %s %s %s %s --force-update-tag %s --json', groupName, vmPrefix, extension, publisherExt, version, updateTag).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           done();
@@ -178,6 +181,29 @@ describe('arm', function() {
           allResources[1].publisher.should.equal(publisherExt);
           allResources[1].name.should.equal(extension);
           allResources[1].typeHandlerVersion.should.equal(version);
+          allResources[1].autoUpgradeMinorVersion.should.be.false;
+          allResources[1].forceUpdateTag.should.equal(updateTag);
+          done();
+        });
+      });
+	  
+	  //Autoupgrade accross minor version
+      it('Autoupgrade extension accross minor version for the created vm', function(done) {
+        this.timeout(vmTest.timeoutLarge);
+        var cmd = util.format('vm extension set %s %s %s %s %s -U --json', groupName, vmPrefix, extension, publisherExt, version).split(' ');
+        testUtils.executeCommand(suite, retry, cmd, function(result) {
+          result.exitStatus.should.equal(0);
+          done();
+        });
+      });
+	  
+	  it('Extension Get should should give autoUpgradeMinorVersion=true ', function(done) {
+        this.timeout(vmTest.timeoutLarge);
+        var cmd = util.format('vm extension get %s %s --json', groupName, vmPrefix).split(' ');
+        testUtils.executeCommand(suite, retry, cmd, function(result) {
+          result.exitStatus.should.equal(0);
+          var allResources = JSON.parse(result.text);
+          allResources[1].autoUpgradeMinorVersion.should.be.true;
           done();
         });
       });
@@ -193,6 +219,14 @@ describe('arm', function() {
         });
       });
 
+      it('Set Chef extensions with custom json attributes', function(done) {
+        this.timeout(vmTest.timeoutLarge);
+        var cmd = util.format('vm extension set-chef %s %s --client-config %s --validation-pem %s --json-attributes %s --json', groupName, vmPrefix, clientConfig, validationPem, '{"chef_node_name":"mynode"}').split(' ');
+        testUtils.executeCommand(suite, retry, cmd, function(result) {
+          result.exitStatus.should.equal(0);
+          done();
+        });
+      });
 
       //Get chef extension
       it('Extension Get-Chef should list only chef extension', function(done) {

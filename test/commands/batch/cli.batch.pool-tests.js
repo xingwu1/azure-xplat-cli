@@ -28,8 +28,9 @@ var createJsonFilePath = path.resolve(__dirname, '../../data/batchCreatePool.jso
 var updateJsonFilePath = path.resolve(__dirname, '../../data/batchUpdatePool.json');
 
 var requiredEnvironment = [
-  { name: 'AZURE_BATCH_ACCOUNT', defaultValue: 'defaultaccount' },
-  { name: 'AZURE_BATCH_ENDPOINT', defaultValue: 'https://defaultaccount.westus.batch.azure.com' }
+  { name: 'AZURE_BATCH_ACCOUNT' },
+  { name: 'AZURE_BATCH_ENDPOINT' }
+  //Note we do not include AZURE_BATCH_ACCESS_KEY here because then it would be recorded
 ];
 
 var testPrefix = 'cli-batch-pool-tests';
@@ -316,6 +317,20 @@ describe('cli', function () {
         skus[0].id.should.not.be.null;
         skus[0].osType.should.not.be.null;
         done();
+      });
+    });
+
+    it('should ensure that the app-package-ref parameter is passed to the service when creating and updating pools', function (done) {
+      var AppPackageRefError = 'One or more of the specified application package references are invalid';
+      suite.execute('batch pool create --id newPool123 --target-dedicated 0 --vm-size small --os-family 4 --app-package-ref appPackageDoesNotExist --account-name %s --account-key %s --account-endpoint %s --json', 
+        batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+        result.errorText.should.include(AppPackageRefError);
+
+        suite.execute('batch pool set --id %s --app-package-ref appPackageDoesNotExist --account-name %s --account-key %s --account-endpoint %s --json',
+          sharedPoolId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+          result.errorText.should.include(AppPackageRefError);
+          done();
+        });
       });
     });
   });

@@ -34,54 +34,54 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://jstesteastus2.eastus2.batch.azure.com:443')
-  .delete('/jobschedules/xplatJobSchedule?api-version=2016-02-01.3.0&timeout=30')
+  .delete('/jobschedules/xplatJobSchedule?api-version=2016-07-01.3.1&timeout=30')
   .reply(202, "", { 'transfer-encoding': 'chunked',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '765ecc28-0589-42af-a7e1-fd7b0be582ca',
+  'request-id': 'ca465f83-cdfc-4fb7-ae78-f31509841646',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '7e087557-3996-48c7-abb2-3f9b6098dc25',
+  'client-request-id': '6563353d-84f0-4b0c-b51e-71dd6abb0510',
   dataserviceversion: '3.0',
-  date: 'Fri, 15 Apr 2016 19:01:53 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:36 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://jstesteastus2.eastus2.batch.azure.com:443')
-  .delete('/jobschedules/xplatJobSchedule?api-version=2016-02-01.3.0&timeout=30')
+  .delete('/jobschedules/xplatJobSchedule?api-version=2016-07-01.3.1&timeout=30')
   .reply(202, "", { 'transfer-encoding': 'chunked',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': '765ecc28-0589-42af-a7e1-fd7b0be582ca',
+  'request-id': 'ca465f83-cdfc-4fb7-ae78-f31509841646',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '7e087557-3996-48c7-abb2-3f9b6098dc25',
+  'client-request-id': '6563353d-84f0-4b0c-b51e-71dd6abb0510',
   dataserviceversion: '3.0',
-  date: 'Fri, 15 Apr 2016 19:01:53 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:36 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('http://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/jobschedules/xplatJobSchedule?api-version=2016-02-01.3.0&timeout=30')
-  .reply(404, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element\",\"code\":\"JobScheduleNotFound\",\"message\":{\r\n    \"lang\":\"en-US\",\"value\":\"The specified job schedule does not exist.\\nRequestId:dbc97f1e-5d0e-40ad-b3c4-23e2ffe7daf7\\nTime:2016-04-15T19:01:54.4902266Z\"\r\n  }\r\n}", { 'content-length': '350',
+  .get('/jobschedules/xplatJobSchedule?api-version=2016-07-01.3.1&timeout=30')
+  .reply(404, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element\",\"code\":\"JobScheduleNotFound\",\"message\":{\r\n    \"lang\":\"en-US\",\"value\":\"The specified job schedule does not exist.\\nRequestId:9f7324b0-9ef0-4cda-9c74-63df1cf17454\\nTime:2016-09-12T23:31:37.5871315Z\"\r\n  }\r\n}", { 'content-length': '350',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'dbc97f1e-5d0e-40ad-b3c4-23e2ffe7daf7',
+  'request-id': '9f7324b0-9ef0-4cda-9c74-63df1cf17454',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '3d5d0efb-910e-4fdd-92be-63f9991d8277',
+  'client-request-id': 'dc8624ae-3161-40cd-acb9-28e6dfe9d30d',
   dataserviceversion: '3.0',
-  date: 'Fri, 15 Apr 2016 19:01:54 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:37 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/jobschedules/xplatJobSchedule?api-version=2016-02-01.3.0&timeout=30')
-  .reply(404, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element\",\"code\":\"JobScheduleNotFound\",\"message\":{\r\n    \"lang\":\"en-US\",\"value\":\"The specified job schedule does not exist.\\nRequestId:dbc97f1e-5d0e-40ad-b3c4-23e2ffe7daf7\\nTime:2016-04-15T19:01:54.4902266Z\"\r\n  }\r\n}", { 'content-length': '350',
+  .get('/jobschedules/xplatJobSchedule?api-version=2016-07-01.3.1&timeout=30')
+  .reply(404, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element\",\"code\":\"JobScheduleNotFound\",\"message\":{\r\n    \"lang\":\"en-US\",\"value\":\"The specified job schedule does not exist.\\nRequestId:9f7324b0-9ef0-4cda-9c74-63df1cf17454\\nTime:2016-09-12T23:31:37.5871315Z\"\r\n  }\r\n}", { 'content-length': '350',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'dbc97f1e-5d0e-40ad-b3c4-23e2ffe7daf7',
+  'request-id': '9f7324b0-9ef0-4cda-9c74-63df1cf17454',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '3d5d0efb-910e-4fdd-92be-63f9991d8277',
+  'client-request-id': 'dc8624ae-3161-40cd-acb9-28e6dfe9d30d',
   dataserviceversion: '3.0',
-  date: 'Fri, 15 Apr 2016 19:01:54 GMT',
+  date: 'Mon, 12 Sep 2016 23:31:37 GMT',
   connection: 'close' });
  return result; }]];
