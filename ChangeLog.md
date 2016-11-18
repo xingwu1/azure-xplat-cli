@@ -1,4 +1,117 @@
-﻿##2016-9-3 Version 0.10.4
+##2016-11-2 Version 0.10.7
+* IotHub #3265
+  * Added support for the following IP filter-rules commands in IotHub:
+    1. List IP filter rules: azure iothub ipfilter-rules list [resource-group] [name]
+    2. Set IP filter rules: azure iothub ipfilter-rules set [resource-group] [name] [input-file]
+* HDInsight #3268
+  * Added new securityProfile section to input payload when creating a cluster. This enables integration with Active Directory.
+* WebApp #3260
+  * Added slot support for all webapp commands
+  * Updated descriptions of some webapp commands
+  * Made some minor optimizations for appsettings and hostnames
+* ResourceManager #3277
+  * Modified the group deployment command to not throw when optional parameters are omitted
+* Usage #3276
+   * Ported azure-arm-commerce to use Autorest based library
+   * Provided support for `| more` while paging
+   * Fixed bugs #3239 and #3255.
+* ActiveDirectory #3276
+   * Fixed the implementation of `| more` while paging in `azure ad sp|user|group|group memeber list` commands
+
+##2016-10-12 Version 0.10.6
+* General
+  * Changed log output filename to be trivially sortable into chronological order #3215
+* Datalake
+  * Removed erroneous not from the help #3205
+* Network
+  * Made resource-group positional parameter work in application-gateway list command #3207
+  * Ensured that default values are not used in set commands
+  * Added required parameters to the usage string and allowed to use required parameters as positional w/o using --<option-name> #3201
+  * Reworked request routing rules show/list commands #3218
+  * Added app-gateway backend-health show command #3226
+  * Fixed app gateway url path map rule options #3208
+  * Fixed issues in url path map show/list commands #3217
+  * Reworked app gateway http listener show/list command #3219
+  * Reworked app gateway address pool show/list command #3222
+  * Reworked http settings show/list commands #3223
+  * Fixed peer info messages #3243
+  * Fixed issue in DNS info message #3244
+  * Fixed incorrect option naming for appGatewayFrontendIp command #3238
+  * Fixed issue with Express Route VPN connection #3235
+  * Reworked application gateway show command - separated json format #3224
+  * Added --json-attributes for ASM and ARM. User can set custom json attributes using this option which will get set in first_boot.json #3216
+* ResourceManager
+  * Throw error when deployment fails #3241
+* WebApp #3227
+  * Implemented App Service on linux
+  * Added linux option when creating appserviceplans
+  * Added islinux option in webapp config show
+* Batch
+  * Renamed the 'batch subscription list-quotas' command to 'batch location quotas show' for consistency with the management API and the CLI naming conventions #3232
+* HDInsight
+  * Fixed logClusterOperationInfo to log both operation status and state #3234
+* Keyvault
+  * 'keyvault certificate policy create' now supports --certificate-type argument.
+* Compute
+  * Fixed #3248 in the VM command. #3250 
+* ASM
+  * Website
+    * Update kuduscript to v1.0.9 #3214
+
+##2016-09-28 Version 0.10.5
+* General
+  * **By default azure-cli will now save access tokens to ~/.azure/accessTokens.json for OSX and Window, like it does on Linux**. When you install this version, **please run login to re-establish the credentials**. If you prefer **old behaviors** of using secure storage, you can turn on the env variable of **AZURE_USE_SECURE_TOKEN_STORAGE**
+  * Typo fixes in log messages, help of some commands, help files and README
+  * Added back ip for telemetry
+  * Fixed #3108
+* Network
+  * Implemented functionality to remove public-ip-address and NIC ip config association
+  * Fixed error message in application gateways when user have to login
+  * IPv6 NICs are available for a few regions
+  * Added nic effective-nsg and effective-route-tables
+  * Implemented ARM application gateway http listener set command
+  * Implemented url path map show/list commands
+  * Reworked app gateway show command
+  * Implemented Application gateway http listener show/list commands
+  * Added app-gw rule set/list/show
+  * Implemented App gateway URL path maps, rules set commands 
+  * Added CRUD commands for app-gw sub commands
+    * address-pool
+    * frontend-ip
+    * frontend-port
+    * http-settings
+    * probe
+    * ssl-cert
+* IotHub
+  * Adding commands to show a well formed connection string.
+* ResourceManager
+  * Ignore resource group case when validating source and destination group in resource move
+  * Fixed #2931 #2561 #3085 #2751 #2689 #2552
+* Compute
+  * Fixed #2601: 'vm set' command to support '--new-os-disk-size' input
+* Datalake
+  * Fixed #3163
+* Storage
+  * Upgraded the azure-storage dependency to 1.3.0 to address the tough-cookie security issue
+* Batch
+  * Added new 'batch task reactivate' command
+  * Added '--default-version' parameter to 'batch application set' command
+  * Fixed bug in the --app-package-ref parameter handling in the 'batch pool create' and 'batch pool set' commands
+  * Fixed a bug in the formatted display of the 'batch pool usage-metrics list' output
+* WebApp
+  * Added webapp config hostname commands
+  * Added appserviceplan set command
+  * Modified appserviceplan parameter name change from tier to sku
+  * Modified some description changes
+  * Fixed creating free/shared appserviceplans now work
+* ServiceFabric
+  * Implemented the first version of service fabric commands
+
+* ASM
+  * Network
+    * Added nsg and route-table migration commands
+
+##2016-09-03 Version 0.10.4
 * General
   * Fixed #2775 and #2963.
   * Support for help in json format

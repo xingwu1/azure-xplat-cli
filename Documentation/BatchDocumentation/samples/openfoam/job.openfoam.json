@@ -1,0 +1,105 @@
+{
+    "parameters": {
+        "vmCount": {
+            "type": "int",
+            "defaultValue": 16,
+            "metadata": {
+                "description": "The number of the virtual machines"
+            }
+        },
+        "processorNumber": {
+            "type": "int",
+            "metadata": {
+                "description": "The number of processors of the virtual machine"
+            }
+        },
+        "dataGroup": {
+            "type": "string",
+            "defaultValue": "openfoam",
+            "metadata": {
+                "description": "The auto-storage group where the input data is stored"
+            }
+        },
+        "outputStorageAccount": {
+            "type": "string",
+            "metadata": {
+                "description": "The url of Azure storage container which hold the output file"
+            }
+        },
+        "outputStorageSasKey": {
+            "type": "string",
+            "metadata": {
+                "description": "The sas key of Azure storage container which hold the output file"
+            }
+        },
+        "poolName": {
+            "type": "string",
+            "defaultValue": "openfoam",
+            "metadata": {
+                "description": "The name of Azure Batch pool which runs the job"
+            }
+        },
+        "jobName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of Azure Batch job"
+            }
+        }
+    },
+    "variables": {
+        "openFoamIteration": "500",
+        "taskOutputFilePathOnVM": "$AZ_BATCH_TASK_SHARED_DIR/VTK.tgz",
+        "taskOutputBlobName": "Result-mpi-VTK.tgz",
+        "storageContainerName": "output"
+    },
+    "job": {
+        "type": "Microsoft.Batch/batchAccounts/jobs",
+        "apiVersion": "2016-12-01",
+        "properties": {
+            "id": "[parameters('jobName')]",
+            "constraints": {
+                "maxWallClockTime": "PT5H",
+                "maxTaskRetryCount": 3
+            },
+            "poolInfo": {
+                "poolId": "[parameters('poolName')]"
+            },
+            "taskFactory": {
+                "type": "taskCollection",
+                "tasks": [
+                    {
+                        "id" : "mpi",
+                        "commandLine": "/bin/bash -c 'set -e; set -o pipefail; sudo -u _azbatch $AZ_BATCH_TASK_WORKING_DIR/application-cmd [parameters('vmCount')] [parameters('processorNumber')] [variables('openFoamIteration')] $AZ_BATCH_TASK_SHARED_DIR $AZ_BATCH_HOST_LIST; python $AZ_BATCH_TASK_WORKING_DIR/azure_storage_helper.py --filepath [variables('taskOutputFilePathOnVM')] --blobname [variables('taskOutputBlobName')] --storageaccount [parameters('outputStorageAccount')] --storagecontainer [variables('storageContainerName')] --sastoken '[parameters('outputStorageSasKey')]''; wait",
+                        "multiInstanceSettings": {
+                            "numberOfInstances": "[parameters('vmCount')]",
+                            "coordinationCommandLine": "/bin/bash -c 'set -e; set -o pipefail; $AZ_BATCH_TASK_SHARED_DIR/coordination-cmd'; wait",
+                            "commonResourceFiles": [
+                                {
+                                    "source": { 
+                                        "fileGroup": "[parameters('dataGroup')]",
+                                        "prefix": "coordination-cmd"
+                                    }
+                                }                                    
+                            ]                                
+                        },
+                        "resourceFiles": [
+                            {
+                                "source": { 
+                                    "fileGroup": "[parameters('dataGroup')]",
+                                    "prefix": "application-cmd"
+                                }
+                            },
+                            {
+                                "source": { 
+                                    "fileGroup": "[parameters('dataGroup')]",
+                                    "prefix": "azure_storage_helper.py"
+                                }
+                            }
+                        ],
+                        "runElevated": true
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,121 @@
+{
+    "parameters": {
+        "jobId": {
+            "type": "string",
+            "metadata": {
+                "description": "The id of Azure Batch job"
+            }
+        },
+        "poolId": {
+            "type": "string",
+            "defaultValue": "helloworld-pool",
+            "metadata": {
+                "description": "The id of Azure Batch pool which runs the job"
+            }
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "STANDARD_D1_V2",
+            "metadata": {
+                "description": "The size of the virtual machines that run the application"
+            }
+        },
+        "vmCount": {
+            "type": "int",
+            "defaultValue": 3,
+            "metadata": {
+                "description": "The number of virtual machines"
+            }
+        },
+        "taskStart": {
+            "type": "int",
+            "metadata": {
+                "description": "The sweep start parameter"
+            }
+        },
+        "taskEnd": {
+            "type": "int",
+            "metadata": {
+                "description": "The sweep end parameter"
+            }
+        },
+        "testData": {
+            "type": "string",
+            "metadata": {
+                "description": "The auto-storage group where the input data is stored"
+            }
+        },
+        "outputFileStorageUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "A storage SAS URL to a container with write access"
+            }
+        }
+    },
+    "variables": {
+        "osType": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "16.04.0-LTS",
+            "version": "latest"
+        }
+    },
+    "job": {
+        "type": "Microsoft.Batch/batchAccounts/jobs",
+        "apiVersion": "2016-12-01",
+        "properties": {
+            "id": "[parameters('jobId')]",
+            "onAllTasksComplete": "terminateJob",
+            "poolInfo": {
+                "autoPoolSpecification": {
+                    "autoPoolIdPrefix": "[parameters('poolId')]",
+                    "poolLifetimeOption": "job",
+                    "keepAlive": false,
+                    "pool": {
+                        "vmSize": "[parameters('vmSize')]",
+                        "virtualMachineConfiguration": {
+                            "imageReference": "[variables('osType')]",
+                            "nodeAgentSKUId": "batch.node.ubuntu 16.04"
+                        },
+                        "targetDedicated": "[parameters('vmCount')]"
+                    }
+                }
+            },
+            "taskFactory": {
+                "type": "parametricSweep",
+                "parameterSets": [
+                    {
+                        "start": "[parameters('taskStart')]",
+                        "end": "[parameters('taskEnd')]",
+                        "step": 1
+                    }
+                ],
+                "repeatTask": {
+                    "commandLine": "/bin/bash -c 'cat input{0}.txt'",
+                    "resourceFiles": [
+                        {
+                            "source": { 
+                                "fileGroup": "[parameters('testData')]",
+                                "prefix": "input{0}.txt"
+                            }
+                        }
+                    ],
+                    "outputFiles": [
+                        {
+                            "filePattern": "$AZ_BATCH_TASK_DIR/stdout.txt",
+                            "destination": {
+                                "container": {
+                                    "path": "output{0}.txt",
+                                    "containerSas": "[parameters('outputFileStorageUrl')]"
+                                }
+                            },
+                            "uploadDetails": {
+                                "taskStatus": "TaskSuccess"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

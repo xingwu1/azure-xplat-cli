@@ -38,7 +38,7 @@ commands/cli.site.appsetting-tests.js
 commands/cli.site.connectionstring-tests.js
 commands/cli.site.defaultdocument-tests.js
 commands/cli.site.deploymentscript-tests.js
-commands/cli.site.log-tests.js
+#commands/cli.site.log-tests.js
 commands/cli.site.scale-tests.js
 commands/cli.site.slots-tests.js
 commands/cli.site.job-tests.js
@@ -72,8 +72,9 @@ commands/cli.vm.loadbalancer-tests.js
 commands/cli.vm.export_create_from-tests.js
 commands/cli.vm.create_staticvm-tests.js
 commands/cli.vm.staticvm_create-from-tests.js
-commands/cli.vm.staticvm_docker-tests.js
-commands/cli.vm.create_docker-tests.js
+#commands/cli.vm.staticvm_docker-tests.js
+#commands/cli.vm.create_docker-tests.js
+#commands/cli.servicefabric-tests.js
 commands/cli.sql-tests.js
 commands/cli.storage.account-tests.js
 commands/cli.storage.blob-tests.js
@@ -88,6 +89,9 @@ commands/batch/cli.batch.task-tests.js
 commands/batch/cli.batch.file-tests.js
 commands/batch/cli.batch.node-tests.js
 commands/batch/cli.batch.pool-tests.js
+commands/batch/cli.batch.ncj-tests._js
+commands/batch/cli.batch.template-tests.js
+commands/batch/cli.batch.ncj-batchShipyard-tests.js
 util/git/linkrevisioncontrol-tests.js
 #TODO: uncomment after remove the dependencies on streamline files
 #hdinsight/unit-cli-setup.js

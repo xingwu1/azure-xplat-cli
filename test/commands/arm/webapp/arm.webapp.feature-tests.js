@@ -27,10 +27,13 @@ var testPrefix = 'arm-cli-webapp-tests';
 var sitename;
 var createdSites = [];
 var location = 'West US';
+var slotName = 'slotTest';
 var createdGroups = [];
 var createdResources = [];
 var createdAppSettingsKeys = [];
 var createdAppSettingsValues = [];
+
+var username = 'MyUsername';
 
 var hostingPlanName, groupName;
 var appSettingKey, appSettingValue, finalAppSetting;
@@ -96,11 +99,16 @@ describe('arm', function () {
       });
     });
 
+    it('create slot should work', function (done) {
+      suite.execute('webapp create %s %s %s %s --slot %s --json', groupName, sitename, location, hostingPlanName, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
     it('list should work', function (done) {
       suite.execute('webapp list %s --json', groupName, function (result) {
         result.exitStatus.should.equal(0);
-        var output = JSON.parse(result.text);
-        output.length.should.be.above(0);
         done();
       });
     });
@@ -114,6 +122,15 @@ describe('arm', function () {
       });
     });
 
+    it('show slot should work', function (done) {
+      suite.execute('webapp show %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        var webapp = JSON.parse(result.text);
+        webapp.name.should.equal(sitename + '/' + slotName);
+        done();
+      });
+    });
+
     it('config show should work', function (done) {
       suite.execute('webapp config show %s %s --json', groupName, sitename, function (result) {
         result.exitStatus.should.equal(0);
@@ -121,36 +138,129 @@ describe('arm', function () {
       });
     });
 
+    it('config slot show should work', function (done) {
+      suite.execute('webapp config show %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
     it('config set should work', function (done) {
       suite.execute('webapp config set %s %s --phpversion %s --json', groupName, sitename, updatedPHPValue, function (result) {
+        var output = JSON.parse(result.text);
+        (output.phpVersion).should.equal(updatedPHPValue);
         result.exitStatus.should.equal(0);
         done();
       });
     });
 
-    it('config appsetting set should work', function (done) {
-      suite.execute('webapp config appsetting set %s %s %s --json', groupName, sitename, finalAppSetting, function (result) {
+    it('config slot set should work', function (done) {
+      suite.execute('webapp config set %s %s --slot %s --phpversion %s  --json', groupName, sitename, slotName, updatedPHPValue, function (result) {
         result.exitStatus.should.equal(0);
         done();
       });
     });
 
-    it('config appsetting list should work', function (done) {
-      suite.execute('webapp config appsetting list %s %s --json', groupName, sitename, function (result) {
+    it('config appsettings set should work', function (done) {
+      suite.execute('webapp config appsettings set %s %s %s --json', groupName, sitename, finalAppSetting, function (result) {
         result.exitStatus.should.equal(0);
         done();
       });
     });
 
-    it('config appsetting delete should work', function (done) {
-      suite.execute('webapp config appsetting delete %s %s %s --json', groupName, sitename, appSettingKey, function (result) {
+    it('config slot appsettings set should work', function (done) {
+      suite.execute('webapp config appsettings set %s %s %s --slot %s --json', groupName, sitename, finalAppSetting, slotName, function (result) {
         result.exitStatus.should.equal(0);
         done();
       });
     });
 
-    it('publishprofile show should work', function (done) {
-      suite.execute('webapp publishprofile show %s %s --json', groupName, sitename, function (result) {
+    it('config appsettings list should work', function (done) {
+      suite.execute('webapp config appsettings list %s %s --json', groupName, sitename, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('config slot appsettings list should work', function (done) {
+      suite.execute('webapp config appsettings list %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('config appsettings delete should work', function (done) {
+      suite.execute('webapp config appsettings delete %s %s %s --json', groupName, sitename, appSettingKey, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('config slot appsettings delete should work', function (done) {
+      suite.execute('webapp config appsettings delete %s %s %s --slot %s --json', groupName, sitename, appSettingKey, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('config container set should work', function (done) {
+      suite.execute('webapp config container set %s %s -u %s --json', groupName, sitename, username, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+    
+    it('config slot container set should work', function (done) {
+      suite.execute('webapp config container set %s %s -u %s --slot %s --json', groupName, sitename, username, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+    
+    it('config container list should work', function (done) {
+      suite.execute('webapp config container list %s %s --json', groupName, sitename, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+    
+    it('config slot container list should work', function (done) {
+      suite.execute('webapp config container list %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+    
+    it('config container delete should work', function (done) {
+      suite.execute('webapp config container delete %s %s --json', groupName, sitename, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+    
+    it('config slot container delete should work', function (done) {
+      suite.execute('webapp config container delete %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+    
+    it('publishingprofile show should work', function (done) {
+      suite.execute('webapp publishingprofile show %s %s --json', groupName, sitename, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('publishingprofile slot show should work', function (done) {
+      suite.execute('webapp publishingprofile show %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('stop slot should work', function (done) {
+      suite.execute('webapp stop %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
         result.exitStatus.should.equal(0);
         done();
       });
@@ -163,6 +273,13 @@ describe('arm', function () {
       });
     });
 
+    it('start slot should work', function (done) {
+      suite.execute('webapp start %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
     it('start should work', function (done) {
       suite.execute('webapp start %s %s --json', groupName, sitename, function (result) {
         result.exitStatus.should.equal(0);
@@ -170,8 +287,22 @@ describe('arm', function () {
       });
     });
 
+    it('restart slot should work', function (done) {
+      suite.execute('webapp restart %s %s --slot %s --json', groupName, sitename, slotName, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
     it('restart should work', function (done) {
       suite.execute('webapp restart %s %s --json', groupName, sitename, function (result) {
+        result.exitStatus.should.equal(0);
+        done();
+      });
+    });
+
+    it('delete slot should work', function (done) {
+      suite.execute('webapp delete %s %s -q --slot %s --json', groupName, createdSites[0], slotName, function (result) {
         result.exitStatus.should.equal(0);
         done();
       });
@@ -193,9 +324,9 @@ describe('arm', function () {
       location: location,
       name: hostingPlanName,
       sku: {
-        name: 'B1',
-        sku: 'Basic',
-        family: 'B',
+        name: 'S1',
+        sku: 'Standard',
+        family: 'S',
         capacity: 1
       }
     };

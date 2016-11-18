@@ -29,6 +29,7 @@ var requiredEnvironment = [{
 }];
 var groupName,
   vmPrefix = 'xplatvmExt',
+  updateTag = 'extUpdateTag',
   nicName = 'xplatnicExt',
   location,
   username = 'azureuser',
@@ -64,6 +65,7 @@ describe('arm', function() {
         location = process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.generateId(groupPrefix, null);
         vmPrefix = suite.isMocked ? vmPrefix : suite.generateId(vmPrefix, null);
+        updateTag = suite.isMocked ? updateTag : suite.generateId(updateTag, null);
         nicName = suite.isMocked ? nicName : suite.generateId(nicName, null);
         storageAccount = suite.generateId(storageAccount, null);
         storageCont = suite.generateId(storageCont, null);
@@ -163,7 +165,7 @@ describe('arm', function() {
       //Set extensions
       it('Set extensions for the created vm', function(done) {
         this.timeout(vmTest.timeoutLarge);
-        var cmd = util.format('vm extension set %s %s %s %s %s --json', groupName, vmPrefix, extension, publisherExt, version).split(' ');
+        var cmd = util.format('vm extension set %s %s %s %s %s --force-update-tag %s --json', groupName, vmPrefix, extension, publisherExt, version, updateTag).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           done();
@@ -179,7 +181,8 @@ describe('arm', function() {
           allResources[1].publisher.should.equal(publisherExt);
           allResources[1].name.should.equal(extension);
           allResources[1].typeHandlerVersion.should.equal(version);
-	   allResources[1].autoUpgradeMinorVersion.should.be.false;
+          allResources[1].autoUpgradeMinorVersion.should.be.false;
+          allResources[1].forceUpdateTag.should.equal(updateTag);
           done();
         });
       });
@@ -216,6 +219,14 @@ describe('arm', function() {
         });
       });
 
+      it('Set Chef extensions with custom json attributes', function(done) {
+        this.timeout(vmTest.timeoutLarge);
+        var cmd = util.format('vm extension set-chef %s %s --client-config %s --validation-pem %s --json-attributes %s --json', groupName, vmPrefix, clientConfig, validationPem, '{"chef_node_name":"mynode"}').split(' ');
+        testUtils.executeCommand(suite, retry, cmd, function(result) {
+          result.exitStatus.should.equal(0);
+          done();
+        });
+      });
 
       //Get chef extension
       it('Extension Get-Chef should list only chef extension', function(done) {

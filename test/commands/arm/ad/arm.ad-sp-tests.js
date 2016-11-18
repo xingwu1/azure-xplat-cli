@@ -22,7 +22,8 @@ var CLITest = require('../../../framework/arm-cli-test');
 var testprefix = 'arm-cli-ad-sp-tests';
 var appPrefix = 'xplatTestAppCreate';
 var createdApps = [];
-var spObjectId
+var spObjectId;
+var liveOnly = process.env.NOCK_OFF ? it : it.skip;
 
 describe('arm', function () {
   describe('ad', function () {
@@ -46,11 +47,11 @@ describe('arm', function () {
     });
     
     describe('sp', function () {
-      it('create list show and delete should work', function (done) {
+      liveOnly('create list show and delete should work', function (done) {
         var appName = suite.generateId(appPrefix, createdApps);
         var idUri = 'https://' + appName + '.com/home';
         var replyUrls = 'https://locahost:9090,https://localhost:8080';
-        suite.execute('ad sp create -n testapp --home-page http://www.bing.com --identifier-uris %s -r %s --json', idUri, replyUrls, function (result) {
+        suite.execute('ad sp create -n %s --json', appName, function (result) {
           result.exitStatus.should.equal(0);
           var sp = JSON.parse(result.text);
           spObjectId = sp.objectId;

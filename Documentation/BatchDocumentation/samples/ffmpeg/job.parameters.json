@@ -1,0 +1,14 @@
+{
+  "jobId": {
+    "value": "<job id>"
+  },
+  "outputFileStorageUrl": {
+    "value": "<blob url with sas>"
+  },
+  "taskStart": {
+    "value": <the first id of convert files>
+  },
+  "taskEnd": {
+    "value": <the last id of convert files>
+  }
+}

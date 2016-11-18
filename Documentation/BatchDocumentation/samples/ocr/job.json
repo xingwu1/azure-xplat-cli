@@ -1,0 +1,108 @@
+{
+    "parameters": {
+        "jobId": {
+            "type": "string",
+            "metadata": {
+                "description": "The id of the Azure Batch job"
+            }
+        },
+        "poolId": {
+            "type": "string",
+            "default": "ocrpool",
+            "metadata": {
+                "description": "The id of the Azure Batch pool to run on"
+            }
+        },
+        "firstPdfId": {
+            "type": "int",
+            "metadata": {
+                "description": "The name of the first PDF (without the .pdf extension). For example, supply the value 1 to reference file 1.pdf"
+            }
+        },
+        "lastPdfId": {
+            "type": "int",
+            "metadata": {
+                "description": "The name of the last PDF (without the .pdf extension). For example, supply the value 10 to reference file 10.pdf"
+            }
+        },
+        "inputFileGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "The file group containing the input files"
+            }
+        },
+        "outputFileStorageUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "A storage SAS URL to a container with write access."
+            }
+        }
+    },
+    "job": {
+        "type": "Microsoft.Batch/batchAccounts/jobs",
+        "apiVersion": "2016-12-01",
+        "properties": {
+            "id": "[parameters('jobId')]",
+            "poolInfo": {
+                "poolId": "[parameters('poolId')]"
+            },
+            "taskFactory": {
+                "type": "parametricSweep",
+                "parameterSets": [
+                    {
+                        "start": "[parameters('firstPdfId')]",
+                        "end": "[parameters('lastPdfId')]",
+                        "step": 1
+                    }
+                ],
+                "repeatTask": {
+                    "commandLine": "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={0}-%03d.png -r250 {0}.pdf && for f in *.png; do tesseract $f ${{f%.*}}; done",
+                    "resourceFiles": [
+                        {
+                            "source": {
+                                "fileGroup": "[parameters('inputFileGroup')]",
+                                "prefix": "{0}.pdf"
+                            }
+                        }
+                    ],
+                    "outputFiles": [
+                        {
+                            "filePattern": "*.txt",
+                            "destination": {
+                                "container": {
+                                    "path": "{0}",
+                                    "containerSas": "[parameters('outputFileStorageUrl')]"
+                                }
+                            },
+                            "uploadDetails": {
+                                "taskStatus": "TaskSuccess"
+                            }
+                        },
+                        {
+                            "filePattern": "../*.txt",
+                            "destination": {
+                                "container": {
+                                    "path": "{0}",
+                                    "containerSas": "[parameters('outputFileStorageUrl')]"
+                                }
+                            },
+                            "uploadDetails": {
+                                "taskStatus": "TaskFailure"
+                            }
+                        }
+                    ],
+                    "packageReferences": [
+                        {
+                            "type": "aptPackage",
+                            "id": "ghostscript"
+                        },
+                        {
+                            "type": "aptPackage",
+                            "id": "tesseract-ocr"
+                        }
+                    ]                    
+                }
+            }
+        }
+    }
+}

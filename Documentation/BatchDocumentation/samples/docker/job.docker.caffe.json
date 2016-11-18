@@ -1,0 +1,43 @@
+{
+  "parameters": {
+    "poolName": {
+      "type": "string",
+      "defaultValue": "ncj-docker-caffe",
+      "metadata": {
+        "description": "The name of Azure Batch pool"
+      }
+    },
+    "jobName": {
+      "type": "string",
+      "defaultValue": "ncj-docker-caffe-job",
+      "metadata": {
+        "description": "The name of Azure Batch job"
+      }
+    }
+  },
+  "job": {
+    "type": "Microsoft.Batch/batchAccounts/jobs",
+    "apiVersion": "2016-12-01",
+    "properties": {
+      "id": "[parameters('jobName')]",
+      "poolInfo": {
+        "poolId": "[parameters('poolName')]"
+      },
+      "taskFactory": {
+        "type": "taskCollection",
+        "tasks": [
+          {
+            "id": "task01",
+            "commandLine": "/opt/run_mnist.sh",
+            "clientExtensions": {
+              "dockerOptions": {
+                "image": "alfpark/caffe:cpu",
+                "remove_container_after_exit": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

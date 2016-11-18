@@ -19,7 +19,7 @@ var should = require('should');
 
 var path = require('path');
 var util = require('util');
-var fs = require('fs')
+var fs = require('fs');
 
 var CLITest = require('../../../framework/arm-cli-test');
 var log = require('../../../framework/test-logger');
@@ -28,12 +28,13 @@ var utils = require('../../../../lib/util/utils');
 
 var testPrefix = 'arm-cli-iothub-tests';
 var iothubPrefix = 'xplattestiothub';
+var ipFilterRulesFile = path.join(__dirname, '/ipfilterrules.txt');
 var knownNames = [];
 
 var requiredEnvironment = [{
   requiresToken: true
 }, {
-  name: 'AZURE_ARM_TEST_LOCATION',
+  name: 'AZURE_ARM_IOTHUB_TEST_LOCATION',
   defaultValue: 'West US'
 }, {
   name: 'AZURE_ARM_TEST_RESOURCE_GROUP',
@@ -57,7 +58,7 @@ describe('arm', function () {
     before(function (done) {
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.setupSuite(function () {
-        testLocation = process.env.AZURE_ARM_TEST_LOCATION;
+        testLocation = process.env.AZURE_ARM_IOTHUB_TEST_LOCATION;
         testLocation = testLocation.toLowerCase().replace(/ /g, '');
         testResourceGroup = process.env.AZURE_ARM_TEST_RESOURCE_GROUP;
         if (!suite.isPlayback()) {
@@ -138,12 +139,43 @@ describe('arm', function () {
         });
       });
 
+      it('ip filter rules set and list command using files should work', function (done) {
+
+          listAndSetIpFilterRulesMustSucceed();
+
+          function listAndSetIpFilterRulesMustSucceed() {
+              suite.execute('iothub ipfilter-rules list --name %s --resource-group %s --output-file %s', iothubName, testResourceGroup, ipFilterRulesFile, function (result) {
+                  result.exitStatus.should.be.equal(0);
+                  var jsonFile = fs.readFileSync(ipFilterRulesFile);
+                  var ipFilterRules = JSON.parse(utils.stripBOM(jsonFile));
+                  ipFilterRules.length.should.be.equal(0);
+                  fs.writeFileSync(ipFilterRulesFile, '[ { \"filterName\": \"deny\",  \"action\": \"Accept\", \"ipMask\": \"0.0.0.0/0\" }, { \"filterName\": \"test\",  \"action\": \"Reject\", \"ipMask\": \"0.0.0.0/0\" } ]');
+                  setIpFilterRulesMustSucceed();
+              });
+          }
+
+          function setIpFilterRulesMustSucceed() {
+              suite.execute('iothub ipfilter-rules set --name %s --resource-group %s --input-file %s', iothubName, testResourceGroup, ipFilterRulesFile, function (result) {
+                  result.exitStatus.should.be.equal(0);
+                  listIpFilterRulesMustSucceed();
+              });
+          }
+
+          function listIpFilterRulesMustSucceed() {
+              suite.execute('iothub ipfilter-rules list --name %s --resource-group %s --output-file %s', iothubName, testResourceGroup, ipFilterRulesFile, function (result) {
+                  result.exitStatus.should.be.equal(0);
+                  var jsonFile = fs.readFileSync(ipFilterRulesFile);
+                  var ipFilterRules = JSON.parse(utils.stripBOM(jsonFile));
+                  ipFilterRules.length.should.be.equal(2);
+                  done();
+              });
+          }
+      });
     });
 
     describe.skip('All Tests', function () {
 
       it('create command should work', function (done) {
-
         iothubName = suite.generateId(iothubPrefix, knownNames);
         createIotHubMustSucceed();
 
@@ -391,14 +423,14 @@ describe('arm', function () {
         deleteIotHubMustSucceed();
 
         function deleteIotHubMustSucceed() {
-          suite.execute('iothub delete --name %s --resource-group %s ', iothubName, testResourceGroup, function (result) {
+          suite.execute('iothub delete --name %s --resource-group %s --json', iothubName, testResourceGroup, function (result) {
             result.exitStatus.should.be.equal(0);
             showIotHubMustFail();
           });
         }
 
         function showIotHubMustFail() {
-          suite.execute('iothub show --name %s --resource-group %s', iothubName, testResourceGroup, function (result) {
+          suite.execute('iothub show --name %s --resource-group %s --json', iothubName, testResourceGroup, function (result) {
             result.exitStatus.should.be.equal(1);
             result.errorText.should.include('IotHubNotFound');
             done();

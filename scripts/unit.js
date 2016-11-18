@@ -70,6 +70,10 @@ args.push(reporter);
 //for clean shutdown of the event loop, so silly log gets drained to disk.
 args.push('--no-exit');
 
+// Enable streamline in testing code
+args.push('--compilers');
+args.push('_js:streamline/register');
+
 console.log('Start (' + testList + '):' + new Date().toLocaleTimeString());
 
 //console.log(JSON.stringify(args, null, 2));

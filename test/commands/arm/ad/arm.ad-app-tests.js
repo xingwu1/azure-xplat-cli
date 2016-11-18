@@ -22,6 +22,7 @@ var CLITest = require('../../../framework/arm-cli-test');
 var testprefix = 'arm-cli-ad-app-tests';
 var appPrefix = 'xplatTestAppCreate';
 var createdApps = [];
+var liveOnly = process.env.NOCK_OFF ? it : it.skip;
 
 describe('arm', function () {
   describe('ad', function () {
@@ -45,7 +46,7 @@ describe('arm', function () {
     });
     
     describe('app', function () {
-      it('create set and delete app should work', function (done) {
+      liveOnly('create set and delete app should work', function (done) {
         var appName = suite.generateId(appPrefix, createdApps);
         var idUri = 'https://' + appName + '.com/home';
         var replyUrls = 'https://locahost:9090,https://localhost:8080';
@@ -59,7 +60,7 @@ describe('arm', function () {
               result.exitStatus.should.equal(0);
               var sp = JSON.parse(result.text);
               var spObjectId = sp.objectId;
-              suite.execute('ad sp delete -p %s -q', spObjectId, function (result) {
+              suite.execute('ad sp delete -o %s -q', spObjectId, function (result) {
                 result.exitStatus.should.equal(0);
                 suite.execute('ad app delete %s -q', appObjectId, function (result) {
                   result.exitStatus.should.equal(0);
@@ -71,7 +72,7 @@ describe('arm', function () {
         });
       });
 
-      it('get and list app should work', function (done) {
+      liveOnly('get and list app should work', function (done) {
         var appName = suite.generateId(appPrefix, createdApps);
         var idUri = 'https://' + appName + '.com/home';
         suite.execute('ad app create -n %s --home-page http://www.bing.com --identifier-uris %s --json', appName, idUri, function (result) {
