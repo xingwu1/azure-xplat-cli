@@ -32,6 +32,7 @@ var requiredEnvironment = [
 ];
 
 var testPrefix = 'cli-batch-ncj-tests';
+var isWin = /^win/.test(process.platform);
 var suite;
 
 var batchAccount;
@@ -495,14 +496,56 @@ describe('cli', function () {
     });
 
     it('should correctly resolve file paths', function (done) {
+      if (isWin) {
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(3);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(3);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\*", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(3);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\foo.txt", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(1);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\*.txt", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(1);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\f*.txt", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(1);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\**\\sample_data\\test.txt", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data');
+          resolvedPaths.files.length.should.equal(1);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\**\\sample_data\\test*.txt", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data');
+          resolvedPaths.files.length.should.equal(1);
+        });
+        fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\**\\*.txt", function(error, resolvedPaths) {
+          should.not.exist(error);
+          resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
+          resolvedPaths.files.length.should.equal(2);
+        });
+      };
       fileUtils.resolveFilePaths("./test/data/batchFileTests", function(error, resolvedPaths) {
         should.not.exist(error);
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
-        resolvedPaths.files.length.should.equal(3);
-      });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
         resolvedPaths.files.length.should.equal(3);
       });
       fileUtils.resolveFilePaths("./test/data/batchFileTests/", function(error, resolvedPaths) {
@@ -510,19 +553,9 @@ describe('cli', function () {
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
         resolvedPaths.files.length.should.equal(3);
       });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
-        resolvedPaths.files.length.should.equal(3);
-      });
       fileUtils.resolveFilePaths("./test/data/batchFileTests/*", function(error, resolvedPaths) {
         should.not.exist(error);
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
-        resolvedPaths.files.length.should.equal(3);
-      });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\*", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
         resolvedPaths.files.length.should.equal(3);
       });
       fileUtils.resolveFilePaths("./test/data/batchFileTests/foo.txt", function(error, resolvedPaths) {
@@ -530,19 +563,9 @@ describe('cli', function () {
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
         resolvedPaths.files.length.should.equal(1);
       });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\foo.txt", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
-        resolvedPaths.files.length.should.equal(1);
-      });
       fileUtils.resolveFilePaths("./test/data/batchFileTests/*.txt", function(error, resolvedPaths) {
         should.not.exist(error);
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
-        resolvedPaths.files.length.should.equal(1);
-      });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\*.txt", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
         resolvedPaths.files.length.should.equal(1);
       });
       fileUtils.resolveFilePaths("./test/data/batchFileTests/f*.txt", function(error, resolvedPaths) {
@@ -550,19 +573,9 @@ describe('cli', function () {
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
         resolvedPaths.files.length.should.equal(1);
       });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\f*.txt", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
-        resolvedPaths.files.length.should.equal(1);
-      });
       fileUtils.resolveFilePaths("./test/data/**/sample_data/test.txt", function(error, resolvedPaths) {
         should.not.exist(error);
         resolvedPaths.localPath.should.equal('./test/data');
-        resolvedPaths.files.length.should.equal(1);
-      });
-      fileUtils.resolveFilePaths(".\\test\\data\\**\\sample_data\\test.txt", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data');
         resolvedPaths.files.length.should.equal(1);
       });
       fileUtils.resolveFilePaths("./test/data/**/sample_data/test*.txt", function(error, resolvedPaths) {
@@ -570,19 +583,9 @@ describe('cli', function () {
         resolvedPaths.localPath.should.equal('./test/data');
         resolvedPaths.files.length.should.equal(1);
       });
-      fileUtils.resolveFilePaths(".\\test\\data\\**\\sample_data\\test*.txt", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data');
-        resolvedPaths.files.length.should.equal(1);
-      });
       fileUtils.resolveFilePaths("./test/data/batchFileTests/**/*.txt", function(error, resolvedPaths) {
         should.not.exist(error);
         resolvedPaths.localPath.should.equal('./test/data/batchFileTests');
-        resolvedPaths.files.length.should.equal(2);
-      });
-      fileUtils.resolveFilePaths(".\\test\\data\\batchFileTests\\**\\*.txt", function(error, resolvedPaths) {
-        should.not.exist(error);
-        resolvedPaths.localPath.should.equal('.\\test\\data\\batchFileTests');
         resolvedPaths.files.length.should.equal(2);
       });
       done();
