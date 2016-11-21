@@ -28,7 +28,7 @@
             "type": "string",
             "defaultValue": "ffmpeg-pool",
             "metadata": {
-                "description": "The name of Azure Batch pool"
+                "description": "The id of Azure Batch pool"
             }
         }
     },

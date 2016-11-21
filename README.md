@@ -47,7 +47,7 @@ release will first need to be uninstalled.
 
 ### To install the Azure Batch preview CLI
 
-- Install from the tarball straight from GitHub: `npm install –g https://github.com/Azure/batch-xplat-cli-pr/archive/feature/ncj.tar.gz`
+- Install from the tarball straight from GitHub: `npm install –g https://github.com/Azure/azure-xplat-cli/archive/batch-beta.tar.gz`
 
 Note: To install via npm, you may need to run a command prompt as administrator (Windows) or use sudo (Linux/Mac).
 

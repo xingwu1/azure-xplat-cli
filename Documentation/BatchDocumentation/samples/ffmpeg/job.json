@@ -1,6 +1,6 @@
 {
     "parameters": {
-        "dataGroup": {
+        "inputFileGroup": {
             "type": "string",
             "defaultValue": "convert_data",
             "metadata": {
@@ -10,7 +10,7 @@
         "outputFileStorageUrl": {
             "type": "string",
             "metadata": {
-                "description": "The url of Azure storage container which hold the output file"
+                "description": "The SAS URL for a container where outputs will be stored"
             }
         },
         "inputType": {
@@ -24,13 +24,13 @@
             "type": "string",
             "defaultValue": "ffmpeg-pool",
             "metadata": {
-                "description": "The name of Azure Batch pool which runs the job"
+                "description": "The id of Azure Batch pool which runs the job"
             }
         },
         "jobId": {
             "type": "string",
             "metadata": {
-                "description": "The name of Azure Batch job"
+                "description": "The id of Azure Batch job"
             }
         },
         "taskStart": {
@@ -72,7 +72,7 @@
                     "resourceFiles": [
                         {
                             "source": { 
-                                "fileGroup": "[parameters('dataGroup')]",
+                                "fileGroup": "[parameters('inputFileGroup')]",
                                 "prefix": "sample{0}.[parameters('inputType')]"
                             }
                         }

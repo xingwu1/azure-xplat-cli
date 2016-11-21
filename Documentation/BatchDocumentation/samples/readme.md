@@ -12,10 +12,6 @@ audio compression with Azure Batch on a large number of numerically-named files 
 OCR (Optical Character Recognition) is the process of extracting text from PDF images. This sample demonstrates the batch
 processing of PDF files.
 
-## [OpenFOAM](openfoam)
-
-OpenFOAM is open-source software for calculating complex fluid simulations. 
-
 ## [Blender](blender)
 
 Blender is an open-source 3D content creation suite. This sample demonstrates distributed rendering on Azure Batch.

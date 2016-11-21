@@ -6,9 +6,9 @@
     "value": "<blob url with sas>"
   },
   "taskStart": {
-    "value": <the first id of convert files>
+    "value": <the first id of the files to convert>
   },
   "taskEnd": {
-    "value": <the last id of convert files>
+    "value": <the last id of the files to convert>
   }
 }
