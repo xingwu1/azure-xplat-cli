@@ -3100,6 +3100,22 @@
                   "description": "use json output"
                 },
                 {
+                  "flags": "--local-path <local-path>",
+                  "required": -14,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--local-path",
+                  "description": "Path or to a local file or directory to be uploaded can include wildcard patterns"
+                },
+                {
+                  "flags": "--file-group <file-group>",
+                  "required": -14,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--file-group",
+                  "description": "Name of a file group under which the files will be stored"
+                },
+                {
                   "flags": "-p, --path <path>",
                   "required": -12,
                   "optional": 0,
@@ -4113,7 +4129,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--template",
-                  "description": "the file containing the job object to create in JSON format; if this parameter is specified, all other job parameters are ignored."
+                  "description": "the file containing the job as a JSON template; this can only be used with --parameters."
                 },
                 {
                   "flags": "--parameters <parameters>",
@@ -4121,7 +4137,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--parameters",
-                  "description": "the file containing the job object to create in JSON format; if this parameter is specified, all other job parameters are ignored."
+                  "description": "the file containing the job template parameter values in JSON format; this can only be used with --template."
                 },
                 {
                   "flags": "--metadata <--metadata>",
@@ -7434,7 +7450,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--template",
-                  "description": "the file containing the pool object to create in JSON format; if this parameter is specified, all other pool parameters are ignored."
+                  "description": "the file containing the pool as a JSON template; this can only be used with --parameters."
                 },
                 {
                   "flags": "--parameters <parameters>",
@@ -7442,7 +7458,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--parameters",
-                  "description": "the file containing the pool object to create in JSON format; if this parameter is specified, all other pool parameters are ignored."
+                  "description": "the file containing the pool template parameter values in JSON format; this can only be used with --template."
                 },
                 {
                   "flags": "--certificate-ref <certificate-ref>",
