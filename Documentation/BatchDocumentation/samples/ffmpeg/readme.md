@@ -16,7 +16,7 @@ to convert, you should use a larger pool or bigger VMs in the pool. In order to 
 Run command `azure batch file upload <path> <group>` on a folder containing media files (`*.wav`) which are named with numerically increasing names with `sample` prefix (i.e. `sample1.wav`, `sample2.wave`, `sample3.wav`, etc).
 
 ## Create a job with parametric sweep tasks
-Edit the `job.parameters.json` file to supply parameters to the template.
+Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.json` parameters section to see what options are available.
 
 1. `poolId` must match the pool you created earlier.
 2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
