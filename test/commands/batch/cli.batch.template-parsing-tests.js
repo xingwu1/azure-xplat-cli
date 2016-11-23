@@ -82,5 +82,34 @@ describe('cli', function () {
       });
 
     });
+    describe('parameters() function', function() {
+
+      it('should replace string value for a string parameter', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[parameters('code')]",
+          parameters : {
+            code : {
+              "type": "string"
+            }
+          }
+        };
+        const parameters = {
+          code : "stringValue"
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+        // Assert
+
+        resolved.result.should.equal("stringValue");
+
+        done();
+      });
+
+    });
+
   });
 });
