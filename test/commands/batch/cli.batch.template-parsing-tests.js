@@ -46,5 +46,19 @@ describe('cli', function () {
       //TODO
     });
 
+    describe('expression evaluation', function() {
+
+      it('should replace a string containing only an expression', function(done) {
+        const definition = {
+          value : "['evaluateMe']"
+        };
+        const template = JSON.stringify(definition);
+        const parameters = { };
+        const result = templateUtils.parseTemplate(template, definition, parameters);
+        result.value.should.equal("evaluateMe");
+        done();
+      });
+
+    });
   });
 });
