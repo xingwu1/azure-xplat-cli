@@ -70,6 +70,17 @@ describe('cli', function () {
         done();
       });
 
+      it('should replace multiple expressions within a string', function(done) {
+        const definition = {
+          value : "prequel ['alpha'] interquel ['beta'] sequel"
+        };
+        const template = JSON.stringify(definition);
+        const parameters = { };
+        const result = templateUtils.parseTemplate(template, definition, parameters);
+        result.value.should.equal("prequel alpha interquel beta sequel");
+        done();
+      });
+
     });
   });
 });
