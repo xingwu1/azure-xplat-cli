@@ -109,6 +109,30 @@ describe('cli', function () {
         done();
       });
 
+      it('should replace numeric value for string parameter as a string', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[parameters('code')]",
+          parameters : {
+            code : {
+              "type": "string"
+            }
+          }
+        };
+        const parameters = {
+          code : 42
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+        // Assert
+
+        resolved.result.should.equal("42");  // Expect a string
+
+        done();
+      });
     });
 
   });
