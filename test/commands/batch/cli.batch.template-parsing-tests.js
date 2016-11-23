@@ -59,6 +59,17 @@ describe('cli', function () {
         done();
       });
 
+      it('should replace an expression within a string', function(done) {
+        const definition = {
+          value : "prequel ['alpha'] sequel"
+        };
+        const template = JSON.stringify(definition);
+        const parameters = { };
+        const result = templateUtils.parseTemplate(template, definition, parameters);
+        result.value.should.equal("prequel alpha sequel");
+        done();
+      });
+
     });
   });
 });
