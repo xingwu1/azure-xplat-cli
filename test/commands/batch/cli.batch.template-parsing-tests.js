@@ -158,6 +158,31 @@ describe('cli', function () {
 
         done();
       });
+      it('should replace string value for int parameter as int', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[parameters('code')]",
+          parameters : {
+            code : {
+              "type": "int"
+            }
+          }
+        };
+        const parameters = {
+          code : "42"
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal(42);
+
+        done();
+      });
+
     });
 
   });
