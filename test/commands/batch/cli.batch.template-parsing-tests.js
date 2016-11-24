@@ -81,6 +81,17 @@ describe('cli', function () {
         done();
       });
 
+      it('should unescape an escaped expression', function(done) {
+        const definition = {
+          value : "prequel [['alpha'] sequel"
+        };
+        const template = JSON.stringify(definition);
+        const parameters = { };
+        const result = templateUtils.parseTemplate(template, definition, parameters);
+        result.value.should.equal("prequel ['alpha'] sequel");
+        done();
+      });
+
       it('should not choke on JSON containing string arrays', function(done) {
         const definition = {
           values : [ 'alpha', 'beta', 'gamma', '[43]']
