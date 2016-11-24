@@ -385,6 +385,31 @@ describe('cli', function () {
 
         done();
       });
+
+      it('should handle with nested parameters() function calls', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[concat('alpha ', parameters('name'), ' gamma')]",
+          parameters : {
+            name : {
+              type: "string"
+            }
+          }
+        };
+        const parameters = {
+          name : "Frodo"
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("alpha Frodo gamma");
+
+        done();
+      });
     });
   });
 });
