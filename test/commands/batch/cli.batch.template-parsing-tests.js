@@ -329,6 +329,25 @@ describe('cli', function () {
         done();
       });
 
+      it('should handle strings and numbers', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[concat('alpha', 42, 'beta', 3, '.', 1415, 'gamma')]"
+        };
+        const parameters = {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("alpha42beta3.1415gamma");
+
+        done();
+      });
+
     });
   });
 });
