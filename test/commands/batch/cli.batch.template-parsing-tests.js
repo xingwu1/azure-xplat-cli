@@ -263,6 +263,26 @@ describe('cli', function () {
         done();
       });
 
+      it('should report an error for an unsupported parameter type', function(done) {
+
+        const template = {
+          result : "[parameters('code')]",
+          parameters : {
+            code : {
+              "type": "currency"
+            }
+          }
+        };
+        const parameters = {
+          code : true
+        };
+        const templateString = JSON.stringify(template);
+
+        should.throws( function() { templateUtils.parseTemplate( templateString, template, parameters); });
+
+        done();
+      });
+
     });
 
   });
