@@ -366,6 +366,25 @@ describe('cli', function () {
 
         done();
       });
+
+      it('should handle strings containing square brackets correctly', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[concat('alpha', '[', 'beta', ']', 'gamma')]"
+        };
+        const parameters = {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("alpha[beta]gamma");
+
+        done();
+      });
     });
   });
 });
