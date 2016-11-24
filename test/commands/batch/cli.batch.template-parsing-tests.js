@@ -319,6 +319,33 @@ describe('cli', function () {
 
     });
 
+    describe('variables() function', function() {
+
+      it('should replace value for a variable', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[variables('code')]",
+          variables : {
+            code : "enigmatic"
+          }
+        };
+        const parameters = 
+        {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("enigmatic");
+
+        done();
+      });
+
+    });
+
     describe('concat() function', function () {
 
       it('should handle strings', function(done) {
