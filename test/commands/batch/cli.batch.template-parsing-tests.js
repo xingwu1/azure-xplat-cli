@@ -238,6 +238,31 @@ describe('cli', function () {
         done();
       });
 
+      it('should replace string value for bool parameter as bool value', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[parameters('code')]",
+          parameters : {
+            code : {
+              "type": "bool"
+            }
+          }
+        };
+        const parameters = {
+          code : "true"
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal(true);
+
+        done();
+      });
+
     });
 
   });
