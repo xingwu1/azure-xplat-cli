@@ -183,6 +183,36 @@ describe('cli', function () {
         done();
       });
 
+      it('should replace int values for int parameters in nested expressions', function(done) {
+
+        // Arrange
+        const template = {
+          framesize : "Framesize is ([parameters('width')]x[parameters('height')]).",
+          parameters : {
+            width : {
+              type: "int"
+            },
+            height : {
+              type : "int"
+            }
+          }
+        };
+
+        const parameters = {
+          width : 1920,
+          height: 1080
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.framesize.should.equal("Framesize is (1920x1080).");
+
+        done();
+      });
+
     });
 
   });
