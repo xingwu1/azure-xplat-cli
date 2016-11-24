@@ -308,5 +308,27 @@ describe('cli', function () {
 
     });
 
+    describe('concat() function', function () {
+
+      it('should handle strings', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[concat('alpha', 'beta', 'gamma')]"
+        };
+        const parameters = {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("alphabetagamma");
+
+        done();
+      });
+
+    });
   });
 });
