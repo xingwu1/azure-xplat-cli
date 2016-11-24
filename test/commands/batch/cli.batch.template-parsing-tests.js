@@ -348,6 +348,24 @@ describe('cli', function () {
         done();
       });
 
+      it('should handle strings containing commas correctly', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[concat('alpha', ', ', 'beta', ', ', 'gamma')]"  // five strings; strings 2 and 4 are 'comma space''
+        };
+        const parameters = {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("alpha, beta, gamma");
+
+        done();
+      });
     });
   });
 });
