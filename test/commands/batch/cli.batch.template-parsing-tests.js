@@ -410,6 +410,25 @@ describe('cli', function () {
 
         done();
       });
+
+      it('should handle with nested concat function calls', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[concat('alpha ', concat('this', '&', 'that'), ' gamma')]"
+        };
+        const parameters = {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("alpha this&that gamma");
+
+        done();
+      });
     });
   });
 });
