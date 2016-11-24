@@ -344,6 +344,29 @@ describe('cli', function () {
         done();
       });
 
+      it('should replace function result for a variable', function(done) {
+
+        // Arrange
+        const template = {
+          result : "[variables('code')]",
+          variables : {
+            code : "[concat('this', '&', 'that')]"
+          }
+        };
+        const parameters = 
+        {
+        };
+        const templateString = JSON.stringify(template);
+
+        // Act
+        const resolved = templateUtils.parseTemplate( templateString, template, parameters);
+
+        // Assert
+        resolved.result.should.equal("this&that");
+
+        done();
+      });
+
     });
 
     describe('concat() function', function () {
