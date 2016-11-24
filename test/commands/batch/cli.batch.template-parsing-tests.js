@@ -81,6 +81,17 @@ describe('cli', function () {
         done();
       });
 
+      it('should not choke on JSON containing string arrays', function(done) {
+        const definition = {
+          values : [ 'alpha', 'beta', 'gamma', '[43]']
+        };
+        const template = JSON.stringify(definition);
+        const parameters = { };
+        const result = templateUtils.parseTemplate(template, definition, parameters);
+        result.values[3].should.equal("43");
+        done();
+      });
+
     });
     describe('parameters() function', function() {
 
@@ -158,6 +169,7 @@ describe('cli', function () {
 
         done();
       });
+
       it('should replace string value for int parameter as int', function(done) {
 
         // Arrange
