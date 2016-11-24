@@ -92,7 +92,18 @@ describe('cli', function () {
         done();
       });
 
+      it('should not choke on JSON containing number arrays', function(done) {
+        const definition = {
+          values : [ 1, 1, 2, 3, 5, 8, 13]
+        };
+        const template = JSON.stringify(definition);
+        const parameters = { };
+        const result = templateUtils.parseTemplate(template, definition, parameters);
+        result.values[3].should.equal(3);
+        done();
+      });
     });
+
     describe('parameters() function', function() {
 
       it('should replace string value for a string parameter', function(done) {
