@@ -65,16 +65,30 @@ describe('cli', function () {
 
   });
   
-  it('should do nothing when no application template is required', function(done){
+    it('should do nothing when no application template is required', function(done){
 
-    const job = { 
-      id : "jobid"
-    };
+      const job = { 
+        id : "jobid"
+      };
 
-    templateUtils.expandApplicationTemplate(job, function(err, result) {
-      result.should.equal(job);
-      done();
+      templateUtils.expandApplicationTemplate(job, function(err, result) {
+        result.should.equal(job);
+        done();
+      });
+    });  
+
+    it('should throw error if no filePath supplied for application template', function(done) {
+      const job = {
+        id : "jobid",
+        applicationTemplateInfo : {
+        }
+      };
+
+      templateUtils.expandApplicationTemplate(job, function(err, result) {
+        should(result).not.exist;
+        should(err).not.be.null;
+        done();
+      });
     });
-  });  
 
 });
