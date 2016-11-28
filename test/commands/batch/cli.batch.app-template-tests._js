@@ -62,33 +62,69 @@ describe('cli', function () {
       done();
     });
 
+    describe('validateJobRequestingApplicationTemplate()', function () {
 
-  });
-  
-    it('should do nothing when no application template is required', function(done){
+      it('should do nothing for a job not using an application template', function(_) {
+        const job = {
+          id : 'jobid'
+        };
+        templateUtils.validateJobRequestingApplicationTemplate(job, _);
+      });
 
+      it('should throw an error if job does not specify template location', function(_) {
+        const job = {
+          id : 'jobid',
+          applicationTemplateInfo : { }
+        };
+        var error;
+        try {
+          templateUtils.validateJobRequestingApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error);
+      });
+
+      it('should throw an error if the template referenced by the job does not exist', function(_) {
+        const job = {
+          id : 'jobid',
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath + '.notfound'
+          }
+        };
+
+        var error;
+        try {
+          templateUtils.validateJobRequestingApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error);
+      });
+    });
+   
+    it('should do nothing when no application template is required', function(_){
       const job = { 
         id : "jobid"
       };
-
-      templateUtils.expandApplicationTemplate(job, function(err, result) {
-        result.should.equal(job);
-        done();
-      });
+      const result = templateUtils.expandApplicationTemplate(job, _);
+      result.should.equal(job);
     });  
 
-    it('should throw error if no filePath supplied for application template', function(done) {
+    it('should throw error if no filePath supplied for application template', function(_) {
       const job = {
         id : "jobid",
         applicationTemplateInfo : {
         }
       };
-
-      templateUtils.expandApplicationTemplate(job, function(err, result) {
-        should(result).not.exist;
-        should(err).not.be.null;
-        done();
-      });
+      var error;
+      try {
+        templateUtils.expandApplicationTemplate(job, _);
+      } catch (e) {
+        error = e;
+      }
+      should.exist(error);
     });
 
+  });
 });
