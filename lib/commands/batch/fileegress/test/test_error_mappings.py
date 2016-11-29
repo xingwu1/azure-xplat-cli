@@ -1,3 +1,4 @@
+import json
 import uploader
 import azure.common
 
@@ -95,3 +96,16 @@ def test_non_aggregate_exception():
     assert error_specification.file is None
     assert error_specification.pattern is None
     assert error_specification.user_error is False
+
+
+def test_serialize_error():
+    err = azure.common.AzureHttpError(u'Some text here', 411)
+    agg = uploader.AggregateException([('file', 'pattern', err)])
+    error_specification = batchfileuploader.generate_error_specification(agg)
+    text = json.dumps(
+        error_specification,
+        cls=configuration.SpecificationEncoder,
+        sort_keys=True)
+
+    assert text == '{"code": "UnknownError", "file": "file", ' \
+                   '"pattern": "pattern", "user_error": false}'

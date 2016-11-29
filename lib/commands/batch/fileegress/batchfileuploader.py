@@ -68,6 +68,16 @@ def load_specification_from_env(env):
     return configuration.Specification.from_dict(spec)
 
 
+def load_specification_from_stdin():
+    # type: () -> configuration.Specification
+    """Loads a specification from stdin
+
+    :return: The specification object
+    """
+    spec = json.loads(sys.stdin.read())
+    return configuration.Specification.from_dict(spec)
+
+
 def generate_error_specification(exception):
     try:
         file, pattern, error = exception.errors[0]
@@ -95,8 +105,7 @@ def main():
 
     file_uploader = uploader.FileUploader(
         os.environ['AZ_BATCH_JOB_ID'],
-        os.environ['AZ_BATCH_TASK_ID'],
-        os.path.join(os.environ['AZ_BATCH_TASK_DIR'], UPLOAD_LOG_NAME))
+        os.environ['AZ_BATCH_TASK_ID'])
 
     success = None
     if args.success:
