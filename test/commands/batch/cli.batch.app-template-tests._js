@@ -252,6 +252,26 @@ describe('cli', function () {
         done();
       });
   
+      it('should throw an error if a value is provided for a non-existing parameter', function(done) {
+        const parameters = { 
+          membership : "Gold"
+        };
+        const definitions = {
+          customerType : { 
+            type : "string",
+            defaultValue : "peasant"
+          }
+        };
+        var error;
+        try {
+          templateUtils.validateParameterUsage(parameters, definitions);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('membership').should.be.above(0, 'Expect parameter \'membership\' to be mentioned: ' + error.message);
+        done();
+      });
     });
 
     it('should do nothing when no application template is required', function(_){
