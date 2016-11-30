@@ -319,6 +319,17 @@ describe('cli', function () {
         should.deepEqual(result, alpha);
         done();
       });
+  
+      it('should return more metadata when only more metadata supplied', function(done) {
+        const alpha = undefined;
+        const beta = [{
+          name : 'gender',
+          value : 'unspecified'
+        }];
+        const result = templateUtils.mergeMetadata(alpha, beta);
+        should.deepEqual(result, beta);
+        done();
+      });
     });
 
     it('should do nothing when no application template is required', function(_){
