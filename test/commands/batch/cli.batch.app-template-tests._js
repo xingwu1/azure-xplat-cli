@@ -330,6 +330,33 @@ describe('cli', function () {
         should.deepEqual(result, beta);
         done();
       });
+  
+      it('should return merged metadata when there is no overlap', function(done) {
+        const alpha = [{
+          name : 'name',
+          value : 'Adam'
+        }, {
+          name : 'age',
+          value : 'old'
+        }];
+        const beta = [{
+          name : 'gender',
+          value : 'unspecified'
+        }];
+        const expected = [{
+          name : 'name',
+          value : 'Adam'
+        }, {
+          name : 'age',
+          value : 'old'
+        }, {
+          name : 'gender',
+          value : 'unspecified'
+        }]
+        var result = templateUtils.mergeMetadata(alpha, beta);
+        should.deepEqual(result, expected);
+        done();      
+      });
     });
 
     it('should do nothing when no application template is required', function(_){
