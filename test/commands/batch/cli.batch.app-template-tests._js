@@ -272,6 +272,28 @@ describe('cli', function () {
         error.message.indexOf('membership').should.be.above(0, 'Expect parameter \'membership\' to be mentioned: ' + error.message);
         done();
       });
+  
+      it('should accept having no job parameters if there are no template parameters', function(done) { 
+        const parameters = undefined;
+        const definitions = undefined;
+        templateUtils.validateParameterUsage(parameters, definitions);
+        // Pass implied by no Error
+        done();
+      });
+  
+      it('should accept having no job parameters if all template parameters have defaults', function(done) { 
+        const parameters = undefined;
+        const definitions = {
+          customerType : { 
+            type : "string",
+            defaultValue : "peasant"
+          }
+        };
+        templateUtils.validateParameterUsage(parameters, definitions);
+        // Pass implied by no Error
+        done();      
+      });
+  
     });
 
     it('should do nothing when no application template is required', function(_){
