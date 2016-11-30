@@ -92,7 +92,6 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath + '.notfound'
           }
         };
-
         var error;
         try {
           templateUtils.validateJobRequestingApplicationTemplate(job, _);
@@ -101,8 +100,26 @@ describe('cli', function () {
         }
         should.exist(error);
       });
+
+      it('should throw an error if job uses property reserved for application template use', function(_) {
+        const job = {
+          id : 'jobid',
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          },
+          usesTaskDependencies : true
+        };
+        var error;
+        try {
+          templateUtils.validateJobRequestingApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error);
+      });
+
     });
-   
+    
     it('should do nothing when no application template is required', function(_){
       const job = { 
         id : "jobid"
