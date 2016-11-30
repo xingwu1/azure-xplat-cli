@@ -6,7 +6,7 @@ The Azure Batch preview CLI integrates with Batch Shipyard to allow you to provi
 
 In order to use Docker containers with the Azure Batch preview CLI, the following prerequisites must also be installed locally:
 - You must install Python (2.7 or 3.3+), and it must be available on the PATH.
-- You must install Batch Shipyard. See the [installation guide](https://github.com/Azure/batch-shipyard/blob/master/docs/01-batch-shipyard-installation.md) for more details. The Azure Batch CLI currently targets Batch Shipyard version 1.1.0. Compatibility with other versions is not guaranteed.
+- You must install Batch Shipyard. See the [installation guide](https://github.com/Azure/batch-shipyard/blob/2.1.0/docs/01-batch-shipyard-installation.md) for more details. The Azure Batch CLI currently targets Batch Shipyard version 2.1.0. Compatibility with other versions is not guaranteed.
 
 ## Provisioning a pool to use Docker containers:
 
@@ -14,7 +14,7 @@ To provision Batch compute nodes that use Docker containers, you must supply a `
 `dockerOptions`: 
 * `image`: (required, string) The Docker image to install on every compute node when the pool is created.
 * `registry`: (optional, object) Configure Docker image distribution options from public/private Docker Hub.
-  * `login`: (optional, object) Controls Docker registry login settings. This does not need to be supplied if pulling from public Docker repositories.
+  * `hub`: (optional, object) Docker Hub login settings. This does not need to be supplied if pulling from public Docker repositories.
     * `username`: (required, string) The username to log in with.
     * `password`: (required, string) The password to log in with.
   * `private`: (optional, object) Controls settings for private registries.

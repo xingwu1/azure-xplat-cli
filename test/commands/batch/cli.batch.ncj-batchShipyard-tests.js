@@ -56,9 +56,9 @@ var poolBody = {
     'dockerOptions': {
       'image': 'ncj/caffe:cpu',
       'registry': {
-        'login': {
-          'username': 'user',
-          'password': 'password'
+        'hub': {
+          'username': 'hubUser',
+          'password': 'hubPassword'
         },
         'private': {
           'allowPublicPullOnMissing': false
@@ -219,6 +219,51 @@ describe('cli', function () {
       done();
     });
     
+    it('should add Docker Hub login info to the credentials JSON given a pool body', function (done) {
+      var originalCredentialsJson = {
+        "credentials": {
+          "batch": {
+            "account": "batchaccount",
+            "account_key": "batchkey",
+            "account_service_url": "https://batchaccount.antarctica.batch.azure.com/"
+          },
+          "storage": {
+            "mystorageaccount": {
+              "account": "storageaccount",
+              "account_key": "storagekey",
+              "endpoint": "core.windows.net"
+            }
+          }
+        }
+      };
+      var credentialsWithDockerHubLogin = batchShipyardUtils.addDockerHubLoginToCredentialsConfig(originalCredentialsJson, poolBody);
+
+      var expectedCredentialsJson = {
+        "credentials": {
+          "batch": {
+            "account": "batchaccount",
+            "account_key": "batchkey",
+            "account_service_url": "https://batchaccount.antarctica.batch.azure.com/"
+          },
+          "storage": {
+            "mystorageaccount": {
+              "account": "storageaccount",
+              "account_key": "storagekey",
+              "endpoint": "core.windows.net"
+            }
+          },
+          "docker_registry" : {
+            "hub": {
+              "username": "hubUser",
+              "password": "hubPassword"
+            }
+          }
+        }
+      };
+      expectedCredentialsJson.should.eql(credentialsWithDockerHubLogin);
+      done();
+    });
+
     it('should create the correct Batch Shipyard config json given a pool body', function (done) {
       var configJson = batchShipyardUtils.createConfigJsonFromPool(poolBody);
       var expectedConfigJson = {
@@ -227,12 +272,7 @@ describe('cli', function () {
           'storage_entity_prefix': 'shipyard'
         },
         'docker_registry': {
-          'login': {
-            'username': 'user',
-            'password': 'password'
-          },
           'private': {
-            'enabled': true,
             'allow_public_docker_hub_pull_on_missing': false
           }
         },
@@ -338,10 +378,21 @@ describe('cli', function () {
     });
     
     it('should create the correct Batch Shipyard pool json given a job body', function (done) {
-      var batchShipyardPoolJson = batchShipyardUtils.createBatchShipyardPoolJsonFromJob(jobBody);
+      var jobPool = {
+        'id': 'pool01',
+        'vmSize': 'standard_a1',
+        'targetDedicated': 3
+      };
+
+      var batchShipyardPoolJson = batchShipyardUtils.createBatchShipyardPoolJsonForJob(jobBody, jobPool);
+
       var expectedPoolJson = {
         'pool_specification': {
-          'id': 'pool01'
+          'id': 'pool01',
+          'vm_size': 'standard_a1',
+          'vm_count': 3,
+          'reboot_on_start_task_failed': true,
+          'block_until_all_global_resources_loaded': true
         }
       };
       batchShipyardPoolJson.should.eql(expectedPoolJson);
@@ -642,7 +693,8 @@ describe('cli', function () {
           }
         }
       };
-      (function () { batchShipyardUtils.createBatchShipyardPoolJsonFromJob(jobBodyWithoutPoolId) }).should.throw(
+
+      (function() { batchShipyardUtils.createBatchShipyardPoolJsonForJob(jobBodyWithoutPoolId, undefined) }).should.throw(
         'When specifying dockerOptions on your tasks, the job.poolInfo.poolId property must be set.');
       done();
     });
