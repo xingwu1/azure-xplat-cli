@@ -291,9 +291,20 @@ describe('cli', function () {
         };
         templateUtils.validateParameterUsage(parameters, definitions);
         // Pass implied by no Error
-        done();      
+        done();
       });
   
+    });
+
+    describe('mergeMetadata()', function () {
+  
+      it('should return empty array when both parameters are undefined', function(done) { 
+        const alpha = undefined;
+        const beta = undefined;
+        const result = templateUtils.mergeMetadata(alpha, beta);
+        result.length.should.equal(0);
+        done();
+      });
     });
 
     it('should do nothing when no application template is required', function(_){
