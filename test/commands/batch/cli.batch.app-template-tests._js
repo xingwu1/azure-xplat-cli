@@ -331,6 +331,32 @@ describe('cli', function () {
         done();
       });
   
+      it('should throw an error if the two collections overlap', function(done) {
+        const alpha = [{
+          name : 'name',
+          value : 'Adam'
+        }, {
+          name : 'age',
+          value : 'old'
+        }];
+        const beta = [{
+          name : 'name',
+          value : 'Brian'
+        }, {
+          name : 'gender',
+          value : 'unspecified'
+        }];
+        var error;
+        try {
+          templateUtils.mergeMetadata(alpha, beta);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('name').should.be.above(0, 'Expect metadata \'name\' to be mentioned: ' + error.message);
+        done();
+      });
+  
       it('should return merged metadata when there is no overlap', function(done) {
         const alpha = [{
           name : 'name',
