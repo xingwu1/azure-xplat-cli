@@ -137,6 +137,7 @@
     "test": "npm -s run-script jshint && npm -s run-script unit-arm && npm -s run-script unit",
     "unit": "node scripts/unit.js testlist.txt",
     "unit-arm": "node scripts/unit.js testlist-arm.txt",
+    "unit-batch": "node scripts/unit.js testlist-batch.txt",
     "unit-vm": "node scripts/unit.js testlist-vm.txt",
     "unit-vm-live": "node scripts/unit.js testlist-vm-live.txt",
     "unit-arm-vm": "node scripts/unit.js testlist-arm-vm.txt",

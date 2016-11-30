@@ -3,6 +3,7 @@
   "camelcase": true,
   "curly": false,
   "eqeqeq": false,
+  "esnext": true,
   "forin": false,
   "immed": true,
   "indent": 2,
