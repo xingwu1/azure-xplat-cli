@@ -231,6 +231,27 @@ describe('cli', function () {
         error.message.indexOf('age').should.be.above(0, 'Expect parameter \'age\' to be mentioned: ' + error.message);
         done();
       });
+  
+      it('should throw an error if the value provided for an bool parameter is not type compatible', function(done) { 
+        const parameters = { 
+          isMember : "frog"
+        };
+        const definitions = {
+          isMember : {
+            type : "bool"
+          }
+        };
+        var error;
+        try {
+          templateUtils.validateParameterUsage(parameters, definitions);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('isMember').should.be.above(0, 'Expect parameter \'isMember\' to be mentioned: ' + error.message);
+        done();
+      });
+  
     });
 
     it('should do nothing when no application template is required', function(_){
