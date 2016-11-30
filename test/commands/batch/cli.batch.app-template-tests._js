@@ -117,6 +117,24 @@ describe('cli', function () {
         }
         should.exist(error);
       });
+    });
+    
+    describe('validateApplicationTemplate()', function() {
+
+      it('should throw an error if the template uses a property reserved for use by the job', function(_) {
+        const template = {
+          usesTaskDependencies : true,
+          displayName : 'display this name'
+        }
+        var error;
+        try {
+          templateUtils.validateApplicationTemplate(template);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error);
+        error.message.indexOf('displayName').should.be.above(0, 'Expected \'displayName\' in: ' + error.message);
+      });
 
     });
     
