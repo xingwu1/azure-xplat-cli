@@ -192,6 +192,28 @@ describe('cli', function () {
 
     });
     
+    describe('validateParameterUsage()', function () {
+  
+      it('should throw an error if no value is provided for a parameter without a default', function(done) { 
+        const parameters = { };
+        const definitions = {
+          name : {
+            type : "string"
+          }
+        };
+        var error;
+        try {
+          templateUtils.validateParameterUsage(parameters, definitions);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('name').should.be.above(0, 'Expect parameter \'name\' to be mentioned: ' + error.message);
+        done();
+      });
+  
+    });
+
     it('should do nothing when no application template is required', function(_){
       const job = { 
         id : "jobid"
