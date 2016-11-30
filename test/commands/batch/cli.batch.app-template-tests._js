@@ -136,6 +136,20 @@ describe('cli', function () {
         error.message.indexOf('displayName').should.be.above(0, 'Expected \'displayName\' in: ' + error.message);
       });
 
+      it('should throw an error if the template uses a property not recognized', function(_) {
+        const template = {
+          usesTaskDependencies : true,
+          vendor : 'origin'
+        }
+        var error;
+        try {
+          templateUtils.validateApplicationTemplate(template);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('vendor').should.be.above(0, 'Expected \'vendor\' in: ' + error.message);
+      });
     });
     
     it('should do nothing when no application template is required', function(_){
