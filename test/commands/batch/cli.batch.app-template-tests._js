@@ -298,11 +298,25 @@ describe('cli', function () {
 
     describe('mergeMetadata()', function () {
   
-      it('should return empty array when both parameters are undefined', function(done) { 
+      it('should return empty metadata when no metadata supplied', function(done) { 
         const alpha = undefined;
         const beta = undefined;
         const result = templateUtils.mergeMetadata(alpha, beta);
         result.length.should.equal(0);
+        done();
+      });
+  
+      it('should return base metadata when only base metadata supplied', function(done) { 
+        const alpha = [{
+          name : 'name',
+          value : 'Adam'
+        }, {
+          name : 'age',
+          value : 'old'
+        }];
+        const beta = undefined;
+        const result = templateUtils.mergeMetadata(alpha, beta);
+        should.deepEqual(result, alpha);
         done();
       });
     });
