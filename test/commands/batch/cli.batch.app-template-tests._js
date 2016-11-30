@@ -212,6 +212,25 @@ describe('cli', function () {
         done();
       });
   
+      it('should throw an error if the value provided for an int parameter is not type compatible', function(done) {
+        const parameters = { 
+          age : "eleven"
+        };
+        const definitions = {
+          age : {
+            type : "int"
+          }
+        };
+        var error;
+        try {
+          templateUtils.validateParameterUsage(parameters, definitions);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('age').should.be.above(0, 'Expect parameter \'age\' to be mentioned: ' + error.message);
+        done();
+      });
     });
 
     it('should do nothing when no application template is required', function(_){
