@@ -98,7 +98,7 @@ describe('cli', function () {
         } catch (e) {
           error = e;
         }
-        should.exist(error);
+        should.exist(error, "Expect to have an error");
       });
 
       it('should throw an error if job uses property reserved for application template use', function(_) {
@@ -115,7 +115,7 @@ describe('cli', function () {
         } catch (e) {
           error = e;
         }
-        should.exist(error);
+        should.exist(error, "Expect to have an error");
       });
     });
     
@@ -132,8 +132,8 @@ describe('cli', function () {
         } catch (e) {
           error = e;
         }
-        should.exist(error);
-        error.message.indexOf('displayName').should.be.above(0, 'Expected \'displayName\' in: ' + error.message);
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('displayName').should.be.above(0, 'Expect property \'displayName\' to be mentioned: ' + error.message);
       });
 
       it('should throw an error if the template uses a property not recognized', function(_) {
@@ -148,7 +148,9 @@ describe('cli', function () {
           error = e;
         }
         should.exist(error, "Expect to have an error");
-        error.message.indexOf('vendor').should.be.above(0, 'Expected \'vendor\' in: ' + error.message);
+        error.message.indexOf('vendor').should.be.above(0, 'Expect property \'vendor\' to be mentioned: ' + error.message);
+      });
+
       it('should throw an error if a parameter does not declare a specific type', function(_) {
         const template = {
           usesTaskDependencies : true,
@@ -190,7 +192,7 @@ describe('cli', function () {
       } catch (e) {
         error = e;
       }
-      should.exist(error);
+      should.exist(error, "Expect to have an error");
     });
 
   });
