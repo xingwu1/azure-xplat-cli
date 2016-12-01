@@ -453,6 +453,27 @@ describe('cli', function () {
         result.metadata[0].value.should.equal(job.applicationTemplateInfo.parameters.keyValue);  
       });
 
+      it('should throw an error if any parameter has an undefined type', function(_) {
+        const untypedParameterFilePath = path.resolve(__dirname, '../../data/batch-appTemplate-untypedParameter.json');
+        const job = {
+          id : "parameterJob",
+          applicationTemplateInfo : {
+            filePath : untypedParameterFilePath,
+            parameters : {
+              blobName : "music.mp3",
+              keyValue : "yale"
+            }
+          }
+        };
+        var error;
+        try {
+          templateUtils.expandApplicationTemplate(job, _);  
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('blobName').should.be.above(0, 'Expect parameter \'blobName\' to be mentioned: ' + error.message);
+      });
 
 
     });
