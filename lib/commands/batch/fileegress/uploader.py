@@ -20,18 +20,16 @@ import logging
 import logging.handlers
 import os
 import sys
+import traceback
 import multiprocessing
 try:
     import pathlib
 except:
     import pathlib2 as pathlib
-    pass
-
 try:
     import urllib.parse as urlparse
 except:
     import urlparse
-    pass
 # non-stdlib imports
 import azure.storage.blob
 # local imports
@@ -62,6 +60,26 @@ def _extract_container_sas_token(container_sas):
     return netloc.split('.')[0], path, query
 
 
+def _resolve_symlinks_and_relative_paths(path):
+    # type: pathlib.Path -> pathlib.Path
+    """Resolves symlinks and relative paths if possible
+
+    :param path: The path
+    :return: The path with symlinks and relative paths removed
+    """
+    try:
+        path = path.resolve()
+    except WindowsError:  # TODO: check for more specific error
+        pass
+    except OSError as e:
+        if e.errno == 2:
+            pass
+        else:
+            raise
+
+    return path
+
+
 def _extract_pathinfo(input_pattern):
     # str -> Tuple[str, str, bool, bool]:
     """Extracts details about a given pattern
@@ -88,7 +106,7 @@ def _extract_pathinfo(input_pattern):
     recursive = False
     fullpath = True
     for p in _pparts:
-        if p.startswith('*'):
+        if '*' in p:
             if p == '**':
                 recursive = True
             fullpath = False
@@ -100,15 +118,7 @@ def _extract_pathinfo(input_pattern):
     else:
         base_path = pathlib.Path(*file)
     # attempt to resolve path to remove symlinks and relative paths
-    try:
-        base_path = base_path.resolve()
-    except WindowsError:  # TODO: Seems bad
-        pass
-    except OSError as e:
-        if e.errno == 2:
-            pass
-        else:
-            raise
+    base_path = _resolve_symlinks_and_relative_paths(base_path)
     # stamp pattern from base_path
     pattern = str(typed_path)
     base_path = str(base_path)
@@ -130,6 +140,7 @@ def normalize_blob_name(root, file):
     :return: A blob name.
     """
     path = pathlib.Path(file)
+    path = _resolve_symlinks_and_relative_paths(path)
     rel = str(path.relative_to(root))
     if util.on_windows():
         rel = rel.replace(os.path.sep, '/')
@@ -138,7 +149,9 @@ def normalize_blob_name(root, file):
 
 def glob_files(root, pattern):
     # type: (str, str) -> Iterable
-    """Creates an iterable given a file pattern
+    """Creates an iterable given a file pattern.
+
+    Note that this returns a generator not a fully resolved collection.
 
     :param root: The root path.
     :param pattern: The pattern to apply relative to the root path.
@@ -152,6 +165,9 @@ def glob_files(root, pattern):
 
 
 class ResolvedFileMapping(object):
+    """A file mapping containing all of the necessary details to perform a
+    file upload, including both the source and the destination.
+   """
     def __init__(
             self,
             base_path,  # type: str
@@ -210,6 +226,8 @@ class ResolvedFileMapping(object):
 
 # TODO: The C# is leaking...
 class AggregateException(Exception):
+    """An exception comprised entirely of other exceptions.
+    """
     def __init__(self, errors):
         # type: (Tuple[str, str, List[Exception]]) -> None
         """
@@ -234,7 +252,6 @@ class FileUploader(object):
             self,
             job_id,  # type: str
             task_id,  # type: str
-            log_path  # type: str
     ):
         self.job_id = job_id  # type: str
         self.task_id = task_id  # type: str
@@ -243,14 +260,11 @@ class FileUploader(object):
         self.logger = logging.getLogger('{}-{}'.format(
             self.job_id, self.task_id))
         self.logger.setLevel('INFO')
-        # TODO: This is ignored right now
-        # handler = logging.FileHandler(log_path)
         handler = logging.StreamHandler(stream=sys.stdout)
         formatter = logging.Formatter('%(asctime)-15s %(message)s')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
 
-    # TODO: This could be async
     def _upload_file(
             self,
             blob_client,  # type: azure.storage.blob.BlockBlobService
@@ -281,7 +295,6 @@ class FileUploader(object):
             'Upload of %s done in %s',
             path, end_time - start_time)
 
-    # TODO: This could be async
     @staticmethod
     def _gather_files_to_upload(
             file_info  # type: List[ResolvedFileMapping]
@@ -301,7 +314,6 @@ class FileUploader(object):
             files.append((resolved_mapping, matched_files))
         return files
 
-    # TODO: This could be async
     def push_file_list_to_storage(self, file_info):
         # type: (List[ResolvedFileMapping]) -> None
         """Uploads the files specified by the mapping to Azure Blob storage
@@ -314,16 +326,33 @@ class FileUploader(object):
             self.logger.info(
                 'Uploading all files matching pattern %s',
                 resolved_mapping.full_pattern)
-            for file in file_iter:
-                try:
-                    self._upload_file(
-                        resolved_mapping.blob_client,
-                        resolved_mapping.destination_container,
-                        str(file),
-                        resolved_mapping.calculate_destination(file))
-                except Exception as e:
-                    errors.append(
-                        (str(file), resolved_mapping.full_pattern, e))
+            try:
+                for file in file_iter:
+                    if not file.is_file():
+                        continue
+                    try:
+                        self._upload_file(
+                            resolved_mapping.blob_client,
+                            resolved_mapping.destination_container,
+                            str(file),
+                            resolved_mapping.calculate_destination(file))
+                    except Exception as e:
+                        exception_details = traceback.format_exc()
+                        self.logger.info(
+                            'Encountered an error while '
+                            'uploading file {}. Error: {}'.format(
+                                str(file), exception_details))
+                        errors.append(
+                            (str(file), resolved_mapping.full_pattern, e))
+            except Exception as e:
+                exception_details = traceback.format_exc()
+                self.logger.info(
+                    'Encountered an error while uploading '
+                    'pattern {}. Error: {}'.format(
+                        resolved_mapping.full_pattern,
+                        exception_details))
+                errors.append(
+                    (None, resolved_mapping.full_pattern, e))
 
         if errors:
             raise AggregateException(errors)
@@ -350,8 +379,8 @@ class FileUploader(object):
 
             should_upload = (
                 (file_success and task_success) or
-                (file_failure and not task_success)
-                or file_completion)
+                (file_failure and not task_success) or
+                file_completion)
 
             # Skip this pattern
             if not should_upload:
@@ -378,5 +407,5 @@ class FileUploader(object):
                 destination.container.path))
         self.logger.info('Resolved mappings: [%s]', file_info)
 
-        # push file list
         self.push_file_list_to_storage(file_info)
+        self.logger.info('Done uploading, exiting...')
