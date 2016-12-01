@@ -591,6 +591,23 @@ describe('cli', function () {
         error.message.indexOf('priority').should.be.above(0, 'Expect property \'priority\' to be mentioned: ' + error.message);     
       });
 
+      it('should throw error if application template specifies unrecognized property', function(_) {
+        const templateFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-unsupportedProperty.json');
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+            filePath : templateFilePath
+          }
+        };
+        var error;
+        try {
+           templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('fluxCapacitorModel').should.be.above(0, 'Expect property \'fluxCapacitorModel\' to be mentioned: ' + error.message);     
+      }); 
 
     });
     
