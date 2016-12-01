@@ -489,35 +489,108 @@ describe('cli', function () {
         should.not.exist(result.applicationTemplateInfo, 'Expect applicationTemplateInfo from job to not be present.');
       });
 
-    it('should not copy templateMetadata to the expanded job', function(_){
-      const job = {
-        id : 'importantjob',
-        priority: 500,
-        applicationTemplateInfo : {
-          filePath : staticApplicationTemplateFilePath
-        }
-      };
-      const result = templateUtils.expandApplicationTemplate(job, _);
-      should.not.exist( result.templateMetadata, 'Expect templateMetadata from template to not be present.');
-    });
-
-    it('should not have a parameters property on the expanded job', function(_) {
-      const jobId = 'importantjob';
-      const priority = 500;
-      const job = {
-        id : jobId,
-        priority: priority,
-        applicationTemplateInfo : {
-          filePath : applicationTemplateWithParametersFilePath,
-          parameters : {
-            blobName: "Blob",
-            keyValue: "Key"
+      it('should not copy templateMetadata to the expanded job', function(_) {
+        const job = {
+          id : 'importantjob',
+          priority: 500,
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
           }
+        };
+        const result = templateUtils.expandApplicationTemplate(job, _);
+        should.not.exist( result.templateMetadata, 'Expect templateMetadata from template to not be present.');
+      });
+
+      it('should not have a parameters property on the expanded job', function(_) {
+        const jobId = 'importantjob';
+        const priority = 500;
+        const job = {
+          id : jobId,
+          priority: priority,
+          applicationTemplateInfo : {
+            filePath : applicationTemplateWithParametersFilePath,
+            parameters : {
+              blobName: "Blob",
+              keyValue: "Key"
+            }
+          }
+        };
+        const result =  templateUtils.expandApplicationTemplate(job, _);
+        should.not.exist(result.parameters, 'Expect parameters from template to not be present');
+      });
+
+      it('should throw error if application template specifies \'id\' property', function(_) {
+        const templateFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-prohibitedId.json');
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+            filePath : templateFilePath
+          }
+        };
+        var error;
+        try {
+           templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
         }
-      };
-      const result =  templateUtils.expandApplicationTemplate(job, _);
-      should.not.exist(result.parameters, 'Expect parameters from template to not be present');
-    });
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('id').should.be.above(0, 'Expect property \'id\' to be mentioned: ' + error.message);     
+      });
+
+      it('should throw error if application template specifies \'poolInfo\' property', function(_) {
+        const templateFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-prohibitedPoolInfo.json');
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+            filePath : templateFilePath
+          }
+        };
+        var error;
+        try {
+           templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('poolInfo').should.be.above(0, 'Expect property \'poolInfo\' to be mentioned: ' + error.message);     
+      });
+
+      it('should throw error if application template specifies \'applicationTemplateInfo\' property', function(_) {
+        const templateFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-prohibitedApplicationTemplateInfo.json');
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+            filePath : templateFilePath
+          }
+        };
+        var error;
+        try {
+           templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('applicationTemplateInfo').should.be.above(0, 'Expect property \'applicationTemplateInfo\' to be mentioned: ' + error.message);     
+      });
+
+      it('should throw error if application template specifies \'priority\' property', function(_){
+        const templateFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-prohibitedPriority.json');
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+            filePath : templateFilePath
+          }
+        };
+        var error;
+        try {
+           templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('priority').should.be.above(0, 'Expect property \'priority\' to be mentioned: ' + error.message);     
+      });
+
 
     });
     
