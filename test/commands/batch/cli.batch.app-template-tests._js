@@ -421,6 +421,24 @@ describe('cli', function () {
         should.exist(result.jobManagerTask, "expect the template to have provided jobManagerTask.");
       });
 
+      it('should preserve properties on the job when expanding the template', function(_) {
+        const jobId = "importantjob";
+        const priority = 500;
+  
+        const job = {
+          id : jobId,
+          priority: priority,
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          }
+        };
+  
+        var result = templateUtils.expandApplicationTemplate(job, _);
+
+        result.id.should.equal(jobId);
+        result.priority.should.equal(priority);
+      });
     });
+    
   });
 });
