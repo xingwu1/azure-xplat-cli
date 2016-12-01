@@ -1,17 +1,31 @@
 import os
 import io
 import json
-
+import mock
 import pytest
+import enum
+import sys
 
 import batchfileuploader
 import configuration
 
+
+class ConfigurationMode(enum.Enum):
+    File = 'File'
+    Env = 'Env'
+    Stdin = 'Stdin'
+
+
 _SPEC_ENV = 'specification_env'
+_TEST_MODE_ARGS = [
+    ConfigurationMode.File,
+    ConfigurationMode.Env,
+    ConfigurationMode.Stdin]
 
 
-@pytest.mark.parametrize('use_env', [True, False])
-def test_load_specification_basic_valid(tmpdir, use_env):
+@mock.patch('sys.stdin', io.BytesIO())
+@pytest.mark.parametrize('mode', _TEST_MODE_ARGS)
+def test_load_specification_basic_valid(tmpdir, mode):
     dict = {
         'outputFiles': [
             {
@@ -22,13 +36,15 @@ def test_load_specification_basic_valid(tmpdir, use_env):
             }
         ]
     }
-    if not use_env:
+    if mode == ConfigurationMode.File:
         file_path = _create_specification_file(dict, str(tmpdir))
         spec = batchfileuploader.load_specification_from_file(file_path)
-    else:
+    elif mode == ConfigurationMode.Env:
         _create_specification_env(dict, _SPEC_ENV)
         spec = batchfileuploader.load_specification_from_env(_SPEC_ENV)
-
+    else:
+        _write_specification(dict, sys.stdin)
+        spec = batchfileuploader.load_specification_from_stdin()
     assert len(spec.output_files) == 1
     assert spec.output_files[0].file_pattern == '*.txt'
     assert spec.output_files[0].destination.container.container_sas == 'sas'
@@ -37,8 +53,9 @@ def test_load_specification_basic_valid(tmpdir, use_env):
         configuration.TaskStatus.TaskFailure
 
 
-@pytest.mark.parametrize('use_env', [True, False])
-def test_load_specification_multiple_specifications(tmpdir, use_env):
+@mock.patch('sys.stdin', io.BytesIO())
+@pytest.mark.parametrize('mode', _TEST_MODE_ARGS)
+def test_load_specification_multiple_specifications(tmpdir, mode):
     dict = {
         'outputFiles': [
             {
@@ -59,12 +76,15 @@ def test_load_specification_multiple_specifications(tmpdir, use_env):
         ]
     }
 
-    if not use_env:
+    if mode == ConfigurationMode.File:
         file_path = _create_specification_file(dict, str(tmpdir))
         spec = batchfileuploader.load_specification_from_file(file_path)
-    else:
+    elif mode == ConfigurationMode.Env:
         _create_specification_env(dict, _SPEC_ENV)
         spec = batchfileuploader.load_specification_from_env(_SPEC_ENV)
+    else:
+        _write_specification(dict, sys.stdin)
+        spec = batchfileuploader.load_specification_from_stdin()
 
     assert len(spec.output_files) == 3
     assert spec.output_files[0].file_pattern == 'a.txt'
@@ -83,8 +103,9 @@ def test_load_specification_multiple_specifications(tmpdir, use_env):
         configuration.TaskStatus.TaskCompletion
 
 
-@pytest.mark.parametrize('use_env', [True, False])
-def test_load_specification_missing_required(tmpdir, use_env):
+@mock.patch('sys.stdin', io.BytesIO())
+@pytest.mark.parametrize('mode', _TEST_MODE_ARGS)
+def test_load_specification_missing_required(tmpdir, mode):
     dict = {
         'outputFiles': [
             {
@@ -93,20 +114,25 @@ def test_load_specification_missing_required(tmpdir, use_env):
             }
         ]
     }
-    if not use_env:
+    if mode == ConfigurationMode.File:
         file_path = _create_specification_file(dict, str(tmpdir))
-        with pytest.raises(KeyError) as e:
+        with pytest.raises(ValueError) as e:
             batchfileuploader.load_specification_from_file(file_path)
-    else:
+    elif mode == ConfigurationMode.Env:
         _create_specification_env(dict, _SPEC_ENV)
-        with pytest.raises(KeyError) as e:
+        with pytest.raises(ValueError) as e:
             batchfileuploader.load_specification_from_env(_SPEC_ENV)
+    else:
+        _write_specification(dict, sys.stdin)
+        with pytest.raises(ValueError) as e:
+            batchfileuploader.load_specification_from_stdin()
 
-    assert e.value.message == 'filePattern'
+    assert e.value.args[0] == 'Missing required filePattern'
 
 
-@pytest.mark.parametrize('use_env', [True, False])
-def test_load_specification_invalid_taskstatus(tmpdir, use_env):
+@mock.patch('sys.stdin', io.BytesIO())
+@pytest.mark.parametrize('mode', _TEST_MODE_ARGS)
+def test_load_specification_invalid_taskstatus(tmpdir, mode):
     dict = {
         'outputFiles': [
             {
@@ -117,20 +143,25 @@ def test_load_specification_invalid_taskstatus(tmpdir, use_env):
         ]
     }
 
-    if not use_env:
+    if mode == ConfigurationMode.File:
         file_path = _create_specification_file(dict, str(tmpdir))
         with pytest.raises(ValueError) as e:
             batchfileuploader.load_specification_from_file(file_path)
-    else:
+    elif mode == ConfigurationMode.Env:
         _create_specification_env(dict, _SPEC_ENV)
         with pytest.raises(ValueError) as e:
             batchfileuploader.load_specification_from_env(_SPEC_ENV)
+    else:
+        _write_specification(dict, sys.stdin)
+        with pytest.raises(ValueError) as e:
+            batchfileuploader.load_specification_from_stdin()
 
-    assert e.value.message == 'Foo is not a valid TaskStatus'
+    assert e.value.args[0] == "Foo is not a valid TaskStatus"
 
 
-@pytest.mark.parametrize('use_env', [True, False])
-def test_load_specification_invalid_child_type(tmpdir, use_env):
+@mock.patch('sys.stdin', io.BytesIO())
+@pytest.mark.parametrize('mode', _TEST_MODE_ARGS)
+def test_load_specification_invalid_child_type(tmpdir, mode):
     dict = {
         'outputFiles': [
             {
@@ -141,24 +172,32 @@ def test_load_specification_invalid_child_type(tmpdir, use_env):
             }
         ]
     }
-    if not use_env:
+    if mode == ConfigurationMode.File:
         file_path = _create_specification_file(dict, str(tmpdir))
         with pytest.raises(ValueError) as e:
             batchfileuploader.load_specification_from_file(file_path)
-    else:
+    elif mode == ConfigurationMode.Env:
         _create_specification_env(dict, _SPEC_ENV)
         with pytest.raises(ValueError) as e:
             batchfileuploader.load_specification_from_env(_SPEC_ENV)
+    else:
+        _write_specification(dict, sys.stdin)
+        with pytest.raises(ValueError) as e:
+            batchfileuploader.load_specification_from_stdin()
 
-    assert e.value.message == 'unexpected keys {}'.format([u'bar'])
+    assert e.value.args[0] == 'unexpected keys {}'.format([u'bar'])
+
+
+def _write_specification(specification, file):
+    print(json.dumps(specification, indent=4))
+    json.dump(specification, file, indent=4)
+    file.seek(0)
 
 
 def _create_specification_file(specification, directory):
-    print(json.dumps(specification, indent=4))
-
     file_path = os.path.join(directory, 'spec.json')
     with io.open(file_path, mode='wb') as f:
-        json.dump(specification, f, indent=4)
+        _write_specification(specification, f)
     return file_path
 
 

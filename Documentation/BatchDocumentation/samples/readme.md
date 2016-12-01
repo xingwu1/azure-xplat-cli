@@ -12,6 +12,10 @@ audio compression with Azure Batch on a large number of numerically-named files 
 OCR (Optical Character Recognition) is the process of extracting text from PDF images. This sample demonstrates the batch
 processing of PDF files.
 
+## [MPI](mpi)
+
+This sample demonstrates the batch run a MPI task with MultiInstanceSettings feature.
+
 ## [Blender](blender)
 
 Blender is an open-source 3D content creation suite. This sample demonstrates distributed rendering on Azure Batch.

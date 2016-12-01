@@ -25,8 +25,6 @@ Edit the `job.parameters.json` file to supply parameters to the template. If you
 5. `taskStart` must match the first WAV file you uploaded earlier (specify `1` to reference `sample1.pdf`).
 6. `taskEnd` must match the last WAV file you uploaded earlier (specify `10` to reference `sample10.pdf`).
 
-If you want to configure other options of the job, such as the pool id, you can look in the `job.json` parameters section to see what options are available.
-
 ## Run the job
 Run `azure batch job create --template job.json --parameters job.parameters.json` to create your job and tasks.
 
