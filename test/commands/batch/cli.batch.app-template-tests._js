@@ -417,7 +417,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        var result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, _);
         should.exist(result.jobManagerTask, "expect the template to have provided jobManagerTask.");
       });
 
@@ -432,12 +432,29 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-  
-        var result = templateUtils.expandApplicationTemplate(job, _);
-
+        const result = templateUtils.expandApplicationTemplate(job, _);
         result.id.should.equal(jobId);
         result.priority.should.equal(priority);
       });
+
+      it('should use parameters from the job to expand the template', function(_) {
+        const job = {
+          id : "parameterJob",
+          applicationTemplateInfo : {
+            filePath : applicationTemplateWithParametersFilePath,
+            parameters : {
+              blobName : "music.mp3",
+              keyValue : "yale"
+            }
+          }
+        };
+        const result = templateUtils.expandApplicationTemplate(job, _);
+        result.jobManagerTask.resourceFiles[1].filePath.should.equal(job.applicationTemplateInfo.parameters.blobName);
+        result.metadata[0].value.should.equal(job.applicationTemplateInfo.parameters.keyValue);  
+      });
+
+
+
     });
     
   });
