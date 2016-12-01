@@ -385,28 +385,42 @@ describe('cli', function () {
       });
     });
 
-    it('should do nothing when no application template is required', function(_){
-      const job = { 
-        id : "jobid"
-      };
-      const result = templateUtils.expandApplicationTemplate(job, _);
-      result.should.equal(job);
-    });  
+    describe('template merging', function () {
 
-    it('should throw error if no filePath supplied for application template', function(_) {
-      const job = {
-        id : "jobid",
-        applicationTemplateInfo : {
+      it('should do nothing when no application template is required', function(_){
+        const job = { 
+          id : "jobid"
+        };
+        const result = templateUtils.expandApplicationTemplate(job, _);
+        result.should.equal(job);
+      });  
+  
+      it('should throw error if no filePath supplied for application template', function(_) {
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+          }
+        };
+        var error;
+        try {
+          templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
         }
-      };
-      var error;
-      try {
-        templateUtils.expandApplicationTemplate(job, _);
-      } catch (e) {
-        error = e;
-      }
-      should.exist(error, "Expect to have an error");
-    });
+        should.exist(error, "Expect to have an error");
+      });
 
+      it('should merge a template with no parameters', function(_) {
+        const job = {
+          id : "jobid",
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          }
+        };
+        var result = templateUtils.expandApplicationTemplate(job, _);
+        should.exist(result.jobManagerTask, "expect the template to have provided jobManagerTask.");
+      });
+
+    });
   });
 });
