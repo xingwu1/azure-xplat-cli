@@ -609,6 +609,54 @@ describe('cli', function () {
         error.message.indexOf('fluxCapacitorModel').should.be.above(0, 'Expect property \'fluxCapacitorModel\' to be mentioned: ' + error.message);     
       }); 
 
+      it('should include metadata from original job on generated job', function(_) {
+        const job = {
+          id : 'importantjob',
+          priority: 500,
+          applicationTemplateInfo : {
+            filePath : applicationTemplateWithParametersFilePath,
+            parameters : {
+              blobName : 'henry',
+              keyValue : 'yale'
+            }
+          },
+          metadata : [ {
+            name : 'author',
+            value : 'batman'
+          }]
+        };
+        var generated = templateUtils.expandApplicationTemplate(job, _);
+        should.exist(generated.metadata, 'Expect to have metadata');
+        generated.metadata.should.containEql({
+            name : 'author',
+            value : 'batman'
+          });
+      });
+
+      it('should include metadata from template on generated job', function(_) {
+        const job = {
+          id : 'importantjob',
+          priority: 500,
+          applicationTemplateInfo : {
+            filePath : applicationTemplateWithParametersFilePath,
+            parameters : {
+              blobName : 'henry',
+              keyValue : 'yale'
+            }
+          },
+          metadata : [ {
+            name : 'author',
+            value : 'batman'
+          }]
+        };
+        var generated = templateUtils.expandApplicationTemplate(job, _);
+        should.exist(generated.metadata, 'Expect to have metadata');
+        generated.metadata.should.containEql({
+            name : 'myproperty',
+            value : 'yale'
+          });
+      });
+
     });
     
   });
