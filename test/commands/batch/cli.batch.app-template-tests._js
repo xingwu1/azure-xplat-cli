@@ -29,10 +29,10 @@ var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
  */
 
 // File path to an application template with no parameters - a static template that always does exactly the same thing
-const staticApplicationTemplateFilePath = path.resolve(__dirname, '../../data/batch-appTemplate-static.json');
+const staticApplicationTemplateFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-static.json');
 
 // File path to an application path with parameters
-const applicationTemplateWithParametersFilePath = path.resolve(__dirname, "../../data/batch-appTemplate-parameters.json");
+const applicationTemplateWithParametersFilePath = path.resolve(__dirname, "../../data/batch-applicationTemplate-parameters.json");
 
 var requiredEnvironment = [
 ];
@@ -454,7 +454,7 @@ describe('cli', function () {
       });
 
       it('should throw an error if any parameter has an undefined type', function(_) {
-        const untypedParameterFilePath = path.resolve(__dirname, '../../data/batch-appTemplate-untypedParameter.json');
+        const untypedParameterFilePath = path.resolve(__dirname, '../../data/batch-applicationTemplate-untypedParameter.json');
         const job = {
           id : "parameterJob",
           applicationTemplateInfo : {
@@ -475,6 +475,49 @@ describe('cli', function () {
         error.message.indexOf('blobName').should.be.above(0, 'Expect parameter \'blobName\' to be mentioned: ' + error.message);
       });
 
+      it('should not have an applicationTemplateInfo property on the expanded job', function(_) {
+        const jobId = "importantjob";
+        const priority = 500;
+        const job = {
+          id : jobId,
+          priority: priority,
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          }
+        };
+        const result = templateUtils.expandApplicationTemplate(job, _);
+        should.not.exist(result.applicationTemplateInfo, 'Expect applicationTemplateInfo from job to not be present.');
+      });
+
+    it('should not copy templateMetadata to the expanded job', function(_){
+      const job = {
+        id : 'importantjob',
+        priority: 500,
+        applicationTemplateInfo : {
+          filePath : staticApplicationTemplateFilePath
+        }
+      };
+      const result = templateUtils.expandApplicationTemplate(job, _);
+      should.not.exist( result.templateMetadata, 'Expect templateMetadata from template to not be present.');
+    });
+
+    it('should not have a parameters property on the expanded job', function(_) {
+      const jobId = 'importantjob';
+      const priority = 500;
+      const job = {
+        id : jobId,
+        priority: priority,
+        applicationTemplateInfo : {
+          filePath : applicationTemplateWithParametersFilePath,
+          parameters : {
+            blobName: "Blob",
+            keyValue: "Key"
+          }
+        }
+      };
+      const result =  templateUtils.expandApplicationTemplate(job, _);
+      should.not.exist(result.parameters, 'Expect parameters from template to not be present');
+    });
 
     });
     
