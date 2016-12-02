@@ -695,6 +695,27 @@ describe('cli', function () {
           });
       });
 
+      it('should not allow the job to use a metadata property with our reserved prefix', function(_) {
+        const job = {
+          id : 'importantjob',
+          priority: 500,
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          },
+          metadata : [{
+            name : 'az_batch:property',
+            value : 'something' }]
+        };
+        var error;
+        try {
+           templateUtils.expandApplicationTemplate(job, _);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, "Expect to have an error");
+        error.message.indexOf('az_batch:property').should.be.above(0, 'Expect metadata \'az_batch:property\' to be mentioned: ' + error.message);     
+      });
+
     });
     
   });
