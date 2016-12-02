@@ -385,6 +385,29 @@ describe('cli', function () {
       });
     });
 
+    describe('validateGeneratedJob', function () {
+
+      it('should throw an error if the generated job uses a property reserved for template use', function(done) {
+        const job = {
+          id : 'jobid',
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          },
+          usesTaskDependencies : true
+        };
+        var error;
+        try {
+          templateUtils.validateGeneratedJob(job);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error);
+        error.message.indexOf('applicationTemplateInfo').should.be.above(0, 'Expect property \'applicationTemplateInfo\' to be mentioned: ' + error.message);
+        done();
+      });
+
+    });
+
     describe('template merging', function () {
 
       it('should do nothing when no application template is required', function(_){
