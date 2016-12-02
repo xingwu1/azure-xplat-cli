@@ -680,6 +680,21 @@ describe('cli', function () {
           });
       });
 
+      it('should add a metadata property with the template location', function(_) {
+        const job = {
+          id : 'importantjob',
+          priority: 500,
+          applicationTemplateInfo : {
+            filePath : staticApplicationTemplateFilePath
+          }
+        };
+        var generated = templateUtils.expandApplicationTemplate(job, _);
+        generated.metadata.should.containEql({
+            name : 'az_batch:template_filepath',
+            value : staticApplicationTemplateFilePath
+          });
+      });
+
     });
     
   });
