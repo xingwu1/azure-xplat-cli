@@ -15,6 +15,15 @@
 #
 
 import enum
+import json
+
+
+class SpecificationEncoder(json.JSONEncoder):
+    def default(self, o):
+        try:
+            return o.value
+        except AttributeError:
+            return o.__dict__
 
 
 class Specification(object):
@@ -24,9 +33,9 @@ class Specification(object):
             output_files if output_files else []  # type: List[OutputFile]
 
     @staticmethod
-    def from_dict(dict):
+    def from_dict(d):
         # type: (Dict[str, str]) -> Specification
-        result = [OutputFile.from_dict(d) for d in dict['outputFiles']]
+        result = [OutputFile.from_dict(item) for item in d['outputFiles']]
         spec = Specification(result)
         return spec
 
@@ -38,15 +47,19 @@ class BlobContainerDestination(object):
         self.container_sas = container_sas  # type: str
 
     @staticmethod
-    def from_dict(dict):
+    def from_dict(d):
         # type: (Dict[str, str]) -> BlobContainerDestination
         # required arguments
-        container_sas = dict.pop('containerSas')
-        # optional arguments
-        path = dict.pop('path', None)
+        try:
+            container_sas = d.pop('containerSas')
+        except KeyError as e:
+            raise ValueError('Missing required {}'.format(e.args[0]))
 
-        if len(dict) > 0:
-            raise ValueError('unexpected keys {}'.format(dict.keys()))
+        # optional arguments
+        path = d.pop('path', None)
+
+        if len(d) > 0:
+            raise ValueError('unexpected keys {}'.format(list(d.keys())))
 
         result = BlobContainerDestination(container_sas, path)
         return result
@@ -58,14 +71,18 @@ class OutputFileDestination(object):
         self.container = container  # type: BlobContainerDestination
 
     @staticmethod
-    def from_dict(dict):
+    def from_dict(d):
         # type: (Dict[str, str]) -> OutputFileDestination
         # required arguments
-        container = dict.pop('container')
+        try:
+            container = d.pop('container')
+        except KeyError as e:
+            raise ValueError('Missing required {}'.format(e.args[0]))
+
         # optional arguments
 
-        if len(dict) > 0:
-            raise ValueError('unexpected keys {}'.format(dict.keys()))
+        if len(d) > 0:
+            raise ValueError('unexpected keys {}'.format(list(d.keys())))
 
         container = BlobContainerDestination.from_dict(container)
         result = OutputFileDestination(container)
@@ -84,13 +101,16 @@ class OutputFileUploadDetails(object):
         self.task_status = task_status  # type: TaskStatus
 
     @staticmethod
-    def from_dict(dict):
+    def from_dict(d):
         # type: (Dict[str, str]) -> OutputFileUploadDetails
         # required arguments
-        task_status = dict.pop('taskStatus')
+        try:
+            task_status = d.pop('taskStatus')
+        except KeyError as e:
+            raise ValueError('Missing required {}'.format(e.args[0]))
 
-        if len(dict) > 0:
-            raise ValueError('unexpected keys {}'.format(dict.keys()))
+        if len(d) > 0:
+            raise ValueError('unexpected keys {}'.format(list(d.keys())))
 
         # deserialize task_status into an enum
         task_status = TaskStatus(task_status)
@@ -106,16 +126,20 @@ class OutputFile(object):
         self.upload_details = upload_details  # type: OutputFileUploadDetails
 
     @staticmethod
-    def from_dict(dict):
+    def from_dict(d):
         # type: (Dict[str, str]) -> OutputFile
         # required arguments
-        file_pattern = dict.pop('filePattern')
-        upload_details = dict.pop('uploadDetails')
-        destination = dict.pop('destination')
+        try:
+            file_pattern = d.pop('filePattern')
+            upload_details = d.pop('uploadDetails')
+            destination = d.pop('destination')
+        except KeyError as e:
+            raise ValueError('Missing required {}'.format(e.args[0]))
+
         # optional arguments
 
-        if len(dict) > 0:
-            raise ValueError('unexpected keys {}'.format(dict.keys()))
+        if len(d) > 0:
+            raise ValueError('unexpected keys {}'.format(list(d.keys())))
 
         destination = OutputFileDestination.from_dict(destination)
         upload_details = OutputFileUploadDetails.from_dict(upload_details)

@@ -16,8 +16,7 @@ def file_fixture(tmpdir, request):
     file_size_bytes = 1024*1024*file_size_mb
     test_end_to_end.create_files(
         file_count,
-        str(tmpdir),
-        'abc',
+        str(tmpdir / 'abc'),
         file_size_bytes)
     yield file_count, file_size_mb
 
