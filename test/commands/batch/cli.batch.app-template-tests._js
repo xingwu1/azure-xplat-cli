@@ -231,7 +231,46 @@ describe('cli', function () {
         error.message.indexOf('age').should.be.above(0, 'Expect parameter \'age\' to be mentioned: ' + error.message);
         done();
       });
+
+      it('should not throw an error if the default value provided for an int parameter is used', function(done) {
+        const parameters = { 
+        };
+        const definitions = {
+          age : {
+            type : "int",
+            defaultValue : 11
+          }
+        };
+        var error;
+        try {
+          templateUtils.validateParameterUsage(parameters, definitions);
+        } catch (e) {
+          error = e;
+        }
+        should.not.exist(error, 'Expect not to have an error');
+        done();
+      });
   
+      it('should not throw an error if the default value provided for an int parameter is not an integer', function(done) {
+        const parameters = { 
+        };
+        const definitions = {
+          age : {
+            type : "int",
+            defaultValue : "eleven"
+          }
+        };
+        var error;
+        try {
+          templateUtils.validateParameterUsage(parameters, definitions);
+        } catch (e) {
+          error = e;
+        }
+        should.exist(error, 'Expect to have an error');
+        error.message.indexOf('age').should.be.above(0, 'Expect parameter \'age\' to be mentioned: ' + error.message);
+        done();
+      });
+
       it('should throw an error if the value provided for an bool parameter is not type compatible', function(done) { 
         const parameters = { 
           isMember : "frog"
