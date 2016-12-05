@@ -18,7 +18,7 @@
 var should = require('should');
 var fs = require('fs');
 var path = require('path');
-
+var util = require('util');
 var utils = require('../../../lib/util/utils');
 var CLITest = require('../../framework/arm-cli-test');
 var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
@@ -68,7 +68,7 @@ describe('cli', function () {
         const job = {
           id : 'jobid'
         };
-        templateUtils.validateJobRequestingApplicationTemplate(job, _);
+        templateUtils.validateJobRequestingApplicationTemplate(job, '.', _);
       });
 
       it('should throw an error if job does not specify template location', function(_) {
@@ -78,7 +78,7 @@ describe('cli', function () {
         };
         var error;
         try {
-          templateUtils.validateJobRequestingApplicationTemplate(job, _);
+          templateUtils.validateJobRequestingApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -94,7 +94,7 @@ describe('cli', function () {
         };
         var error;
         try {
-          templateUtils.validateJobRequestingApplicationTemplate(job, _);
+          templateUtils.validateJobRequestingApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -111,7 +111,7 @@ describe('cli', function () {
         };
         var error;
         try {
-          templateUtils.validateJobRequestingApplicationTemplate(job, _);
+          templateUtils.validateJobRequestingApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -414,7 +414,7 @@ describe('cli', function () {
         const job = { 
           id : "jobid"
         };
-        const result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, '.', _);
         result.should.equal(job);
       });  
   
@@ -426,7 +426,7 @@ describe('cli', function () {
         };
         var error;
         try {
-          templateUtils.expandApplicationTemplate(job, _);
+          templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -440,7 +440,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, '.', _);
         should.exist(result.jobManagerTask, "expect the template to have provided jobManagerTask.");
       });
 
@@ -455,7 +455,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, '.', _);
         result.id.should.equal(jobId);
         result.priority.should.equal(priority);
       });
@@ -471,7 +471,7 @@ describe('cli', function () {
             }
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, '.', _);
         result.jobManagerTask.resourceFiles[1].filePath.should.equal(job.applicationTemplateInfo.parameters.blobName);
         result.metadata[0].value.should.equal(job.applicationTemplateInfo.parameters.keyValue);  
       });
@@ -490,7 +490,7 @@ describe('cli', function () {
         };
         var error;
         try {
-          templateUtils.expandApplicationTemplate(job, _);  
+          templateUtils.expandApplicationTemplate(job, '.', _);  
         } catch (e) {
           error = e;
         }
@@ -508,7 +508,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, '.', _);
         should.not.exist(result.applicationTemplateInfo, 'Expect applicationTemplateInfo from job to not be present.');
       });
 
@@ -520,7 +520,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, _);
+        const result = templateUtils.expandApplicationTemplate(job, '.', _);
         should.not.exist( result.templateMetadata, 'Expect templateMetadata from template to not be present.');
       });
 
@@ -538,7 +538,7 @@ describe('cli', function () {
             }
           }
         };
-        const result =  templateUtils.expandApplicationTemplate(job, _);
+        const result =  templateUtils.expandApplicationTemplate(job, '.', _);
         should.not.exist(result.parameters, 'Expect parameters from template to not be present');
       });
 
@@ -552,7 +552,7 @@ describe('cli', function () {
         };
         var error;
         try {
-           templateUtils.expandApplicationTemplate(job, _);
+           templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -570,7 +570,7 @@ describe('cli', function () {
         };
         var error;
         try {
-           templateUtils.expandApplicationTemplate(job, _);
+           templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -588,7 +588,7 @@ describe('cli', function () {
         };
         var error;
         try {
-           templateUtils.expandApplicationTemplate(job, _);
+           templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -606,7 +606,7 @@ describe('cli', function () {
         };
         var error;
         try {
-           templateUtils.expandApplicationTemplate(job, _);
+           templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -624,7 +624,7 @@ describe('cli', function () {
         };
         var error;
         try {
-           templateUtils.expandApplicationTemplate(job, _);
+           templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
@@ -648,7 +648,7 @@ describe('cli', function () {
             value : 'batman'
           }]
         };
-        var generated = templateUtils.expandApplicationTemplate(job, _);
+        var generated = templateUtils.expandApplicationTemplate(job, '.', _);
         should.exist(generated.metadata, 'Expect to have metadata');
         generated.metadata.should.containEql({
             name : 'author',
@@ -672,7 +672,7 @@ describe('cli', function () {
             value : 'batman'
           }]
         };
-        var generated = templateUtils.expandApplicationTemplate(job, _);
+        var generated = templateUtils.expandApplicationTemplate(job, '.', _);
         should.exist(generated.metadata, 'Expect to have metadata');
         generated.metadata.should.containEql({
             name : 'myproperty',
@@ -688,7 +688,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        var generated = templateUtils.expandApplicationTemplate(job, _);
+        var generated = templateUtils.expandApplicationTemplate(job, '.', _);
         generated.metadata.should.containEql({
             name : 'az_batch:template_filepath',
             value : staticApplicationTemplateFilePath
@@ -708,7 +708,7 @@ describe('cli', function () {
         };
         var error;
         try {
-           templateUtils.expandApplicationTemplate(job, _);
+           templateUtils.expandApplicationTemplate(job, '.', _);
         } catch (e) {
           error = e;
         }
