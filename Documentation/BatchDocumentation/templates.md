@@ -88,7 +88,7 @@ Additionally, not all ARM template syntax is supported. We currently support the
     - Example: `"displayName": "[concat("Processing: ", parameters('inputName'))]"`
 
 
-Example templates and their accomanying parameter files can be found at
+Example templates and their accompanying parameter files can be found at
 [Documentation/BatchDocumentation/samples](Documentation/BatchDocumentation/samples).
 
 A simple parameterized template might look like this:
