@@ -8,6 +8,38 @@ The job itself retains all of the account specific configuration for the job, sp
 
 To link the two, the job now references the required application template and supplies any parameters required to customize processing for the needs of the current user.
 
+## Example job
+
+This sample blender job specifies rendering of a blender scene using application templates.
+
+
+```json
+{
+  "id": "blenderjob",
+  "displayName": "Blender",
+  "poolInfo": {
+      "poolid" : "blender-pool"
+  },
+  "applicationTemplateInfo" : {
+    "filePath" : "render-template.json",
+    "parameters" : {
+      "jobName": "blender_render",
+      "blendFile": "scene.blend",
+      "frameStart": 1,
+      "frameEnd": 100,
+      "outputFileStorageUrl": "https://storage.blob.core.windows.net/blender-outputs"
+    }
+  }
+}
+```
+
+The `applicationTemplateInfo` element gives the `filePath` to the application template and provides all the `parameters` required to configure the application template for use.
+
+## Samples
+
+[**Blender**](samples/blender-appTemplate/readme.md) - using an application template to specify the rendering of a blender scene. This sample uses the experimental [Task Factories](taskFactories.md) feature. 
+
+
 ## Job schema changes
 
 The batch job gains the following element, used to specify which application template should be used:
@@ -16,7 +48,7 @@ The batch job gains the following element, used to specify which application tem
 | ----------------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------ |
 | applicationTemplateInfo | Optional | Complex Type | Identifies an application template and supplies parameter values for expansion when the job is created |
 
-#### applicationTemplateInfo
+`applicationTemplateInfo`
 
 This new complex object is used to specify the application template used and to provide any parameters required by the templates.
 
@@ -38,24 +70,24 @@ These newly introduced properties are used to define the templating capabilities
 | templateMetadata | Optional | Complex Type | Additional information about the template itself. <br/>Included for documentation purposes only. None of this information is passed through to the generated job. |
 | parameters       | Optional | Dictionary   | A (potentially empty) dictionary of parameter definitions, indexed by the name of the property.                                                                   |
 
-#### templateMetadata
+`templateMetadata`
 
 Though completely optional and not actually used by the xplatcli, template metadata is supported to allow the templates to be somewhat self documenting. These properties are recommended for each template.
 
 | Element name | Required    | Type    | Description                                                                                   |
 | ------------ | ----------- | ------- | --------------------------------------------------------------------------------------------- |
-| description  | Optional    | string  | A simple description of the functionality provided by the template.                           |
+| description  | Optional    | String  | A simple description of the functionality provided by the template.                           |
 | author       | Optional    | String  | The name or email address of the template author                                              |
 | dateUpdated  | Optional    | String  | A human readable message (a date or a version number) for when the template was last modified | 
 
-#### parameters
+`parameters`
 
 These parameter definitions in an ARM style specify the parameters consumed by the template.  Every parameter used by the template must be pre-defined in this collection.
 
 | Element name | Required     | Type       | Description                                                                                                                                                    |
 | ------------ | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type         | Required     | string     | Specifies the data type of the parameter.  <br/> One of “int”, “string” or “bool”. <br/> Other parameter types not supported in our initial release.           |
-| defaultValue | Optional     | `<type>`   | Provides a default value for the parameter. Must be of the kind specified by **type**.  <br/> This value will be used if no value is provided by the end user. |
+| type         | Required     | String     | Specifies the data type of the parameter.  <br/> One of `int`, `string` or `bool` only. <br/> Other parameter types not are supported in our initial release.           |
+| defaultValue | Optional     | `<type>`   | Provides a default value for the parameter. <br/> This value will be used if no value is provided by the end user. <br/> Must be a value compatible with/convertible to **type**. |
 | metadata     | Optional     | Dictionary | A list of name-value pairs of additional information. <br/> We recommend supplying a **description** for every parameter.                                      |
 
 
@@ -99,8 +131,8 @@ The two lists will be merged, allowing for local management properties defined o
 
 Additional metadata will be created by the **xplatcli** when processing the template to allow details of the job to be traced back to the original template. All these items will use the reserved prefix `az_batch:`.
 
-| Item                         | Description                                                      |
-| ---------------------------- | ---------------------------------------------------------------- |
-| `az_batch:template_filePath` | The full file path to the template used when the job was created |
+| Item                         | Type   | Description                                                      |
+| ---------------------------- | ------ | ---------------------------------------------------------------- |
+| `az_batch:template_filePath` | String | The fully qualified file path to the template used when the job was created |
 
 
