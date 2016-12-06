@@ -20,10 +20,10 @@ The batch job gains the following element, used to specify which application tem
 
 This new complex object is used to specify the application template used and to provide any parameters required by the templates.
 
-| Element name | Required  | Type        | Description                                                                                                                                                                                                                                                    |  |
-| ------------ | --------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |  |
-| filePath     | Mandatory | String      | Location of an application template in json format on the local client filesystem.  <br/> Relative paths are resolved from the directory containing the `job.json` file; specifying `template.json` will look for a file in the same folder as the job itself. |  |
-| parameters   | Optional  | Collection  | A set of parameter values for use by the template, listed in standard JSON  syntax. <br/> Must be supplied if the specified template defines any parameters without a defaultValue.                                                                            |  |
+| Element name | Required  | Type        | Description                                                                                                                                                                                                                                                    |
+| ------------ | --------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| filePath     | Mandatory | String      | Location of an application template in json format on the local client filesystem.  <br/> Relative paths are resolved from the directory containing the `job.json` file; specifying `template.json` will look for a file in the same folder as the job itself. |
+| parameters   | Optional  | Collection  | A set of parameter values for use by the template, listed in standard JSON  syntax. <br/> Must be supplied if the specified template defines any parameters without a defaultValue.                                                                            |
 
 ## Application template schema
 
@@ -52,11 +52,12 @@ Though completely optional and not actually used by the xplatcli, template metad
 
 These parameter definitions in an ARM style specify the parameters consumed by the template.  Every parameter used by the template must be pre-defined in this collection.
 
-| Element name | Required | Type       | Description                                                                                                                                                    |                                                                                                     |
-| ------------ | -------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| type         | Required | string     | Specifies the data type of the parameter.                                                                                                                      | One of “int”, “string” or “bool”. <br/> Other parameter types not supported in our initial release. |
-| defaultValue | Optional | <type>     | Provides a default value for the parameter. Must be of the kind specified by **type**.  <br/> This value will be used if no value is provided by the end user. |                                                                                                     |
-| metadata     | Optional | Dictionary | A list of name-value pairs of additional information. <br/> We recommend supplying a **description** for every parameter.                                      |                                                                                                     |
+| Element name | Required     | Type       | Description                                                                                                                                                    |
+| ------------ | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type         | Required     | string     | Specifies the data type of the parameter.  <br/> One of “int”, “string” or “bool”. <br/> Other parameter types not supported in our initial release.           |
+| defaultValue | Optional     | `<type>`   | Provides a default value for the parameter. Must be of the kind specified by **type**.  <br/> This value will be used if no value is provided by the end user. |
+| metadata     | Optional     | Dictionary | A list of name-value pairs of additional information. <br/> We recommend supplying a **description** for every parameter.                                      |
+
 
 ### Reserved for application template use
 
