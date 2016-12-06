@@ -4,7 +4,7 @@
             "type": "string",
             "defaultValue": "STANDARD_D1",
             "metadata": {
-                "description": "The size of the virtual machines that runs the application"
+                "description": "The size of the virtual machines that run the application"
             },
             "allowedValues": [
                 "STANDARD_A1",

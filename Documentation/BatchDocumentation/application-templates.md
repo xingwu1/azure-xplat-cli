@@ -10,13 +10,13 @@ To link the two, the job now references the required application template and su
 
 ## Example job
 
-This sample blender job specifies rendering of a blender scene using application templates.
+This sample Blender job specifies rendering of a Blender scene using application templates.
 
 
 ```json
 {
   "id": "blenderjob",
-  "displayName": "Blender",
+  "displayName": "Blender Sample using Application Templates",
   "poolInfo": {
       "poolid" : "blender-pool"
   },
@@ -37,7 +37,7 @@ The `applicationTemplateInfo` element gives the `filePath` to the application te
 
 ## Samples
 
-[**Blender**](samples/blender-appTemplate/readme.md) - using an application template to specify the rendering of a blender scene. This sample uses the experimental [Task Factories](taskFactories.md) feature. 
+[**Blender**](samples/blender-appTemplate/readme.md) - using an application template to specify the rendering of a Blender scene. This sample uses the experimental [Task Factories](taskFactories.md) feature. 
 
 
 ## Job schema changes
@@ -59,7 +59,7 @@ This new complex object is used to specify the application template used and to 
 
 ## Application template schema
 
-An application template broadly follows the existing schema for a batch job, but with modifications to reflect that it is parameterized and contains only part of a full job.
+An application template broadly follows the existing schema for a Batch job, but with modifications to reflect that it is parameterized and contains only part of a full job.
 
 ### New properties
 
@@ -72,13 +72,13 @@ These newly introduced properties are used to define the templating capabilities
 
 `templateMetadata`
 
-Though completely optional and not actually used by the xplatcli, template metadata is supported to allow the templates to be somewhat self documenting. These properties are recommended for each template.
+Though completely optional and not actually used by the Xplat-CLI, template metadata is supported to allow the templates to be somewhat self documenting. These properties are recommended for each template.
 
 | Element name | Required    | Type    | Description                                                                                   |
 | ------------ | ----------- | ------- | --------------------------------------------------------------------------------------------- |
 | description  | Optional    | String  | A simple description of the functionality provided by the template.                           |
-| author       | Optional    | String  | The name or email address of the template author                                              |
-| dateUpdated  | Optional    | String  | A human readable message (a date or a version number) for when the template was last modified | 
+| author       | Optional    | String  | The name or email address of the template author.                                             |
+| dateUpdated  | Optional    | String  | A human readable message (a date or a version number) for when the template was last modified.| 
 
 `parameters`
 
@@ -95,28 +95,28 @@ These parameter definitions in an ARM style specify the parameters consumed by t
 
 When an application template is referenced by a job, these properties are reserved for use by the application template and may not be directly used on the job itself.
 
-| Element name              | Required  | Type         | Description                                                                                                   |
-| ------------------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------------- |
-| jobManagerTask            | Optional  | Complex Type | Specifies details of a Job Manager task to be launched when the job is started.                               |
-| jobPreparationTask        | Optional  | Complex Type | Specifies the Job Preparation task.                                                                           |
-| jobReleaseTask            | Optional  | Complex Type | Specifies the Job Release task.                                                                               |
-| commonEnvironmentSettings | Optional  | Collection   | A list of common environment variable settings.                                                               |
-| usesTaskDependencies      | Optional  | Boolean      | Specifies whether tasks in the job can define dependencies on each other.                                     |
-| onAllTasksComplete        | Optional  | String       | Specifies an action the Batch service should take when all tasks in the job are in the completed state.       |
-| onTaskFailure             | Optional  | String       | Specifies an action the Batch service should take when any task in the job fails.                             |
-| taskFactory               | Optional  | Complex Type | Reference to a task factory which creates task(s) for the current job. <br/> *New feature in the **xplatcli** |
+| Element name              | Required  | Type         | Description                                                                                                     |
+| ------------------------- | --------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
+| jobManagerTask            | Optional  | Complex Type | Specifies details of a Job Manager task to be launched when the job is started.                                 |
+| jobPreparationTask        | Optional  | Complex Type | Specifies the Job Preparation task.                                                                             |
+| jobReleaseTask            | Optional  | Complex Type | Specifies the Job Release task.                                                                                 |
+| commonEnvironmentSettings | Optional  | Collection   | A list of common environment variable settings.                                                                 |
+| usesTaskDependencies      | Optional  | Boolean      | Specifies whether tasks in the job can define dependencies on each other.                                       |
+| onAllTasksComplete        | Optional  | String       | Specifies an action the Batch service should take when all tasks in the job are in the completed state.         |
+| onTaskFailure             | Optional  | String       | Specifies an action the Batch service should take when any task in the job fails.                               |
+| taskFactory               | Optional  | Complex Type | Reference to a task factory which creates task(s) for the current job. <br/> *New feature in the **Xplat-CLI**. |
 
 ### Reserved for job use
 
-These job properties are used to define the environment in which the job is run. These details are specific to the batch account and user running the job and may not be specified on the application template. This table details some of the motivations why these properties are not permitted on an application template. 
+These job properties are used to define the environment in which the job is run. These details are specific to the Batch account and user running the job and may not be specified on the application template. This table details some of the motivations why these properties are not permitted on an application template. 
 
 | Element name            | Type         | Description                                                                                                                                                                                                                                                  |
 | ----------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | id                      | String       | A string that uniquely identifies the job within the account. <br/> Specifying the unique identifier of a job on a reusable template does not make sense.                                                                                                    |
 | displayName             | String       | A display name for the job.                                                                                                                                                                                                                                  |
 | priority                | Int32        | The priority of the job. <br/> Prioritization of jobs is the responsibility of the end user, not an application template author.                                                                                                                             |
-| constraints             | Complex Type | Specifies the execution constraints for the job. <br/>The selection of appropriate constraints requires knowledge of the specific job being processed (e.g. size) and associated pool                                                                        |
-| poolInfo                | Complex Type | Specifies the pool on which the Batch service runs the job’s tasks. <br/> Establishing and managing a pool is the responsibility of the end user, not an application template author, not least because a forgotten pool might result in an unexpected cost. |
+| constraints             | Complex Type | Specifies the execution constraints for the job. <br/>The selection of appropriate constraints requires knowledge of the specific job being processed (e.g. size) and associated pool.                                                                       |
+| poolInfo                | Complex Type | Specifies the pool on which the Batch service runs the job’s tasks. <br/> Establishing and managing a pool is the responsibility of the end user, not an application template author, not least because a forgotten pool might result in unexpected costs.   |
 | applicationTemplateInfo | Complex Type | A reference to an application template that defines the computation for this job. <br/> Creating a chain of templates will not be supported in the initial release.                                                                                          |
 
 ### Shared properties
@@ -131,8 +131,8 @@ The two lists will be merged, allowing for local management properties defined o
 
 Additional metadata will be created by the **xplatcli** when processing the template to allow details of the job to be traced back to the original template. All these items will use the reserved prefix `az_batch:`.
 
-| Item                         | Type   | Description                                                      |
-| ---------------------------- | ------ | ---------------------------------------------------------------- |
-| `az_batch:template_filePath` | String | The fully qualified file path to the template used when the job was created |
+| Item                         | Type   | Description                                                                  |
+| ---------------------------- | ------ | ---------------------------------------------------------------------------- |
+| `az_batch:template_filePath` | String | The fully qualified file path to the template used when the job was created. |
 
 

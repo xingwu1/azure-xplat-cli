@@ -1,12 +1,12 @@
-# Azure Batch Blender using Application Templates
+# Azure Batch Blender using application templates
 
-This template shows how to use `blender` to render using an *application template* to separate the logic of processing from adminstration and management.
+This template shows how to use **Blender** to render using an *application template* to separate the logic of processing from administration and management.
 
 With an *application template*, the processing steps required for the job are defined in a separate file - see `render-template.json` which is appropriately parameterized. The job itself references the template, supplies any required parameter values and specifies the pool on which the job is to run.
 
 ## Prerequisites
 
-You must have an Azure Batch account set up with a linked Azure Storage account.
+You must have an Azure Batch account set up with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/en-us/azure/batch/batch-account-create-portal) for details.
 
 You will need a blender scene to render.
 

@@ -1,6 +1,6 @@
 {
     "templateMetadata" : {
-        "description" : "Sample application template for working with blender."
+        "description" : "Sample application template for working with Blender."
     },
     "parameters": {
         "blendFile": {
