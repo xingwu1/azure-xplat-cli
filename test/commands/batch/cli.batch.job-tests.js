@@ -96,9 +96,13 @@ describe('cli', function () {
       suite.execute('batch job create %s --account-name %s --account-key %s --account-endpoint %s --json', createJsonFilePath, 
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
-        var createdJob = JSON.parse(result.text);
-        createdJob.should.not.be.null;
-        createdJob.id.should.equal(jobId);
+        try {
+          var createdJob = JSON.parse(result.text);
+          createdJob.should.not.be.null;
+          createdJob.id.should.equal(jobId);          
+        } catch (error) {
+          throw new Error(util.format("%s (%s)", error.message, result.text));
+        }
         done();
       });
     });
