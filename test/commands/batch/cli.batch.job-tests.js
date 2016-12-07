@@ -96,6 +96,7 @@ describe('cli', function () {
       suite.execute('batch job create %s --account-name %s --account-key %s --account-endpoint %s --json', createJsonFilePath, 
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         try {
           var createdJob = JSON.parse(result.text);
           createdJob.should.not.be.null;
@@ -117,6 +118,7 @@ describe('cli', function () {
         createdWithParametersJobId, poolId, metadata, priority, maxWallClockTime, maxTaskRetryCount,
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         var createdJob = JSON.parse(result.text);
         createdJob.should.not.be.null;
         createdJob.id.should.equal(createdWithParametersJobId);
@@ -137,6 +139,7 @@ describe('cli', function () {
       suite.execute('batch job list --account-name %s --account-key %s --account-endpoint %s --json', 
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         var jobs = JSON.parse(result.text);
         jobs.some(function (job) {
           return job.id === jobId;
@@ -149,6 +152,7 @@ describe('cli', function () {
       suite.execute('batch job list --job-schedule-id %s --account-name %s --account-key %s --account-endpoint %s --json', 
         jobScheduleId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         var jobs = JSON.parse(result.text);
         jobs.every(function (job) {
           // Jobs created from a job schedule have ids of the format '<jobScheduleId>:job<number>'
@@ -166,6 +170,7 @@ describe('cli', function () {
       suite.execute('batch job disable %s --disable-option %s --account-name %s --account-key %s --account-endpoint %s --json', 
         jobId, 'requeue', batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         suite.execute('batch job show %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
           batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
           result.exitStatus.should.equal(0);
@@ -181,6 +186,7 @@ describe('cli', function () {
       suite.execute('batch job prep-release-status list %s --account-name %s --account-key %s --account-endpoint %s --json', 
         jobId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         var jobPrepAndReleaseInfo = JSON.parse(result.text);
         jobPrepAndReleaseInfo.should.not.be.null;
         jobPrepAndReleaseInfo.every(function (info) {
@@ -195,6 +201,7 @@ describe('cli', function () {
       suite.execute('batch job enable %s --account-name %s --account-key %s --account-endpoint %s --json', 
         jobId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         suite.execute('batch job show %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
           batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
           result.exitStatus.should.equal(0);
@@ -212,12 +219,14 @@ describe('cli', function () {
       suite.execute('batch job show %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         var originalJob = JSON.parse(result.text);
         originalJob.priority.should.not.be.null;
 
         suite.execute('batch job set %s %s --account-name %s --account-key %s --account-endpoint %s --json --replace', jobId, updateJsonFilePath, 
           batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
           result.exitStatus.should.equal(0);
+          result.errorText.should.equal('');
           var updatedJob = JSON.parse(result.text);
           updatedJob.priority.should.not.be.null;
           updatedJob.priority.should.not.equal(originalJob.priority);
@@ -237,6 +246,7 @@ describe('cli', function () {
         createdWithParametersJobId, poolId, metadata, priority, maxWallClockTime, maxTaskRetryCount,
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
         var updated = JSON.parse(result.text);
         updated.should.not.be.null;
         updated.id.should.equal(createdWithParametersJobId);
@@ -251,6 +261,7 @@ describe('cli', function () {
         suite.execute('batch job delete %s --account-name %s --account-key %s --account-endpoint %s --json --quiet', 
           createdWithParametersJobId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
           result.exitStatus.should.equal(0);
+          result.errorText.should.equal('');
           done();
         });
       });
@@ -263,6 +274,7 @@ describe('cli', function () {
         suite.execute('batch job show %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
           batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
           result.exitStatus.should.equal(0);
+          result.errorText.should.equal('');
           var job = JSON.parse(result.text);
           job.should.not.be.null;
           (job.state === 'terminating' || job.state === 'completed').should.be.true;
@@ -275,9 +287,11 @@ describe('cli', function () {
       suite.execute('batch job delete %s --account-name %s --account-key %s --account-endpoint %s --json --quiet', jobId, 
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
+        result.errorText.should.equal('');
 
         suite.execute('batch job show %s --account-name %s --account-key %s --account-endpoint %s --json', jobId, 
           batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+          result.errorText.should.equal('');
           if (result.exitStatus === 0) {
             var deletingJob = JSON.parse(result.text);
             deletingJob.state.should.equal('deleting');
