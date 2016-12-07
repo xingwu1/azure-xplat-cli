@@ -6,7 +6,7 @@ With an *application template*, the processing steps required for the job are de
 
 ## Prerequisites
 
-You must have an Azure Batch account set up with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/en-us/azure/batch/batch-account-create-portal) for details.
+You must have an Azure Batch account set up with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 You will need a blender scene to render.
 
