@@ -16,6 +16,7 @@
 'use strict';
 
 var should = require('should');
+var util = require('util');
 var utils = require('../../../lib/util/utils');
 var CLITest = require('../../framework/arm-cli-test');
 
