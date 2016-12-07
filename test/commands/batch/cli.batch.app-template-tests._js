@@ -449,11 +449,11 @@ describe('cli', function () {
 
     describe('template merging', function () {
 
-      it('should do nothing when no application template is required', function(_){
+      it('should do nothing when no application template is required', function(_) { 
         const job = { 
           id : "jobid"
         };
-        const result = templateUtils.expandApplicationTemplate(job, '.', _);
+        var result = templateUtils.expandApplicationTemplate(job, '.', _);
         result.should.equal(job);
       });  
   
@@ -479,7 +479,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, '.', _);
+        var result = templateUtils.expandApplicationTemplate(job, '.', _);
         should.exist(result.jobManagerTask, "expect the template to have provided jobManagerTask.");
       });
 
@@ -494,7 +494,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, '.', _);
+        var result = templateUtils.expandApplicationTemplate(job, '.', _);
         result.id.should.equal(jobId);
         result.priority.should.equal(priority);
       });
@@ -510,7 +510,7 @@ describe('cli', function () {
             }
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, '.', _);
+        var result = templateUtils.expandApplicationTemplate(job, '.', _);
         result.jobManagerTask.resourceFiles[1].filePath.should.equal(job.applicationTemplateInfo.parameters.blobName);
         result.metadata[0].value.should.equal(job.applicationTemplateInfo.parameters.keyValue);  
       });
@@ -547,7 +547,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, '.', _);
+        var result = templateUtils.expandApplicationTemplate(job, '.', _);
         should.not.exist(result.applicationTemplateInfo, 'Expect applicationTemplateInfo from job to not be present.');
       });
 
@@ -559,7 +559,7 @@ describe('cli', function () {
             filePath : staticApplicationTemplateFilePath
           }
         };
-        const result = templateUtils.expandApplicationTemplate(job, '.', _);
+        var result = templateUtils.expandApplicationTemplate(job, '.', _);
         should.not.exist( result.templateMetadata, 'Expect templateMetadata from template to not be present.');
       });
 
@@ -577,7 +577,7 @@ describe('cli', function () {
             }
           }
         };
-        const result =  templateUtils.expandApplicationTemplate(job, '.', _);
+        var result =  templateUtils.expandApplicationTemplate(job, '.', _);
         should.not.exist(result.parameters, 'Expect parameters from template to not be present');
       });
 
