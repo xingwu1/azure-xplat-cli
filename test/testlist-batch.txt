@@ -6,7 +6,7 @@ commands/batch/cli.batch.app-template-tests.js
 #commands/batch/cli.batch.file-tests.js
 #commands/batch/cli.batch.node-tests.js
 #commands/batch/cli.batch.pool-tests.js
-#commands/batch/cli.batch.ncj-tests._js
+commands/batch/cli.batch.ncj-tests._js
 #commands/batch/cli.batch.template-tests.js
 commands/batch/cli.batch.template-parsing-tests.js
 #commands/batch/cli.batch.ncj-batchShipyard-tests.js

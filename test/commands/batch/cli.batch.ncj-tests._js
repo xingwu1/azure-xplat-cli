@@ -58,25 +58,10 @@ function getValueFromJson(obj, val) {
 
 describe('cli', function () {
   describe('batch ncj', function () {
-    before(function (done) {
-      done();
-    });
-    
-    after(function (done) {
-      done();
-    });
-    
-    beforeEach(function (done) {
-      done();
-    });
-    
-    afterEach(function (done) {
-      done();
-    });
 
     it('should expand template with parameter file', function (_) {
       this.interaction = new Interactor(this);
-      var templateFile = path.resolve(__dirname, '../../data/batch.job.simple.json');
+      var templateFile = path.resolve(__dirname, '../../data/batch.job.parametricsweep.json');
       var parameterFile = path.resolve(__dirname, '../../data/batch.job.parameters.json');
       var full = templateUtils.expandTemplate(this, templateFile, parameterFile, _);
       should.exist(full);
@@ -87,16 +72,16 @@ describe('cli', function () {
     });
     
     it('should correct replace parametric sweep command', function (done) {
-      templateUtils.replacementParameter("cmd {{{0}}}.mp3 {1}.mp3", [5, 10]).should.equal('cmd {5}.mp3 10.mp3');
-      templateUtils.replacementParameter("cmd {{{0}}}.mp3 {{{1}}}.mp3", [5, 10]).should.equal('cmd {5}.mp3 {10}.mp3');
-      templateUtils.replacementParameter("cmd {{0}}.mp3 {1}.mp3", [5, 10]).should.equal('cmd {0}.mp3 10.mp3');
-      templateUtils.replacementParameter("cmd {0}.mp3 {1}.mp3", [5, 10]).should.equal('cmd 5.mp3 10.mp3');
-      templateUtils.replacementParameter("cmd {0}{1}.mp3 {1}.mp3", [5, 10]).should.equal('cmd 510.mp3 10.mp3');
-      templateUtils.replacementParameter("cmd {0}.mp3 {0}.mp3", [5, 10]).should.equal('cmd 5.mp3 5.mp3');
-      templateUtils.replacementParameter("cmd {0:3}.mp3 {0}.mp3", [5, 10]).should.equal('cmd 005.mp3 5.mp3');
-      templateUtils.replacementParameter("cmd {0:3}.mp3 {1:3}.mp3", [5, 1234]).should.equal('cmd 005.mp3 1234.mp3');
-      templateUtils.replacementParameter("cmd {{}}.mp3", [5, 1234]).should.equal('cmd {}.mp3');
-      templateUtils.replacementParameter(
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {{{0}}}.mp3 {1}.mp3", [5, 10]).should.equal('cmd {5}.mp3 10.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {{{0}}}.mp3 {{{1}}}.mp3", [5, 10]).should.equal('cmd {5}.mp3 {10}.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {{0}}.mp3 {1}.mp3", [5, 10]).should.equal('cmd {0}.mp3 10.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0}.mp3 {1}.mp3", [5, 10]).should.equal('cmd 5.mp3 10.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0}{1}.mp3 {1}.mp3", [5, 10]).should.equal('cmd 510.mp3 10.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0}.mp3 {0}.mp3", [5, 10]).should.equal('cmd 5.mp3 5.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0:3}.mp3 {0}.mp3", [5, 10]).should.equal('cmd 005.mp3 5.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0:3}.mp3 {1:3}.mp3", [5, 1234]).should.equal('cmd 005.mp3 1234.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {{}}.mp3", [5, 1234]).should.equal('cmd {}.mp3');
+      templateUtils.replacementTransform(templateUtils.transformSweepString, 
         "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={0}-%03d.png -r250 {0}.pdf && for f in *.png; do tesseract $f ${{f%.*}};done", 
         [5]).should.equal(
           'gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile=5-%03d.png -r250 5.pdf && for f in *.png; do tesseract $f ${f%.*};done');
@@ -104,11 +89,41 @@ describe('cli', function () {
     });
 
     it('should raise error when replace invalid parametric sweep command', function (done) {
-      (function(){ templateUtils.replacementParameter("cmd {0}.mp3 {2}.mp3", [5, 10]); }).should.throw();
-      (function(){ templateUtils.replacementParameter("cmd {}.mp3 {2}.mp3", [5, 10]); }).should.throw();
-      (function(){ templateUtils.replacementParameter("cmd {{0}}}.mp3 {1}.mp3", [5, 10]); }).should.throw();
-      (function(){ templateUtils.replacementParameter("cmd {0:3}.mp3 {1}.mp3", [-5, 10]); }).should.throw();
-      (function(){ templateUtils.replacementParameter("cmd {0:-3}.mp3 {1}.mp3", [5, 10]); }).should.throw();      
+      (function(){ templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0}.mp3 {2}.mp3", [5, 10]); }).should.throw("The parameter pattern '{2}' is out of bound.");
+      (function(){ templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {}.mp3 {2}.mp3", [5, 10]); }).should.throw("The parameter pattern '{2}' is out of bound.");
+      (function(){ templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {{0}}}.mp3 {1}.mp3", [5, 10]); }).should.throw("Invalid use of bracket characters, did you forget to escape (using {{}})?");
+      (function(){ templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0:3}.mp3 {1}.mp3", [-5, 10]); }).should.throw("The parameter '-5' is negative and cannot be used in pattern '{0:3}'.");
+      (function(){ templateUtils.replacementTransform(templateUtils.transformSweepString, "cmd {0:-3}.mp3 {1}.mp3", [5, 10]); }).should.throw("Invalid use of bracket characters, did you forget to escape (using {{}})?");      
+      done();
+    });
+
+    it('should correctly replace file iteration command', function (done) {
+      var file = {
+        url : 'http://someurl/container/path/blob.ext',
+        filePath : 'path/blob.ext',
+        fileName : 'blob.ext',
+        fileNameWithoutExtension : 'blob'
+      };
+      templateUtils.replacementTransform(templateUtils.transformFileString, "cmd {{{url}}}.mp3 {filePath}.mp3", file).should.equal('cmd {http://someurl/container/path/blob.ext}.mp3 path/blob.ext.mp3');
+      templateUtils.replacementTransform(templateUtils.transformFileString, "cmd {{{fileName}}}.mp3 {{{fileNameWithoutExtension}}}.mp3", file).should.equal('cmd {blob.ext}.mp3 {blob}.mp3');
+      templateUtils.replacementTransform(templateUtils.transformFileString, "cmd {{fileName}}.mp3 {fileName}.mp3", file).should.equal('cmd {fileName}.mp3 blob.ext.mp3');
+      templateUtils.replacementTransform(templateUtils.transformFileString, 
+        "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={fileNameWithoutExtension}-%03d.png -r250 {fileNameWithoutExtension}.pdf && for f in *.png; do tesseract $f ${{f%.*}};done", 
+        file).should.equal(
+          'gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile=blob-%03d.png -r250 blob.pdf && for f in *.png; do tesseract $f ${f%.*};done');
+      done();
+    });
+
+    it('should raise error when replace invalid file iteration command', function (done) {
+      var file = {
+        url : 'http://someurl/container/path/blob.ext',
+        filePath : 'path/blob.ext',
+        fileName : 'blob.ext',
+        fileNameWithoutExtension : 'blob'
+      };
+      (function(){ templateUtils.replacementTransform(templateUtils.transformFileString, "cmd {url}.mp3 {fullNameWithSome}.mp3", file); }).should.throw("Invalid use of bracket characters, did you forget to escape (using {{}})?");
+      (function(){ templateUtils.replacementTransform(templateUtils.transformFileString, "cmd {}.mp3 {url}.mp3", file); }).should.throw("Invalid use of bracket characters, did you forget to escape (using {{}})?");
+      (function(){ templateUtils.replacementTransform(templateUtils.transformFileString, "cmd {{url}}}.mp3 {filePath}.mp3", file); }).should.throw("Invalid use of bracket characters, did you forget to escape (using {{}})?");
       done();
     });
 
@@ -137,36 +152,34 @@ describe('cli', function () {
 
     it('should correct parse taskCollection taskfactory', function(done) {
      
-      var result = templateUtils.parseTaskFactory(
-        { 
-		  "taskFactory": { 
-            "type": "taskCollection",
-            "tasks": [
-              {
-                "id" : "mytask1",
-                "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
-                "resourceFiles": [
-                  {
-                    "filePath": "sampleVideo1.mkv",
-                    "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
-                  }
-                ],
-                "outputFiles": [
-                  {
-                    "filePattern": "output.mp4",
-                    "destination": {
-                      "container": {
-                        "containerSas": "[parameters('outputFileStorageUrl')]"
-                      }
-                    },
-                    "uploadDetails": {
-                      "taskStatus": "TaskCompletion"
+      var result = templateUtils.parseTaskCollectionTaskFactory(
+        {  
+          "type": "taskCollection",
+          "tasks": [
+            {
+              "id" : "mytask1",
+              "commandLine": "ffmpeg -i sampleVideo1.mkv -vcodec copy -acodec copy output.mp4 -y",
+              "resourceFiles": [
+                {
+                  "filePath": "sampleVideo1.mkv",
+                  "blobSource": "[parameters('inputFileStorageContainerUrl')]sampleVideo1.mkv"
+                }
+              ],
+              "outputFiles": [
+                {
+                  "filePattern": "output.mp4",
+                  "destination": {
+                    "container": {
+                      "containerSas": "[parameters('outputFileStorageUrl')]"
                     }
+                  },
+                  "uploadDetails": {
+                    "taskStatus": "TaskCompletion"
                   }
-                ]
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         }
       ).should.eql(
       [
@@ -199,13 +212,12 @@ describe('cli', function () {
     });
 
     it('should correct parse parametric sweep taskfactory', function (done) {
-      templateUtils.parseTaskFactory(
-	  {
-        "taskFactory": {
+      templateUtils.parseParametricSweep(
+    	  {
           "type": "parametricSweep",
           parameterSets: [{start:1, end:2}, {start: 3, end: 5}], repeatTask : { commandLine: "cmd {0}.mp3 {1}.mp3" }
         } 
-      }).should.eql(  
+      ).should.eql(  
         [ 
           { commandLine: 'cmd 1.mp3 3.mp3', id: '0' },
           { commandLine: 'cmd 1.mp3 4.mp3', id: '1' },
@@ -1029,7 +1041,7 @@ describe('cli', function () {
     });
 
 
-    it('should handle simple package manager task factory', function(done) {
+    it('should handle simple package manager task factory', function(_) {
       var job = {
         taskFactory: {
           type: "parametricSweep",
@@ -1050,7 +1062,7 @@ describe('cli', function () {
           }
         } 
       };
-      var collection = templateUtils.parseTaskFactory(job);
+      var collection = templateUtils.parseTaskFactory(job, _);
 
       var commands = [];
       commands.push(templateUtils.parseTaskPackageReferences(job, collection, poolUtils.PoolOperatingSystemFlavor.linux));
@@ -1061,11 +1073,9 @@ describe('cli', function () {
       job.jobPreparationTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
       job.jobPreparationTask.runElevated.should.be.equal(true);
       job.jobPreparationTask.waitForSuccess.should.be.equal(true);
-
-      done();
     });
 
-    it('should not create start task if no package manager', function(done) {
+    it('should not create start task if no package manager', function(_) {
       var job = {
         taskFactory: {
           type: "parametricSweep",
@@ -1075,15 +1085,13 @@ describe('cli', function () {
           }
         } 
       };
-      var collection = templateUtils.parseTaskFactory(job);
+      var collection = templateUtils.parseTaskFactory(job, _);
 
       var commands = [];
       commands.push(templateUtils.parseTaskPackageReferences(job, collection));
       commands.push(undefined);
       job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands, poolUtils.PoolOperatingSystemFlavor.linux);
       should.not.exist(job.jobPreparationTask);
-
-      done();
     });
 
     it('should handle bad package manager configuration', function(done) {
