@@ -22,6 +22,7 @@ var Interactor = require('../../../lib/util/interaction');
 var CLITest = require('../../framework/arm-cli-test');
 var templateUtils = require('../../../lib/commands/batch/batch.templateUtils');
 var fileUtils = require('../../../lib/commands/batch/batch.fileUtils');
+var poolUtils = require('../../../lib/commands/batch/batch.poolUtils');
 
 var path = require('path');
 var createJobScheduleJsonFilePath = path.resolve(__dirname, '../../data/batchCreateJobScheduleForJobTests.json');
@@ -928,7 +929,7 @@ describe('cli', function () {
       };
 
       var cmds = [templateUtils.parsePoolPackageReferences(pool)];
-      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
+      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds, poolUtils.PoolOperatingSystemFlavor.linux);
       should.exist(pool.startTask);
       pool.startTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
       pool.startTask.runElevated.should.be.equal(true);
@@ -942,12 +943,12 @@ describe('cli', function () {
         "id": "testpool",
         "virtualMachineConfiguration": {
             "imageReference": {
-              "publisher": "Canonical",
-              "offer": "UbuntuServer",
-              "sku": "15.10",
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2012-Datacenter",
               "version": "latest"
             },
-            "nodeAgentSKUId": "batch.node.debian 8"
+            "nodeAgentSKUId": "batch.node.windows amd64"
         },
         "vmSize": "10",
         "targetDedicated": "STANDARD_A1",
@@ -967,7 +968,7 @@ describe('cli', function () {
       };
 
       var cmds = [templateUtils.parsePoolPackageReferences(pool)];
-      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
+      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds, poolUtils.PoolOperatingSystemFlavor.windows);
       should.exist(pool.startTask);
       pool.startTask.commandLine.should.be.equal('cmd.exe /c "powershell -NoProfile -ExecutionPolicy unrestricted -Command "(iex ((new-object net.webclient).DownloadString(\'https://chocolatey.org/install.ps1\')))" && SET PATH="%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin" && choco feature enable -n=allowGlobalConfirmation & choco install ffmpeg & choco install testpkg --version 12.34 --allow-empty-checksums"');
       pool.startTask.runElevated.should.be.equal(true);
@@ -1017,7 +1018,7 @@ describe('cli', function () {
         ]
       };
       var cmds = [templateUtils.parsePoolPackageReferences(pool)];
-      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds);
+      pool.startTask = templateUtils.constructSetupTask(pool.startTask, cmds, poolUtils.PoolOperatingSystemFlavor.linux);
       should.exist(pool.startTask);
       pool.vmSize.should.equal(10);
       pool.startTask.commandLine.should.be.equal("/bin/bash -c 'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34;/bin/bash -c '\\''set -e; set -o pipefail; nodeprep-cmd'\\'' ; wait'");
@@ -1052,9 +1053,9 @@ describe('cli', function () {
       var collection = templateUtils.parseTaskFactory(job);
 
       var commands = [];
-      commands.push(templateUtils.parseTaskPackageReferences(job, collection));
+      commands.push(templateUtils.parseTaskPackageReferences(job, collection, poolUtils.PoolOperatingSystemFlavor.linux));
       commands.push(undefined);
-      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands);
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands, poolUtils.PoolOperatingSystemFlavor.linux);
       should.exist(job.jobPreparationTask);
       should.not.exist(job.taskFactory);
       job.jobPreparationTask.commandLine.should.be.equal('/bin/bash -c \'apt-get update;apt-get install -y ffmpeg;apt-get install -y apache2=12.34\'');
@@ -1079,7 +1080,7 @@ describe('cli', function () {
       var commands = [];
       commands.push(templateUtils.parseTaskPackageReferences(job, collection));
       commands.push(undefined);
-      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands);
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands, poolUtils.PoolOperatingSystemFlavor.linux);
       should.not.exist(job.jobPreparationTask);
 
       done();
@@ -1130,17 +1131,17 @@ describe('cli', function () {
         "enableAutoScale": false,
         "packageReferences": [
           {
-            "type": "chocolateyPackage",
-            "id": "ffmpeg"
-          },
-          {
             "type": "aptPackage",
             "id": "apache2",
             "version": "12.34"
+          },
+          {
+            "type": "chocolateyPackage",
+            "id": "ffmpeg"
           }
         ]
       };
-      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("PackageReferences can only contain a single type of package reference.");
+      (function(){ templateUtils.parsePoolPackageReferences(pool); }).should.throw("PackageReferences may only contain a single type of package reference.");
 
       pool = {
         "id": "testpool",
@@ -1183,11 +1184,11 @@ describe('cli', function () {
         uploadDetails: {
           taskStatus: 'TaskSuccess'
         }
-       }]
+       }];
       var task = { id: 'test', commandLine: 'foo.exe && /bin/bash -c "echo test"', outputFiles: outputFiles }
 
-      var newTask = templateUtils.parseTaskOutputFiles(task);
-      var expectedCommandLine = "/bin/bash -c 'foo.exe && /bin/bash -c \"echo test\";$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.sh > $AZ_BATCH_TASK_DIR/uploadlog.txt 2>&1'";
+      var newTask = templateUtils.parseTaskOutputFiles(task, poolUtils.PoolOperatingSystemFlavor.linux);
+      var expectedCommandLine = "/bin/bash -c 'foo.exe && /bin/bash -c \"echo test\";err=$?;$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.py $err;exit $err'";
 
       newTask.commandLine.should.equal(expectedCommandLine);
       should.not.exist(newTask.outputFiles);
@@ -1210,19 +1211,17 @@ describe('cli', function () {
         uploadDetails: {
           taskStatus: 'TaskSuccess'
         }
-       }]
-      var task = { id: 'test', commandLine: 'foo.exe', outputFiles: outputFiles }
+       }];
+      var task = { id: 'test', commandLine: 'foo.exe', outputFiles: outputFiles };
       var taskList = [task];
       var job = { id: 'myJob' };
 
       var commands = [];
       commands.push(undefined);
-      commands.push(templateUtils.processJobForOutputFiles(job, taskList));
-      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands);
+      commands.push(templateUtils.processJobForOutputFiles(job, taskList, poolUtils.PoolOperatingSystemFlavor.linux));
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands, poolUtils.PoolOperatingSystemFlavor.linux);
       var newJob = job;
 
-      var expectedCommandLine = '/bin/bash -c "foo.exe;$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.sh > $AZ_BATCH_TASK_DIR/uploadlog.txt 2>&1"';
-      
       newJob.id.should.equal(job.id);
       should.not.exist(taskList[0].outputFiles);
       should.exist(taskList[0].environmentSettings);
@@ -1231,7 +1230,46 @@ describe('cli', function () {
       taskList[0].environmentSettings[0].value.indexOf('filePattern').should.be.above(-1);
 
       should.exist(newJob.jobPreparationTask);
-      newJob.jobPreparationTask.commandLine.should.equal("/bin/bash -c 'setup.sh > $AZ_BATCH_JOB_PREP_DIR/uploadsetuplog.txt 2>&1'");
+      newJob.jobPreparationTask.commandLine.should.equal("/bin/bash -c 'setup_uploader.py > setuplog.txt 2>&1'");
+      should.exist(newJob.jobPreparationTask.resourceFiles);
+      newJob.jobPreparationTask.resourceFiles.length.should.equal(7);
+      
+      done();
+    });
+
+    it('should correctly handle JobManagerTask with outputFiles', function(done) {
+      var outputFiles = [ {
+        filePattern: '*.txt',
+        destination: {
+          container: {
+            containerSas: 'sas'
+          }
+        },
+        uploadDetails: {
+          taskStatus: 'TaskSuccess'
+        }
+       }];
+      var task = { id: 'test', commandLine: 'foo.exe', outputFiles: outputFiles };
+      var job = { id: 'myJob', jobManagerTask: task };
+
+      var commands = [];
+      commands.push(undefined);
+      commands.push(templateUtils.processJobForOutputFiles(job, undefined, poolUtils.PoolOperatingSystemFlavor.linux));
+      job.jobPreparationTask = templateUtils.constructSetupTask(job.jobPreparationTask, commands, poolUtils.PoolOperatingSystemFlavor.linux);
+      var newJob = job;
+
+      var expectedCommandLine = "/bin/bash -c 'foo.exe;err=$?;$AZ_BATCH_JOB_PREP_WORKING_DIR/uploadfiles.py $err;exit $err'";
+
+      newJob.id.should.equal(job.id);
+      should.not.exist(job.jobManagerTask.outputFiles);
+      should.exist(job.jobManagerTask.environmentSettings);
+      job.jobManagerTask.commandLine.should.equal(expectedCommandLine);
+      job.jobManagerTask.environmentSettings.length.should.equal(1);
+      job.jobManagerTask.environmentSettings[0].name.should.equal(templateUtils.fileEgressEnvName);
+      job.jobManagerTask.environmentSettings[0].value.indexOf('filePattern').should.be.above(-1);
+
+      should.exist(newJob.jobPreparationTask);
+      newJob.jobPreparationTask.commandLine.should.equal("/bin/bash -c 'setup_uploader.py > setuplog.txt 2>&1'");
       should.exist(newJob.jobPreparationTask.resourceFiles);
       newJob.jobPreparationTask.resourceFiles.length.should.equal(7);
       
