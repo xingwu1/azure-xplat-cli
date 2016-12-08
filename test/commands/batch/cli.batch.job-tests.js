@@ -96,6 +96,7 @@ describe('cli', function () {
     it('should create a job from a json file', function (done) {
       suite.execute('batch job create %s --account-name %s --account-key %s --account-endpoint %s --json', createJsonFilePath, 
         batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
+        console.log(util.inspect(result));
         result.exitStatus.should.equal(0);
         result.errorText.should.equal('');
         try {
