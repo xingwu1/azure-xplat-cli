@@ -20,7 +20,6 @@
 import datetime
 import platform
 # non-stdlib imports
-import dateutil.tz
 
 # global defines
 _IS_PLATFORM_WINDOWS = platform.system() == 'Windows'
@@ -110,13 +109,3 @@ def datetime_utcnow():
     return datetime.datetime.utcnow()
 
 
-def datetime_now(tz=None):
-    # type: (datetime.tzinfo) -> datetime.datetime
-    """
-    Returns a datetime now with specified timezone
-    :param tz: timezone for returned datetime object, default is tzlocal
-    :return: datetime object representing now with specified timezone
-    """
-    if tz is None:
-        tz = dateutil.tz.tzlocal()
-    return datetime.datetime.now(tz)
