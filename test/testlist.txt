@@ -82,6 +82,7 @@ commands/cli.storage.file-tests.js
 commands/cli.storage.table-tests.js
 commands/cli.storage.queue-tests.js
 commands/cli.storage.service-tests.js
+commands/batch/cli.batch.app-template-tests._js
 commands/batch/cli.batch.certificate-tests.js
 commands/batch/cli.batch.job-tests.js
 commands/batch/cli.batch.jobschedule-tests.js
@@ -91,6 +92,7 @@ commands/batch/cli.batch.node-tests.js
 commands/batch/cli.batch.pool-tests.js
 commands/batch/cli.batch.ncj-tests._js
 commands/batch/cli.batch.template-tests.js
+commands/batch/cli.batch.template-parsing-tests.js
 commands/batch/cli.batch.ncj-batchShipyard-tests.js
 util/git/linkrevisioncontrol-tests.js
 #TODO: uncomment after remove the dependencies on streamline files
