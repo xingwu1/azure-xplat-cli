@@ -1,13 +1,13 @@
 {
     "parameters": {
-        "poolName": {
+        "jobId": {
             "type": "string",
             "defaultValue": "ffmpegpool",
             "metadata": {
                 "description": "The name of Azure Batch pool which runs the job"
             }
         },
-        "jobName": {
+        "poolId": {
             "type": "string",
             "metadata": {
                 "description": "The name of Azure Batch job"
@@ -18,9 +18,9 @@
         "type": "Microsoft.Batch/batchAccounts/jobs",
         "apiVersion": "2016-12-01",
         "properties": {
-            "id": "[parameters('jobName')]",
+            "id": "[parameters('jobId')]",
             "poolInfo": {
-                "poolId": "[parameters('poolName')]"
+                "poolId": "[parameters('poolId')]"
             },
             "taskFactory": {
                 "type": "taskCollection",
