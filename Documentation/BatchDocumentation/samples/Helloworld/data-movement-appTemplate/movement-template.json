@@ -18,13 +18,20 @@
         "testData": {
             "type": "string",
             "metadata": {
-                "description": "The auto-storage group where the input data is stored"
+                "description": "The auto-storage group where the input data is stored."
             }
         },
         "outputFileStorageUrl": {
             "type": "string",
             "metadata": {
-                "description": "A storage SAS URL to a container with write access"
+                "description": "A storage SAS URL to a blob container with write access."
+            }
+        },
+        "filename" : {
+            "type": "string",
+            "default": "input{0}.txt",
+            "metadata": {
+                "description": "A file specification containing a {0} for the parametric sweep index number."
             }
         }
     },
@@ -39,12 +46,12 @@
             }
         ],
         "repeatTask": {
-            "commandLine": "/bin/bash -c 'cat input{0}.txt'",
+            "commandLine": "/bin/bash -c 'cat [parameters('filename')]'",
             "resourceFiles": [
                 {
                     "source": { 
                         "fileGroup": "[parameters('testData')]",
-                        "prefix": "input{0}.txt"
+                        "prefix": "[parameters('filename')]"
                     }
                 }
             ],
