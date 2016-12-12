@@ -6,13 +6,13 @@
         "taskStart": {
             "type": "int",
             "metadata": {
-                "description": "The sweep start parameter"
+                "description": "The sweep start parameter."
             }
         },
         "taskEnd": {
             "type": "int",
             "metadata": {
-                "description": "The sweep end parameter"
+                "description": "The sweep end parameter."
             }
         },
         "testData": {
