@@ -27,6 +27,7 @@ If you want to use an existing pool to run the job, modify the `render-job.json`
 Edit the `render-job.json` file to specify appropriate parameters for the job:
 
 | Parameter | Description |
+| --------- | ----------- |
 | blendFile | The Blender scene file to be rendered |
 | sceneData | The file group where the input data is stored |
 | outputPrefix | The prefix to use when naming the rendered outputs |
