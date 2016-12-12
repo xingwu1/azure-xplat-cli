@@ -13,30 +13,30 @@ azure batch file upload <path> <group>
 ```
 | Parameter        | Description                                                                                                                                      |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <path>           | File specification of the files to upload. Relative paths are resolved relative to the current directory.                                        |
-| <group>          | Name for the file group that will be created in blob storage. The file group will have the prefix `fgrp-` followed by the prefix specified here. |
+| `<path>`         | File specification of the files to upload. Relative paths are resolved relative to the current directory.                                        |
+| `<group>`        | Name for the file group that will be created in blob storage. The file group will have the prefix `fgrp-` followed by the prefix specified here. |
 
 For more information see the documentation on [input files](../../../inputFiles.md).
 
 ## Preparation
 Fill out the parameter placeholders in `movement-job.json`:
 
-| Parameter        | Description                                                                            |
-| ---------------- | -------------------------------------------------------------------------------------- |
-| testData         | The same prefix as you used for `<group>` when you uploaded files in the previous step |
-| taskStart        | The index number of your first file (i.e. 1 for `input1.txt`).                         |
-| taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`)                           |
-| outputStorageUrl | A valid (non-expired) writable SAS key                                                 |
+| Parameter        | Description                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------ |
+| testData         | The same prefix as you used for `<group>` when you uploaded files in the previous step.          |
+| taskStart        | The index number of your first file (i.e. 1 for `input1.txt`).                                   |
+| taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                    |
+| outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this). |
 
 To customize the job id or any of the details of the autopool, modify the appropriate details in `movementjob.json`. These are not parameterized because they are not specified in the template file. 
 
 ## Run commands
 To create your job with some tasks, run the following command:
 ``` bash
-azure batch job create --json-file movement-job.json` 
+azure batch job create --json-file movement-job.json
 ```
 
-This job uses an autopool which will be automatically deleted once the job finishes. 
+This job uses an **autopool** which will be automatically deleted once the job finishes. 
 
 ## Monitor the job
 
@@ -53,4 +53,4 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 If the preparation tasks for the job fail with the error *"One of the specified Azure Blob(s) is not found"*, verify that the resource file URLs specified for the file egress scripts are still correct (these urls are dependent on the branch structure in the git repo for the XPlat CLI and may change without warning).
 
 To check these URLs with the Azure Batch Portal, select the *Preparation Tasks* details page for your job then click the link next to *Resource Files*.  Another pane will open showing all the associated resource files and their URLs. Check that none of these return a 404 (forbidden) result in your browser.
- 
+
