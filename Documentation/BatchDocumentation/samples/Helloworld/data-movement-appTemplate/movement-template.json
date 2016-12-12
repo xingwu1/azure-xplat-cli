@@ -1,0 +1,67 @@
+{
+    "templateMetadata" : {
+        "description" : "Sample application template for data movement."
+    },
+    "parameters": {
+        "taskStart": {
+            "type": "int",
+            "metadata": {
+                "description": "The sweep start parameter"
+            }
+        },
+        "taskEnd": {
+            "type": "int",
+            "metadata": {
+                "description": "The sweep end parameter"
+            }
+        },
+        "testData": {
+            "type": "string",
+            "metadata": {
+                "description": "The auto-storage group where the input data is stored"
+            }
+        },
+        "outputFileStorageUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "A storage SAS URL to a container with write access"
+            }
+        }
+    },
+    "onAllTasksComplete": "terminateJob",
+    "taskFactory": {
+        "type": "parametricSweep",
+        "parameterSets": [
+            {
+                "start": "[parameters('taskStart')]",
+                "end": "[parameters('taskEnd')]",
+                "step": 1
+            }
+        ],
+        "repeatTask": {
+            "commandLine": "/bin/bash -c 'cat input{0}.txt'",
+            "resourceFiles": [
+                {
+                    "source": { 
+                        "fileGroup": "[parameters('testData')]",
+                        "prefix": "input{0}.txt"
+                    }
+                }
+            ],
+            "outputFiles": [
+                {
+                    "filePattern": "$AZ_BATCH_TASK_DIR/stdout.txt",
+                    "destination": {
+                        "container": {
+                            "path": "output{0}.txt",
+                            "containerSas": "[parameters('outputFileStorageUrl')]"
+                        }
+                    },
+                    "uploadDetails": {
+                        "taskStatus": "TaskSuccess"
+                    }
+                }
+            ]
+        }
+    }
+}

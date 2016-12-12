@@ -1,0 +1,33 @@
+{
+  "id": "apptemplatemovement",
+  "displayName": "Data Movement with Application Template",
+  "applicationTemplateInfo" : {
+    "filePath" : "movement-template.json",
+    "parameters" : {
+      "taskStart": "<Task start value>",
+      "taskEnd": "<Task end value>",
+      "testData": "<Auto-storage group name>",
+      "outputFileStorageUrl": "<Blob url with sas>"
+    }
+  },
+  "poolInfo": {
+      "autoPoolSpecification": {
+          "autoPoolIdPrefix": "movement",
+          "poolLifetimeOption": "job",
+          "keepAlive": false,
+          "pool": {
+              "vmSize": "STANDARD_D1_V2",
+              "virtualMachineConfiguration": {
+                  "imageReference": {
+                    "publisher": "Canonical",
+                    "offer": "UbuntuServer",
+                    "sku": "16.04.0-LTS",
+                    "version": "latest"
+                  },
+                  "nodeAgentSKUId": "batch.node.ubuntu 16.04"
+              },
+              "targetDedicated": "3"
+          }
+      }
+  }
+}
