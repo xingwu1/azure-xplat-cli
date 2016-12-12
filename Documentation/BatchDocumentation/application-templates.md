@@ -39,6 +39,7 @@ The `applicationTemplateInfo` element gives the `filePath` to the application te
 
 [**Blender**](samples/blender-appTemplate/readme.md) - using an application template to specify the rendering of a Blender scene. This sample uses the experimental [Task Factories](taskFactories.md) feature. 
 
+[**Data Movement**](samples/Helloworld/data-movement-appTemplate/readme.md) - using an application template to specify processing of a number of input files, with the results of processing automatically uploaded into blob storage at the after processing.
 
 ## Job schema changes
 
@@ -48,7 +49,7 @@ The batch job gains the following element, used to specify which application tem
 | ----------------------- | -------- | ------------ | ------------------------------------------------------------------------------------------------------ |
 | applicationTemplateInfo | Optional | Complex Type | Identifies an application template and supplies parameter values for expansion when the job is created |
 
-`applicationTemplateInfo`
+### applicationTemplateInfo
 
 This new complex object is used to specify the application template used and to provide any parameters required by the templates.
 
@@ -70,7 +71,7 @@ These newly introduced properties are used to define the templating capabilities
 | templateMetadata | Optional | Complex Type | Additional information about the template itself. <br/>Included for documentation purposes only. None of this information is passed through to the generated job. |
 | parameters       | Optional | Dictionary   | A (potentially empty) dictionary of parameter definitions, indexed by the name of the property.                                                                   |
 
-`templateMetadata`
+### templateMetadata
 
 Though completely optional and not actually used by the Xplat-CLI, template metadata is supported to allow the templates to be somewhat self documenting. These properties are recommended for each template.
 
@@ -80,7 +81,7 @@ Though completely optional and not actually used by the Xplat-CLI, template meta
 | author       | Optional    | String  | The name or email address of the template author.                                             |
 | dateUpdated  | Optional    | String  | A human readable message (a date or a version number) for when the template was last modified.| 
 
-`parameters`
+### parameters
 
 These parameter definitions in an ARM style specify the parameters consumed by the template.  Every parameter used by the template must be pre-defined in this collection.
 
