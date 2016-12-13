@@ -2,7 +2,7 @@
 This template shows how to create a standard VirtualMachineConfiguration based pool, and run a simple parametric sweep job on it.
 
 ## Prerequisites
-You must have an Azure Batch account.
+You will need an Azure Batch account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Preparation
 Fill out `pool.parameters.json` and `job.parameters.json`.

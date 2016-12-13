@@ -2,7 +2,7 @@
 This template shows how to create a parametric sweep job which runs on an VirtualMachineConfiguration based autopool. It will also demonstrate how to use ResourceFiles and OutputFiles to automatically download/upload files to/from the virtual machine.
 
 ## Prerequisites
-You must have an Azure Batch account set up with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
+You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Upload files
 Run command `azure batch file upload <path> <group>` on a folder containing some text files which are named with numerically increasing names with `input` prefix (i.e. `input1.txt`, `input2.txt`, `input3.txt`, etc).
@@ -16,7 +16,7 @@ Please make sure the provided values are correct:
 3. The `outputStorageUrl` should be a valid writable SAS key.
 
 ## Run commands
-Run `azure batch job create --template job.json --parameters job.parameters.json` to create your job with some tasks.
+Run `azure batch job create --template job.json --parameters job.parameters.json` to create your job.
 This job uses an autopool which will be automatically deleted once the job finishes. 
 
 ## Monitor the job

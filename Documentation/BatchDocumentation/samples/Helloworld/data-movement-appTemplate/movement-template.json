@@ -6,13 +6,13 @@
         "testData": {
             "type": "string",
             "metadata": {
-                "description": "The auto-storage group where the input data is stored."
+                "description": "The linked storage group where the input data is stored."
             }
         },
         "outputFileStorageUrl": {
             "type": "string",
             "metadata": {
-                "description": "A storage SAS URL to a blob container with write access."
+                "description": "A storage SAS URL to a linked blob storage container with write access."
             }
         }
     },

@@ -4,10 +4,10 @@ This template shows how to create a parametric sweep job using an *application t
 With an application template, the processing steps required for the job are defined in a separate file - see `movement-template.json` - which is appropriately parameterized. The job itself references the template, supplies any required parameter values and specifies the pool on which the job is to run.
 
 ## Prerequisites
-You must have an Azure Batch account set up with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
+You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Upload files
-To upload a folder of files with numerically increasing names with `input` prefix (i.e. `input1.txt`, `input2.txt`, `input3.txt`, run command this command to upload files:
+To upload a folder of files run this command:
 ``` bash
 azure batch file upload <path> <group>
 ```
@@ -28,7 +28,7 @@ Fill out the parameter placeholders in `movement-job.json`:
 | taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                                                                                                                             |
 | outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
 
-To customize the job id or any of the details of the autopool, modify the appropriate details in `movementjob.json`. These are not parameterized because they are not specified in the template file. 
+To customize the job id or any of the details of the autopool, modify the appropriate details in `movement-job.json`. These are not parameterized because they are not specified in the template file. 
 
 ## Run commands
 To create your job with some tasks, run the following command:
@@ -52,5 +52,5 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 If the preparation tasks for the job fail with the error *"One of the specified Azure Blob(s) is not found"*, verify that the resource file URLs specified for the file egress scripts are still correct (these urls are dependent on the branch structure in the git repo for the XPlat CLI and may change without warning).
 
-To check these URLs with the Azure Batch Portal, select the *Preparation Tasks* details page for your job then click the link next to *Resource Files*.  Another pane will open showing all the associated resource files and their URLs. Check that none of these return a 404 (forbidden) result in your browser.
+To check these URLs with the Azure Batch Portal, select the *Preparation Tasks* details page for your job then click the link next to *Resource Files*.  Another pane will open showing all the associated resource files and their URLs. Check that none of these return a 404 (not found) result in your browser.
 
