@@ -31,7 +31,7 @@ Fill out the parameter placeholders in `movement-job.json`:
 To customize the job id or any of the details of the autopool, modify the appropriate details in `movement-job.json`. These are not parameterized because they are not specified in the template file. 
 
 ## Run commands
-To create your job with some tasks, run the following command:
+To create your job, run the following command:
 ``` bash
 azure batch job create --json-file movement-job.json
 ```
