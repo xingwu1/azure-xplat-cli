@@ -4,11 +4,6 @@
   "applicationTemplateInfo" : {
     "filePath" : "movement-template.json",
     "parameters" : {
-      "taskStart": "<Task start value>",
-      "taskEnd": "<Task end value>",
-      "testData": "<Auto-storage group name>",
-      "outputFileStorageUrl": "<Blob url with sas>"
-      "filename": "<filespecification>",
     }
   },
   "poolInfo": {

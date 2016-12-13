@@ -3,18 +3,6 @@
         "description" : "Sample application template for data movement."
     },
     "parameters": {
-        "taskStart": {
-            "type": "int",
-            "metadata": {
-                "description": "The sweep start parameter."
-            }
-        },
-        "taskEnd": {
-            "type": "int",
-            "metadata": {
-                "description": "The sweep end parameter."
-            }
-        },
         "testData": {
             "type": "string",
             "metadata": {
@@ -26,33 +14,20 @@
             "metadata": {
                 "description": "A storage SAS URL to a blob container with write access."
             }
-        },
-        "filename" : {
-            "type": "string",
-            "default": "input{0}.txt",
-            "metadata": {
-                "description": "A file specification containing a {0} for the parametric sweep index number."
-            }
         }
     },
     "onAllTasksComplete": "terminateJob",
     "taskFactory": {
-        "type": "parametricSweep",
-        "parameterSets": [
-            {
-                "start": "[parameters('taskStart')]",
-                "end": "[parameters('taskEnd')]",
-                "step": 1
-            }
-        ],
+        "type": "taskPerFile",
+        "source" : {
+            "fileGroup" : "[parameters('testData')]"
+        },
         "repeatTask": {
-            "commandLine": "/bin/bash -c 'cat [parameters('filename')]'",
+            "commandLine": "/bin/bash -c 'cat {fileName}'",
             "resourceFiles": [
                 {
-                    "source": { 
-                        "fileGroup": "[parameters('testData')]",
-                        "prefix": "[parameters('filename')]"
-                    }
+                    "blobSource" : "{url}",
+                    "filePath" : "{fileName}"
                 }
             ],
             "outputFiles": [
@@ -60,7 +35,7 @@
                     "filePattern": "$AZ_BATCH_TASK_DIR/stdout.txt",
                     "destination": {
                         "container": {
-                            "path": "output{0}.txt",
+                            "path": "output-{fileNameWithoutExtension}.txt",
                             "containerSas": "[parameters('outputFileStorageUrl')]"
                         }
                     },

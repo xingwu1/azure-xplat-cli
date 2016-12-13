@@ -11,22 +11,22 @@ To upload a folder of files with numerically increasing names with `input` prefi
 ``` bash
 azure batch file upload <path> <group>
 ```
-| Parameter        | Description                                                                                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `<path>`         | File specification of the files to upload. Relative paths are resolved relative to the current directory.                                        |
-| `<group>`        | Name for the file group that will be created in blob storage. The file group will have the prefix `fgrp-` followed by the prefix specified here. |
+| Parameter        | Description                                                                                                                                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `<path>`         | File specification of the files to upload. Relative paths are resolved relative to the current directory.                                                                            |
+| `<group>`        | Name for the file group that will be created in blob storage. <br/>When you view file group in the Azure portal it will have the prefix `fgrp-` followed by the name specified here. |
 
 For more information see the documentation on [input files](../../../inputFiles.md).
 
 ## Preparation
 Fill out the parameter placeholders in `movement-job.json`:
 
-| Parameter        | Description                                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------ |
-| testData         | The same prefix as you used for `<group>` when you uploaded files in the previous step.          |
-| taskStart        | The index number of your first file (i.e. 1 for `input1.txt`).                                   |
-| taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                    |
-| outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this). |
+| Parameter        | Description                                                                                                                                                                                               |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| testData         | The same name as you used for `<group>` when you uploaded files in the previous step.<br/>Note that this does not include the `fgrp-` prefix visible when you view blob storage through the Azure portal. |
+| taskStart        | The index number of your first file (i.e. 1 for `input1.txt`).                                                                                                                                            |
+| taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                                                                                                                             |
+| outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
 
 To customize the job id or any of the details of the autopool, modify the appropriate details in `movementjob.json`. These are not parameterized because they are not specified in the template file. 
 
