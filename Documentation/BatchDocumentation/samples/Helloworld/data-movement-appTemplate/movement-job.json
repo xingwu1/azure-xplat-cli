@@ -4,6 +4,8 @@
   "applicationTemplateInfo" : {
     "filePath" : "movement-template.json",
     "parameters" : {
+      "testData" : "<linked storage group name",
+      "outputFileStorageUrl" : "<linked storage url>"
     }
   },
   "poolInfo": {
