@@ -25,6 +25,8 @@ describe('cli', function() {
   describe('telemetry', function() {
     var sandbox = sinon.sandbox.create();
     var telemetry = require('../../lib/util/telemetry');
+    var userAgentCore = require('../../lib/util/userAgentCore');
+
     var testInstrumentationKey = "1234";
 
     beforeEach(function (done) {
@@ -78,6 +80,142 @@ describe('cli', function() {
       telemetry.onFinish(function() {});
 
       (track.called).should.be.false;
+      done();
+    });
+
+    it('should construct user agent info object with some data', function (done) {
+
+      sandbox.stub(userAgentCore, 'getUserAgentData', function () {
+        return {
+          osType: 'WindowsNT',
+          osVersion: '2.0',
+          mode: 'baz',
+          commandName: 'group',
+          rawCommand: 'azure group list'
+        };
+      });
+
+      telemetry.init(true)
+      telemetry.start(['foo', 'bar', 'azure', 'group', 'list']);
+      telemetry.currentCommand({
+        fullName: function () {
+          return 'azure group list';
+        }
+      });
+
+      telemetry.onFinish(function () { });
+
+      var userAgentInfo = userAgentCore.getUserAgentData();
+      should(userAgentInfo).have.property('osType', 'WindowsNT');
+      should(userAgentInfo).have.property('osVersion', '2.0');
+      should(userAgentInfo).have.property('mode', 'baz');
+      should(userAgentInfo).have.property('commandName', 'group');
+      should(userAgentInfo).have.property('rawCommand', 'azure group list');
+
+      sandbox.restore();
+      done();
+    });
+
+    it('should construct user agent info object with some properties', function (done) {
+
+      var command = 'azure group list';
+      telemetry.init(true)
+      telemetry.start(['foo', 'bar', 'azure', 'group', 'list']);
+      telemetry.setMode('arm');
+
+      telemetry.currentCommand({
+        fullName: function () {
+          return command;
+        }
+      });
+
+      telemetry.onFinish(function () { });
+
+      var userAgentInfo = userAgentCore.getUserAgentData();
+
+      // assert properties
+      should(userAgentInfo).have.property('osType').with.type('string');
+      should(userAgentInfo).have.property('osVersion').with.type('string');
+      should(userAgentInfo).have.property('nodeVersion').with.type('string');
+      should(userAgentInfo).have.property('installationType').with.type('string');
+      should(userAgentInfo).have.property('userId').with.type('string');
+      should(userAgentInfo).have.property('subscriptionId').with.type('string');
+      should(userAgentInfo).have.property('userType').with.type('string');
+
+      // assert properties, with values.
+      should(userAgentInfo).have.property('mode').with.type('string').be.equal('arm');
+      should(userAgentInfo).have.property('commandName').with.type('string').be.equal(command);
+      should(userAgentInfo).have.property('rawCommand').with.type('string').be.equal(command);
+
+      done();
+    });
+
+    it('should construct user agent info object with command and its parameters', function (done) {
+
+      var givenCommand = 'keyvault create --vault-name \"testvault007\" --resource-group \"testrg007\" --location \"westus\"';
+      var expectedRawCommand = 'azure keyvault create --vault-name testvault007 --resource-group testrg007 --location westus';
+
+      telemetry.init(true)
+      telemetry.start(['foo', 'bar', 'azure', 'keyvault', 'create', '--vault-name', 'testvault007', '--resource-group', 'testrg007', '--location', 'westus']);
+      telemetry.currentCommand({
+        fullName: function () {
+          return givenCommand;
+        }
+      });
+
+      telemetry.setMode('arm');
+      telemetry.onFinish(function () { });
+
+      var userAgentInfo = userAgentCore.getUserAgentData();
+
+      // assert command name and parameters.
+      should(userAgentInfo).have.property('commandName').with.type('string').be.equal(givenCommand);
+      should(userAgentInfo).have.property('rawCommand').with.type('string').be.equal(expectedRawCommand);
+
+      done();
+    });
+
+    it('should construct user agent info object when telemetry is not enabled', function (done) {
+      var track = sandbox.spy(applicationInsights.client, 'track');
+
+      var givenCommand = 'azure group list';
+
+      // disable telemetry
+      telemetry.init(false)
+      telemetry.start(['foo', 'bar', 'azure', 'group', 'list']);
+      telemetry.setMode('arm');
+
+      telemetry.currentCommand({
+        fullName: function () {
+          return givenCommand;
+        }
+      });
+
+      telemetry.onFinish(function () { });
+
+      // assert telemetry is not enabled.
+      (track.called).should.be.false;
+
+      // verify userAgent is properly constructed
+      var userAgentInfo = userAgentCore.getUserAgentData();
+
+      (userAgentInfo).should.be.ok;
+      (userAgentInfo.osType).should.be.ok;
+      (userAgentInfo.osVersion).should.be.ok;
+      (userAgentInfo.nodeVersion).should.be.ok;
+      (userAgentInfo.installationType).should.be.ok;
+      (userAgentInfo.userId).should.be.ok;
+      (userAgentInfo.subscriptionId).should.be.ok;
+      (userAgentInfo.userType).should.be.ok;
+      (userAgentInfo.mode).should.be.ok;
+      (userAgentInfo.commandName).should.be.ok;
+      (userAgentInfo.rawCommand).should.be.ok;
+
+      // verify values
+      (userAgentInfo.mode).should.be.equal('arm');
+      (userAgentInfo.commandName).should.be.equal(givenCommand);
+      (userAgentInfo.rawCommand).should.be.equal(givenCommand);
+
       done();
     });
 

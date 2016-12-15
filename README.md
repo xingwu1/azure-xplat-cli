@@ -39,7 +39,7 @@ release will first need to be uninstalled.
 
 - Uninstall the previously installed CLI
    - If you installed via MSI, then uninstall the Windows MSI. For Mac installer `sudo azure-uninstall -g`
-   - If you installed via npm then execute: `npm uninstall azure-cli –g`
+   - If you installed via npm then execute: `npm uninstall -g azure-cli`
 - Clear the global cache: `npm cache clear –g`
 - Delete the .streamline folder from your user profile folder or home directory if present. 
   - On Windows: `C:\Users\<username>\.streamline`

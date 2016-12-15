@@ -29,7 +29,7 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://management.azure.com:443')
-  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01')
+  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01')
   .reply(404, "{\"error\":{\"code\":\"ResourceGroupNotFound\",\"message\":\"Resource group 'xplatTstCntnGCreate2277' could not be found.\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-type': 'application/json; charset=utf-8',
@@ -47,7 +47,7 @@ nock('http://management.azure.com:443')
 function (nock) { 
 var result = 
 nock('https://management.azure.com:443')
-  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01')
+  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01')
   .reply(404, "{\"error\":{\"code\":\"ResourceGroupNotFound\",\"message\":\"Resource group 'xplatTstCntnGCreate2277' could not be found.\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-type': 'application/json; charset=utf-8',
@@ -66,7 +66,7 @@ function (nock) {
 var result = 
 nock('http://management.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.put('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01', '*')
+.put('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01', '*')
   .reply(201, "{\"id\":\"/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourceGroups/xplatTstCntnGCreate2277\",\"name\":\"xplatTstCntnGCreate2277\",\"location\":\"australiasoutheast\",\"tags\":{\"arm-cli-cntn-parameter-create-tests\":\"2016-06-01T11:57:14.635Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '285',
@@ -84,7 +84,7 @@ function (nock) {
 var result = 
 nock('https://management.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.put('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01', '*')
+.put('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01', '*')
   .reply(201, "{\"id\":\"/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourceGroups/xplatTstCntnGCreate2277\",\"name\":\"xplatTstCntnGCreate2277\",\"location\":\"australiasoutheast\",\"tags\":{\"arm-cli-cntn-parameter-create-tests\":\"2016-06-01T11:57:14.635Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '285',

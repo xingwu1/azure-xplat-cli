@@ -29,7 +29,7 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://management.azure.com:443')
-  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01')
+  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01')
   .reply(200, "{\"id\":\"/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourceGroups/xplatTstCntnGCreate2277\",\"name\":\"xplatTstCntnGCreate2277\",\"location\":\"australiasoutheast\",\"tags\":{\"arm-cli-cntn-parameter-create-tests\":\"2016-06-01T11:57:14.635Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-type': 'application/json; charset=utf-8',
@@ -46,7 +46,7 @@ nock('http://management.azure.com:443')
 function (nock) { 
 var result = 
 nock('https://management.azure.com:443')
-  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01')
+  .get('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01')
   .reply(200, "{\"id\":\"/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourceGroups/xplatTstCntnGCreate2277\",\"name\":\"xplatTstCntnGCreate2277\",\"location\":\"australiasoutheast\",\"tags\":{\"arm-cli-cntn-parameter-create-tests\":\"2016-06-01T11:57:14.635Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-type': 'application/json; charset=utf-8',
@@ -64,7 +64,7 @@ function (nock) {
 var result = 
 nock('http://management.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.patch('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01', '*')
+.patch('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01', '*')
   .reply(200, "{\"id\":\"/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourceGroups/xplatTstCntnGCreate2277\",\"name\":\"xplatTstCntnGCreate2277\",\"location\":\"australiasoutheast\",\"tags\":{\"arm-cli-cntn-parameter-create-tests\":\"2016-06-01T12:09:05.756Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '285',
@@ -82,7 +82,7 @@ function (nock) {
 var result = 
 nock('https://management.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.patch('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-02-01', '*')
+.patch('/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourcegroups/xplatTstCntnGCreate2277?api-version=2016-09-01', '*')
   .reply(200, "{\"id\":\"/subscriptions/cffbd00f-9edf-41f9-8f74-4a6ec260dcb8/resourceGroups/xplatTstCntnGCreate2277\",\"name\":\"xplatTstCntnGCreate2277\",\"location\":\"australiasoutheast\",\"tags\":{\"arm-cli-cntn-parameter-create-tests\":\"2016-06-01T12:09:05.756Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '285',
