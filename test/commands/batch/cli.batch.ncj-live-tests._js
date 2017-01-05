@@ -183,6 +183,9 @@ function createBasicSpec(jobId, poolId, taskId, textToEcho) {
             {
               id: taskId,
               commandLine: util.format('echo %s', textToEcho),
+              constraints: {
+                  retentionTime: "PT1H"
+              },              
               outputFiles: [
                 {
                   filePattern: '$AZ_BATCH_TASK_DIR/*.txt',
