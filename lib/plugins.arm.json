@@ -39332,6 +39332,30 @@
                   "description": "Bootstrap options in JSON format. Ex: -j '{\"chef_node_name\":\"test_node\"}'"
                 },
                 {
+                  "flags": "--bootstrap-version <number>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--bootstrap-version",
+                  "description": "chef-client version to be installed"
+                },
+                {
+                  "flags": "--chef-service-interval <chef-service-interval>",
+                  "required": -25,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--chef-service-interval",
+                  "description": "It specifies the frequency (in minutes) at which the chef-service runs. Pass 0 if you don't want the chef-service to be installed on the target machine."
+                },
+                {
+                  "flags": "--daemon <daemon>",
+                  "required": -10,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--daemon",
+                  "description": "Configures the chef-client service for unattended execution. The node platform to be Windows. Options: 'none' or 'service'. \n 'none' - Currently prevents the chef-client service from being configured as a service. \n 'service' - Configures the chef-client to run automatically in the background as a service."
+                },
+                {
                   "flags": "-u, --uninstall",
                   "required": 0,
                   "optional": 0,
@@ -39366,6 +39390,22 @@
                   "short": "-s",
                   "long": "--subscription",
                   "description": "the subscription id"
+                },
+                {
+                  "flags": "--secret <secret-key>",
+                  "required": -10,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--secret",
+                  "description": "The secret key to use to encrypt data bag item values."
+                },
+                {
+                  "flags": "--secret-file <secret-file>",
+                  "required": -15,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--secret-file",
+                  "description": "A file containing the secret key to use to encrypt data bag item values."
                 },
                 {
                   "flags": "--json-attributes <json-attributes>",

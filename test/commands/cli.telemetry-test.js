@@ -89,9 +89,7 @@ describe('cli', function() {
         return {
           osType: 'WindowsNT',
           osVersion: '2.0',
-          mode: 'baz',
-          commandName: 'group',
-          rawCommand: 'azure group list'
+          mode: 'baz'
         };
       });
 
@@ -109,8 +107,6 @@ describe('cli', function() {
       should(userAgentInfo).have.property('osType', 'WindowsNT');
       should(userAgentInfo).have.property('osVersion', '2.0');
       should(userAgentInfo).have.property('mode', 'baz');
-      should(userAgentInfo).have.property('commandName', 'group');
-      should(userAgentInfo).have.property('rawCommand', 'azure group list');
 
       sandbox.restore();
       done();
@@ -144,33 +140,6 @@ describe('cli', function() {
 
       // assert properties, with values.
       should(userAgentInfo).have.property('mode').with.type('string').be.equal('arm');
-      should(userAgentInfo).have.property('commandName').with.type('string').be.equal(command);
-      should(userAgentInfo).have.property('rawCommand').with.type('string').be.equal(command);
-
-      done();
-    });
-
-    it('should construct user agent info object with command and its parameters', function (done) {
-
-      var givenCommand = 'keyvault create --vault-name \"testvault007\" --resource-group \"testrg007\" --location \"westus\"';
-      var expectedRawCommand = 'azure keyvault create --vault-name testvault007 --resource-group testrg007 --location westus';
-
-      telemetry.init(true)
-      telemetry.start(['foo', 'bar', 'azure', 'keyvault', 'create', '--vault-name', 'testvault007', '--resource-group', 'testrg007', '--location', 'westus']);
-      telemetry.currentCommand({
-        fullName: function () {
-          return givenCommand;
-        }
-      });
-
-      telemetry.setMode('arm');
-      telemetry.onFinish(function () { });
-
-      var userAgentInfo = userAgentCore.getUserAgentData();
-
-      // assert command name and parameters.
-      should(userAgentInfo).have.property('commandName').with.type('string').be.equal(givenCommand);
-      should(userAgentInfo).have.property('rawCommand').with.type('string').be.equal(expectedRawCommand);
 
       done();
     });
@@ -208,13 +177,9 @@ describe('cli', function() {
       (userAgentInfo.subscriptionId).should.be.ok;
       (userAgentInfo.userType).should.be.ok;
       (userAgentInfo.mode).should.be.ok;
-      (userAgentInfo.commandName).should.be.ok;
-      (userAgentInfo.rawCommand).should.be.ok;
 
       // verify values
       (userAgentInfo.mode).should.be.equal('arm');
-      (userAgentInfo.commandName).should.be.equal(givenCommand);
-      (userAgentInfo.rawCommand).should.be.equal(givenCommand);
 
       done();
     });
