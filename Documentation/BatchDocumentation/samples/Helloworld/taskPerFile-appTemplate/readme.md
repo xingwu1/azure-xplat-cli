@@ -16,7 +16,7 @@ azure batch file upload <path> <group>
 | Parameter        | Description                                                                                                                                                                          |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `<path>`         | File specification of the files to upload. Relative paths are resolved relative to the current directory.                                                                            |
-| `<group>`        | Name for the file group that will be created in blob storage. <br/>When you view file group in the Azure portal it will have the prefix `fgrp-` followed by the name specified here. |
+| `<group>`        | Name for the file group that will be created in blob storage. <br/>When you view the file group in the Azure portal it will have the prefix `fgrp-` followed by the name specified here. |
 
 For more information see the documentation on [input files](../../../inputFiles.md).
 

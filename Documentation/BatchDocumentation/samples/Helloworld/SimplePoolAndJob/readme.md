@@ -9,7 +9,7 @@ To create your pool, run the following command:
 ``` bash
 azure batch pool create --template pool.json
 ```
-The pool will have 1 small VMs with Windows OS.
+The pool will contain a single virtual machine running Windows.
 
 **You are billed for your Azure Batch pools, so don't forget to delete it when you're done.**
 
