@@ -1,7 +1,9 @@
 # Azure Batch data movement using application templates
-This template shows how to create a parametric sweep job using an *application template* to separate the logic of processing from administration and management. This sample also demonstrates how to use `ResourceFiles` and `OutputFiles` to automatically download files to the virtual machine and to upload the output after the task completes.
+This template shows how to create a job using an *application template* to separate the logic of processing from administration and management. This sample also demonstrates how to use `ResourceFiles` and `OutputFiles` to automatically download files to the virtual machine and to upload the output after the task completes.
 
 With an application template, the processing steps required for the job are defined in a separate file - see `movement-template.json` - which is appropriately parameterized. The job itself references the template, supplies any required parameter values and specifies the pool on which the job is to run.
+
+This particular *application template* runs a simple commandline (`cat {fileName}`) for each of the files found in a specified file group from blob storage.
 
 ## Prerequisites
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
