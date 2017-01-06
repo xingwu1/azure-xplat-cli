@@ -52,7 +52,25 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 ### "One of the specified Azure Blob(s) is not found"
 
-If the preparation tasks for the job fail with the error *"One of the specified Azure Blob(s) is not found"*, verify that the resource file URLs specified for the file egress scripts are still correct (these urls are dependent on the branch structure in the git repo for the XPlat CLI and may change without warning).
+If the preparation tasks for the job fail with the error *"One of the specified Azure Blob(s) is not found"*, verify that the resource file URLs specified for the file egress scripts are still correct (these URLs are dependent on the branch structure in the git repo for the XPlat CLI and may change without warning).
 
 To check these URLs with the Azure Batch Portal, select the *Preparation Tasks* details page for your job then click the link next to *Resource Files*.  Another pane will open showing all the associated resource files and their URLs. Check that none of these return a 404 (not found) result in your browser.
 
+If any of these files return a 404, you will need to point your installation to the correct files from github.com, as follows:
+
+1. Go to [the github repository](https://github.com/Azure/azure-xplat-cli) (`https://github.com/Azure/azure-xplat-cli`)
+2. Check the following branches (in order) to find one that contains the file `lib/commands/batch/fileegress/batchfileuploader.py`. 
+    * master
+    * dev
+    * batch-beta
+    * batch-beta-dev
+3. Browse your installation of the XPlat CLI and open the file `lib/commands/batch/batch.templateUtil._js` in a Unicode-aware developers' text editor (such as [Visual Studio Code](https://code.visualstudio.com/), [Notepad++](https://notepad-plus-plus.org/) or [VIM](http://www.vim.org/)). 
+
+4. Modify the assignment of `batchTemplateUtils.rootFileUploadUrl` (around line #34) to specify the branch you found above; the branch is the last part of the string.
+
+5. Save the file and recreate your job from the command line.
+
+To illustrate, this assignment specifies the branch `batch-beta`:
+``` javascript
+batchTemplateUtils.rootFileUploadUrl = 'https://raw.githubusercontent.com/Azure/azure-xplat-cli/batch-beta';
+```
