@@ -64,7 +64,7 @@ If any of these files return a 404, you will need to point your installation to 
     * dev
     * batch-beta
     * batch-beta-dev
-3. Browse your installation of the XPlat CLI and open the file `lib/commands/batch/batch.templateUtil._js` in a Unicode-aware developers' text editor (such as [Visual Studio Code](https://code.visualstudio.com/), [Notepad++](https://notepad-plus-plus.org/) or [VIM](http://www.vim.org/)). 
+3. Browse your installation of the XPlat CLI and open the file `lib/commands/batch/batch.templateUtil._js` in a Unicode-aware developers' text editor (such as [Visual Studio Code](https://code.visualstudio.com/), [Notepad++](https://notepad-plus-plus.org/) or [Vim](http://www.vim.org/)). 
 
 4. Modify the assignment of `batchTemplateUtils.rootFileUploadUrl` (around line #34) to specify the branch you found above; the branch is the last part of the string.
 
