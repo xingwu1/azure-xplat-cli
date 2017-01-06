@@ -1,8 +1,8 @@
 {
-  "id": "apptemplatemovement",
-  "displayName": "Data Movement with Application Template",
+  "id": "taskperfileapptemplate",
+  "displayName": "Task Per File with Application Template",
   "applicationTemplateInfo" : {
-    "filePath" : "movement-template.json",
+    "filePath" : "template.json",
     "parameters" : {
       "testData" : "<linked storage group name>",
       "outputFileStorageUrl" : "<linked blob storage container url with write access>"

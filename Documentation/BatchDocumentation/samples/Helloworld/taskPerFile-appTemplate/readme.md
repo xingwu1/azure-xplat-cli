@@ -30,12 +30,12 @@ Fill out the parameter placeholders in `movement-job.json`:
 | taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                                                                                                                             |
 | outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
 
-To customize the job id or any of the details of the autopool, modify the appropriate details in `movement-job.json`. These are not parameterized because they are not specified in the template file. 
+To customize the job id or any of the details of the autopool, modify the appropriate details in `job.json`. These are not parameterized because they are not specified in the template file. 
 
 ## Run commands
 To create your job, run the following command:
 ``` bash
-azure batch job create --json-file movement-job.json
+azure batch job create --json-file job.json
 ```
 
 This job uses an **autopool** which will be automatically deleted once the job finishes. 
