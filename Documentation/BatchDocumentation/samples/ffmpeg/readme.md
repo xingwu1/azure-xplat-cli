@@ -2,7 +2,7 @@
 This template shows how to use `ffmpeg` to convert one kind of media file (`WAV`) to another type media file (`MP3`).
 
 ## Prerequisites
-You must have an Azure Batch account set up with a linked Azure Storage account.
+You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Create a pool
 Run `azure batch pool create --template pool.json` to create your pool using the default settings (A pool named 'ffmpeg-pool' with 3 STANDARD_D1 VMs). 
