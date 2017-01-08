@@ -1,7 +1,8 @@
 # Azure Batch data movement using application templates
-This template shows how to create a job using an *application template* to separate the logic of processing from administration and management. This sample also demonstrates how to use `ResourceFiles` and `OutputFiles` to automatically download files to the virtual machine and to upload the output after the task completes.
 
-With an application template, the processing steps required for the job are defined in a separate file - see `movement-template.json` - which is appropriately parameterized. The job itself references the template, supplies any required parameter values and specifies the pool on which the job is to run.
+This sample shows how to create a job using an *application template* to separate the logic of processing from administration and management. This sample also demonstrates how to use `ResourceFiles` and `OutputFiles` to automatically download files to the virtual machine and to upload the output after the task completes.
+
+With an application template, the processing steps required for the job are defined in a separate file (see the file `movement-template.json`) which is appropriately parameterized. The job itself references the template, supplies any required parameter values and specifies the pool on which the job is to run.
 
 This particular *application template* runs a simple commandline (`cat {fileName}`) for each of the files found in a specified file group from blob storage.
 
@@ -47,6 +48,21 @@ You can use this command to monitor the tasks in the job and their progress:
 azure batch task list --job-id <jobid>`
 ```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
+
+## Structure of the Sample 
+
+### template.json
+
+The file `template.json` specifies an application template, containing all of the logic for the job we are going to run. It also defines the following parameters:
+
+| Parameter | Required | Description |
+| ----- | ----- | ----- |
+| testData| Mandatory | The linked storage group where the input data is stored. |
+| outputFileStorageUrl | Mandatory | A storage SAS URL to a linked blob storage container with write access. |
+
+### job.json
+
+The file `job.json` defines the job to run by referencing the template file `template.json` and providing values for appropriate parameters. It also specifies the pool to use for the job, in this sample an auto pool containing **3** **STANDARD_D1_V2** virtual machines.
 
 ## Troubleshooting
 
