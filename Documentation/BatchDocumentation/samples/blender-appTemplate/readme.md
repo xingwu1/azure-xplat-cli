@@ -6,9 +6,9 @@ With an *application template*, the processing steps required for the job are de
 
 ## Prerequisites
 
-You must have an Azure Batch account set up with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
+You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
-You will need a blender scene to render.
+You will need a Blender scene to render.
 
 ## Setup Pool
 
@@ -43,7 +43,10 @@ azure batch job create --json-file render-job.json
 
 ## Monitor the job
 
-You can use the `azure batch task list --job-id <jobid>` to monitor the tasks in the job and their progress.
+You can use this command to monitor the tasks in the job and their progress:
+``` bash
+azure batch task list --job-id <jobid>`
+```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
 ## Structure of the sample
