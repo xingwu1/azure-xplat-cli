@@ -11,10 +11,10 @@ The features presented here may not be compatible with other Batch client SDKs a
 As these features are still in preview, they will be updated regularly, and refined based on customer feedback.
 Unfortunately this may result in occasional breaking changes, though every effort will be made to keep this to a minimum.
 
-
 ## Features
 
 * [Support for job and pool templates with parameterization](Documentation/BatchDocumentation/templates.md)
+* [Split job configuration and management with reusable application templates](Documentation/BatchDocumentation/application-templates.md)
 * [Task factories for automatic task generation on job submission](Documentation/BatchDocumentation/taskFactories.md)
 * [Automatic task output-file persistence to Azure Storage](Documentation/BatchDocumentation/outputFiles.md)
 * [Input data upload to Batch linked storage accounts](Documentation/BatchDocumentation/inputFiles.md#input-file-upload)
@@ -29,7 +29,8 @@ are created with a VirtualMachineConfiguration as documented in the [Batch API d
 
 ## Samples
 
-Sample templates that demonstrate all of the preview features can be found at [Documentation/BatchDocumentation/samples](Documentation/BatchDocumentation/samples).
+Samples for all of the preview features can be found at [Documentation/BatchDocumentation/samples](Documentation/BatchDocumentation/samples).
+
 ## Installation
 
 ### For existing users of the Xplat-CLI
