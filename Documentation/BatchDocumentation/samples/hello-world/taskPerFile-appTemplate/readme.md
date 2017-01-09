@@ -39,7 +39,7 @@ To create your job, run the following command:
 azure batch job create --json-file job.json
 ```
 
-This job uses an **autopool** which will be automatically deleted once the job finishes. 
+This job uses an **autopool** which will be automatically deleted once the job finishes. If the job stalls before all the tasks are complete, you may need to use the [Azure portal](https://portal.azure.com) and manually delete the pool to ensure you're not billed unnecessarily.
 
 ## Monitor the job
 
