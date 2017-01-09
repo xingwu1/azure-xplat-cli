@@ -47,7 +47,10 @@
                     }
                 ],
                 "repeatTask": {
-                    "commandLine": "/bin/bash -c 'echo Hello world from task {0}'"
+                    "commandLine": "/bin/bash -c 'echo Hello world from task {0}'",
+                    "constraints": {
+                        "retentionTime":"PT1H"
+                    }
                 }
             }
         }

@@ -191,6 +191,9 @@ function createBasicSpec(jobId, poolId, taskId, textToEcho, isWindows) {
             {
               id: taskId,
               commandLine: cmdLine,
+              constraints: {
+                  retentionTime: "PT1H"
+              },              
               outputFiles: [
                 {
                   filePattern: '$AZ_BATCH_TASK_DIR/*.txt',
