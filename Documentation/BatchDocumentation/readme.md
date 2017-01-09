@@ -19,7 +19,7 @@ When adding a task, you can now declare a list of output files to be automatical
 
 ## [Templates](templates.md)
 
-Templates allow pools and jobs to be defined in parameterised json files with a format inspired by ARM templates.
+Templates allow pools and jobs to be defined in parameterized json files with a format inspired by ARM templates.
 
 ## [Task Factories](taskFactories.md)
 
@@ -46,9 +46,9 @@ All of the details about how the job should be processed are moved into the **ap
 
 ## [Package managers](packages.md)
 
-Integration with existing 3rd party package managers to streamline the installation of applications. Cuirently the following package managers are supported:
+Integration with existing 3rd party package managers to streamline the installation of applications. Currently the following package managers are supported:
 
-* Chocolately - for Windows
+* Chocolatey - for Windows
 * APT - as used by some Linux distros including Ubuntu, Debian, and Fedora. 
 * Yum - a package manager used by some Linux distros including  Red Hat Enterprise Linux, Fedora, CentOS. 
 

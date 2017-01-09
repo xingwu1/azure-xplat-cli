@@ -12,7 +12,7 @@ Create a pool and then run a job with a single task. Both the pool and the job a
 
 ### [Create Pool and Job with templates](hello-world/create-pool-and-job-with-templates)
 
-Create a pool and then run a job with a single task. Both the pool and the job are defined using a parameterised templates. Parameter values used to fill out the templates are stored in separate files that are easy to modify as required.
+Create a pool and then run a job with a single task. Both the pool and the job are defined using a parameterized templates. Parameter values used to fill out the templates are stored in separate files that are easy to modify as required.
 
 ### [Task Per File](hello-world/taskPerFile)
 

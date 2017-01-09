@@ -10,9 +10,9 @@ without having to become a master of each application’s installation procedure
 supported.
 
 
-### Chocolately
+### Chocolatey
 
-Chocolately is a package manager for Windows that includes installations for many common applications/runtimes, 
+Chocolatey is a package manager for Windows that includes installations for many common applications/runtimes, 
 including: Java, Python, NodeJS, R, FFmpeg, Blender, etc.
 
 
@@ -105,10 +105,10 @@ This is dependent on the chosen OS of the compute nodes. Available options:
 
 #### Chocolatey
 * `type`: `"chocolateyPackage"`
-    * The package will be installed using Chocolatey. Only compatiable with Windows.
+    * The package will be installed using Chocolatey. Only compatible with Windows.
 * `id`: (required, string) This is the name or ID of the package to be installed as identified according to the appropriate package repository.
 * `version`: (optional, string) This is the specific version of a package to be installed. If not set, the latest version will be installed.
-* `allowEmptyChecksums`: (optional, boolean) Only for use with Chocolatey. If `true`, Chocolately will install packages without a checksum for validation. Default is `false`.
+* `allowEmptyChecksums`: (optional, boolean) Only for use with Chocolatey. If `true`, Chocolatey will install packages without a checksum for validation. Default is `false`.
 
 #### Yum
 * `type`: `"yumPackage"`
