@@ -17,8 +17,6 @@ azure batch file upload /tmp/data/**/*.png raw-images
 
 When adding a task, you can now declare a list of output files to be automatically uploaded to an Azure Storage container of your choice when the task completes.
 
-**Note:** This feature currently only available on Linux VMs.
-
 ## [Templates](templates.md)
 
 Templates allow pools and jobs to be defined in parameterised json files with a format inspired by ARM templates.
