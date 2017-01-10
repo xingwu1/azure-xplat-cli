@@ -13,16 +13,54 @@ Unfortunately this may result in occasional breaking changes, though every effor
 
 ## Features
 
-* [Support for job and pool templates with parameterization](Documentation/BatchDocumentation/templates.md)
-* [Split job configuration and management with reusable application templates](Documentation/BatchDocumentation/application-templates.md)
-* [Task factories for automatic task generation on job submission](Documentation/BatchDocumentation/taskFactories.md)
-* [Automatic task output-file persistence to Azure Storage](Documentation/BatchDocumentation/outputFiles.md)
-* [Input data upload to Batch linked storage accounts](Documentation/BatchDocumentation/inputFiles.md#input-file-upload)
-* [Input data references using linked storage accounts](Documentation/BatchDocumentation/inputFiles.md#referencing-input-data)
-* [Support for container-based workflows through integration with Batch Shipyard](Documentation/BatchDocumentation/shipyard.md)
-* [Support for package managers](Documentation/BatchDocumentation/packages.md)
+### [Input data upload to Batch linked storage accounts](Documentation/BatchDocumentation/inputFiles.md#input-file-upload)
 
-**Note:** At this point, the following features will only work with Batch IaaS VMs using Linux (excluding Oracle Linux). IaaS VMs in Batch
+A new command to allow a user to upload a set of files directly into the storage account linked to their Azure Batch account.
+
+### [Input data references using linked storage accounts](Documentation/BatchDocumentation/inputFiles.md#referencing-input-data)
+
+Input data stored in linked storage under a file group can be simply referenced by a task by using some new ResourceFile properties. 
+
+### [Automatic task output-file persistence to Azure Storage](Documentation/BatchDocumentation/outputFiles.md)
+
+When adding a task, you can now declare a list of output files to be automatically uploaded to an Azure Storage container of your choice when the task completes.
+
+### [Support for job and pool templates with parameterization](Documentation/BatchDocumentation/templates.md)
+
+Templates allow pools and jobs to be defined in parameterized json files with a format inspired by ARM templates.
+
+### [Task factories for automatic task generation on job submission](Documentation/BatchDocumentation/taskFactories.md)
+
+Task factories provide a way for a job and all its tasks to be created in one command instead
+of calling `azure batch task create` for each task. There are currently three kinds of task factory:
+
+* [Task Collection](Documentation/BatchDocumentation/taskFactories.md#task-collection) - tasks are explicitly defined as a part of the job
+* [Parametric Sweep](Documentation/BatchDocumentation/taskFactories.md#parametric-sweep) - a set of tasks are created by substituting a range or sequence of values into a template 
+* [Per File](Documentation/BatchDocumentation/taskFactories.md#task-per-file) - a template task is replicated for each available input file 
+
+### [Container-based workflows through integration with Batch Shipyard (Docker)](Documentation/BatchDocumentation/shipyard.md)
+
+An integration with Batch Shipyard to allow you to provision Batch compute nodes with Docker containers and to schedule Docker workloads. For more information on Batch Shipyard, see its [GitHub page](https://github.com/azure/batch-shipyard).
+
+**Note:** This feature is only available on Linux VMs.
+
+### [Split job configuration and management with reusable application templates](Documentation/BatchDocumentation/application-templates.md)
+
+Application templates provide a way to partition the details of a job into two parts.
+
+All of the details about how the job should be processed are moved into the **application template**, creating a reusable definition that is independent of a particular account. Application templates are parameterized to allow the processing to be customized without requiring modification of the template itself.
+
+### [Package manager support for easy software installation](Documentation/BatchDocumentation/packages.md)
+
+Integration with existing 3rd party package managers to streamline the installation of applications. Currently the following package managers are supported:
+
+* Chocolatey - for Windows
+* APT - as used by some Linux distros including Ubuntu, Debian, and Fedora. 
+* Yum - a package manager used by some Linux distros including  Red Hat Enterprise Linux, Fedora, CentOS. 
+
+### Limitations
+
+At this point, the following features will only work with Batch IaaS VMs using Linux (excluding Oracle Linux). IaaS VMs in Batch
 are created with a VirtualMachineConfiguration as documented in the [Batch API documentation](https://msdn.microsoft.com/library/azure/dn820174.aspx#bk_vmconf).
 - Automatic task output-file persistence
 - Using Docker container via Batch Shipyard integration
