@@ -41,7 +41,7 @@ To create your job:
 azure batch job create --template job.json --parameters job.parameters.json
 ```
 
-This job uses an **autopool** which will be automatically deleted once the job finishes. If the job stalls before all the tasks are complete, you may need to use the [Azure portal](https://portal.azure.com) and manually delete the pool to ensure you're not billed unnecessarily.
+This job uses an **autopool** which will automatically be deleted once the job reaches the Completed state. If the job never reaches the Completed state (e.g. when tasks are unable to run because of scheduling errors, or errors downloading files from storage), you will continue to be charged for the pool. In this case, you may want to use the [Azure portal](https://portal.azure.com) to manually delete the pool to ensure you're not billed unnecessarily.
 
 ## Monitor the job
 

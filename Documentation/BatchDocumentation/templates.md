@@ -76,7 +76,6 @@ Valid `type` options are:
 - `"Microsoft.Batch/batchAccounts/jobs"`
 - `"Microsoft.Batch/batchAccounts/pools"`
 
-
 **Note:** Unlike true ARM templates, Batch CLI templates must contain only a single definition for either a Batch job or pool.
 Additionally, not all ARM template syntax is supported. We currently support the following expressions and functions:
 
@@ -86,7 +85,6 @@ Additionally, not all ARM template syntax is supported. We currently support the
     - Example: `"poolInfo": "[variables('autoPool')]"`
 - `concat()`: A function to join two strings together.
     - Example: `"displayName": "[concat("Processing: ", parameters('inputName'))]"`
-
 
 Example templates and their accompanying parameter files can be found at
 [Documentation/BatchDocumentation/samples](Documentation/BatchDocumentation/samples).
