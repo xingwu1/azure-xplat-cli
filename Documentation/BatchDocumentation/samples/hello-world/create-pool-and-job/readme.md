@@ -47,8 +47,8 @@ The file `job.json` contains a template specifying the job to run on the pool.
 
 To change either the pool or the job, modify the details within the `properties` element of the template in the appropriate file.
 
-For more information on the properties available when creating a new pool, see [*Add a pool*](https://docs.microsoft.com/en-us/rest/api/batchservice/pool) from the [Batch REST API](https://docs.microsoft.com/en-us/rest/api/batchservice/) reference.
+For more information on the properties available when creating a new pool, see [*Add a pool*](https://docs.microsoft.com/rest/api/batchservice/pool) from the [Batch REST API](https://docs.microsoft.com/rest/api/batchservice/) reference.
 
- For more information on the properties available when creating jobs and tasks see [*Add a job*](https://docs.microsoft.com/en-us/rest/api/batchservice/job) and [*Add a task*](https://docs.microsoft.com/en-us/rest/api/batchservice/task).
+ For more information on the properties available when creating jobs and tasks see [*Add a job*](https://docs.microsoft.com/rest/api/batchservice/job) and [*Add a task*](https://docs.microsoft.com/rest/api/batchservice/task).
 
 Note that the **taskFactory** feature used in `job.json` is not documented as a part of the REST API as it is currently an experimental feature only available through the XPlat CLI.
