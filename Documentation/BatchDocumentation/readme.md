@@ -11,4 +11,7 @@ These experimental features provide new ways to work with Azure Batch without ne
 * [Split job configuration and management with reusable application templates](Documentation/BatchDocumentation/application-templates.md)
 * [Package manager support for easy software installation](Documentation/BatchDocumentation/packages.md)
 
-[More information](../..)
+See Also
+
+* [Feature summary](../..)
+* [Samples summary](samples)
