@@ -1,6 +1,6 @@
 # Application templates
 
-Application templates provides a way to partition the details of a job into two parts.
+Application templates provide a way to partition the details of a job into two parts.
 
 All of the details about how the job should be processed are moved into the **application template**, creating a reusable definition that is independent of a particular account. Application templates are parameterized to allow the processing to be customized without requiring modification of the template itself.
 
