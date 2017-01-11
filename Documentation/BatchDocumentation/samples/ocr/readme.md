@@ -33,4 +33,11 @@ You can use the `azure batch task list --job-id <jobid>` to monitor the tasks in
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
 The outputs of the tasks will be uploaded to the Azure Storage container which you specified as the individual tasks complete.
-The target container will contain a new virtual directory for each task that ran.
+The target container will contain a new virtual directory for each task that ran.## Monitor the job
+
+You can use this command to monitor the tasks in the job and their progress:
+``` bash
+azure batch task list --job-id <jobid>`
+```
+You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
+

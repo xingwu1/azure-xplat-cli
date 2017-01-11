@@ -35,5 +35,9 @@ Run `azure batch job create --template job.json` to create your job using the de
 To create a job with a different configuration, you can run command `azure batch job create --template job.json --parameters <your settings JSON file>`.
 
 ## Monitor the job
-You can run command `azure batch task list --job-id <jobid>` to monitor the tasks in the job and their progress.
+
+You can use this command to monitor the tasks in the job and their progress:
+``` bash
+azure batch task list --job-id <jobid>`
+```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
