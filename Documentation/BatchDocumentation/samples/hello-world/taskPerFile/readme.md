@@ -48,3 +48,10 @@ This job uses an **autopool** which will automatically be deleted once the job r
 You can use the `azure batch task list --job-id <jobid>` to monitor the tasks in the job and their progress.
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
+## Structure of the sample
+
+| File                  | Content                                                                                            |
+| --------------------- | -------------------------------------------------------------------------------------------------- |
+| `job.json`            | A template for the job to run, including parameter definitions and a **taskPerFile** task factory. |
+| `job.parameters.json` | Provides values for the parameters defined in `job.json`.                                          |
+

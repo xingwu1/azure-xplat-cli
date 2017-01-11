@@ -51,18 +51,10 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 ## Structure of the Sample 
 
-### template.json
-
-The file `template.json` specifies an application template, containing all of the logic for the job we are going to run. It also defines the following parameters:
-
-| Parameter            | Required  | Description                                                             |
-| -------------------- | --------- | ----------------------------------------------------------------------- |
-| testData             | Mandatory | The linked storage group where the input data is stored.                |
-| outputFileStorageUrl | Mandatory | A storage SAS URL to a linked blob storage container with write access. |
-
-### job.json
-
-The file `job.json` defines the job to run by referencing the template file `template.json` and providing values for appropriate parameters. It also specifies the pool to use for the job, in this sample an auto pool containing **3** **STANDARD_D1_V2** virtual machines.
+| File            | Content                                                                                                                                                                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `template.json` | Specifies an application template, containing all of the logic for the job we are going to run and any required parameters.                                                                                                                                     |
+| `job.json`      | Defines the job to run by referencing the template file `template.json` and providing values for appropriate parameters. <br/> It also specifies the pool to use for the job, in this sample an auto pool containing **3** **STANDARD_D1_V2** virtual machines. |
 
 ## Troubleshooting
 

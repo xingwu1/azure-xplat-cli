@@ -51,6 +51,9 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 ## Structure of the sample
 
-The job file `render-job.json` specifies the job to run, including the pool to use and any runtime constraints. However, it contains none of the job logic - instead it has an `applicationTemplateInfo` element that specifies the template to use (see `filePath`) and any parameters required by the template (see `parameters`). The template `render-template.json` describes the required processing, making use of the experimental **taskFactory** feature.
- 
+| File                   | Content                                                                                                                                                                                                                                                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `render-job.json`      | Specifies the job to run, including the pool to use and any runtime constraints. <br/> Does not contain any of the job logic - instead it has an `applicationTemplateInfo` element that specifies the template to use (see `filePath`) and any parameters required by the template (see `parameters`). |
+| `render-template.json` | Template file describing the required processing, making use of the experimental **taskFactory** feature.                                                                                                                                                                                              |
+
 
