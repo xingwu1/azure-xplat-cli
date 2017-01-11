@@ -70,12 +70,11 @@ For example:
 
 The job or pool to be created adheres to the same schema as the request body found in the 
 [Batch API documentation](https://msdn.microsoft.com/library/azure/dn820110.aspx) and is wrapped in a `properties` layer consistent
-with the structure of an [ARM resource](https://azure.microsoft.com/en-us/documentation/articles/resource-group-authoring-templates/#resources).
+with the structure of an [ARM resource](https://azure.microsoft.com/documentation/articles/resource-group-authoring-templates/#resources).
 A `type` field is also present, referencing the entity type to be created. Other ARM options (for example `location` or `dependsOn`) will be ignored.
 Valid `type` options are:
 - `"Microsoft.Batch/batchAccounts/jobs"`
 - `"Microsoft.Batch/batchAccounts/pools"`
-
 
 **Note:** Unlike true ARM templates, Batch CLI templates must contain only a single definition for either a Batch job or pool.
 Additionally, not all ARM template syntax is supported. We currently support the following expressions and functions:
@@ -86,7 +85,6 @@ Additionally, not all ARM template syntax is supported. We currently support the
     - Example: `"poolInfo": "[variables('autoPool')]"`
 - `concat()`: A function to join two strings together.
     - Example: `"displayName": "[concat("Processing: ", parameters('inputName'))]"`
-
 
 Example templates and their accompanying parameter files can be found at
 [Documentation/BatchDocumentation/samples](Documentation/BatchDocumentation/samples).

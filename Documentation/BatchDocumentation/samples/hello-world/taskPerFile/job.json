@@ -27,18 +27,6 @@
                 "description": "The number of virtual machines"
             }
         },
-        "taskStart": {
-            "type": "int",
-            "metadata": {
-                "description": "The sweep start parameter"
-            }
-        },
-        "taskEnd": {
-            "type": "int",
-            "metadata": {
-                "description": "The sweep end parameter"
-            }
-        },
         "testData": {
             "type": "string",
             "metadata": {
@@ -82,22 +70,16 @@
                 }
             },
             "taskFactory": {
-                "type": "parametricSweep",
-                "parameterSets": [
-                    {
-                        "start": "[parameters('taskStart')]",
-                        "end": "[parameters('taskEnd')]",
-                        "step": 1
-                    }
-                ],
+                "type": "taskPerFile",
+                "source" : {
+                    "fileGroup" : "[parameters('testData')]"
+                },
                 "repeatTask": {
-                    "commandLine": "/bin/bash -c 'cat input{0}.txt'",
+                    "commandLine": "/bin/bash -c 'cat {fileName}'",
                     "resourceFiles": [
                         {
-                            "source": { 
-                                "fileGroup": "[parameters('testData')]",
-                                "prefix": "input{0}.txt"
-                            }
+                            "blobSource" : "{url}",
+                            "filePath" : "{fileName}"
                         }
                     ],
                     "outputFiles": [
@@ -105,7 +87,7 @@
                             "filePattern": "$AZ_BATCH_TASK_DIR/stdout.txt",
                             "destination": {
                                 "container": {
-                                    "path": "output{0}.txt",
+                                    "path": "output-{fileName}.txt",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },
