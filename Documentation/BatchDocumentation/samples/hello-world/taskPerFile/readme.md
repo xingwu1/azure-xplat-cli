@@ -21,14 +21,14 @@ azure batch file upload <path> <group>
 
 Modify `job.parameters.json` to set the parameters for job creation. The following parameters are available:
 
-| Parameter | Required | Description |
-| ----- | ----- | ----- |
-| jobId | Mandatory | The id of the Azure Batch job. |
-| poolId | Optional | The id of the Azure Batch pool which runs the job. <br/>Defaults to `helloworld-pool` if not specified. |
-| vmSize | Optional | The size of the virtual machines that run the application. <br/> Defaults to `STANDARD_D1_V2` if not specified. |
-| vmCount | Optional | The number of virtual machines in the auto pool. <br/> Defaults to `3` if not specified. |
-| testData | Mandatory | The auto-storage group where the input data is stored. |
-| outputFileStorageUrl| Mandatory | A storage SAS URL to a container with write access. |
+| Parameter            | Required  | Description                                                                                                     |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
+| jobId                | Mandatory | The id of the Azure Batch job.                                                                                  |
+| poolId               | Optional  | The id of the Azure Batch pool which runs the job. <br/>Defaults to `helloworld-pool` if not specified.         |
+| vmSize               | Optional  | The size of the virtual machines that run the application. <br/> Defaults to `STANDARD_D1_V2` if not specified. |
+| vmCount              | Optional  | The number of virtual machines in the auto pool. <br/> Defaults to `3` if not specified.                        |
+| testData             | Mandatory | The auto-storage group where the input data is stored.                                                          |
+| outputFileStorageUrl | Mandatory | A storage SAS URL to a container with write access.                                                             |
 
 If you want to configure other options of the job, such as the pool id, you can look in the `job.json` parameters section to see what options are available.
 

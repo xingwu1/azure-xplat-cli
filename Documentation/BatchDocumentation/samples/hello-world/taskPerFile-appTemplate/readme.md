@@ -55,9 +55,9 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 The file `template.json` specifies an application template, containing all of the logic for the job we are going to run. It also defines the following parameters:
 
-| Parameter | Required | Description |
-| ----- | ----- | ----- |
-| testData| Mandatory | The linked storage group where the input data is stored. |
+| Parameter            | Required  | Description                                                             |
+| -------------------- | --------- | ----------------------------------------------------------------------- |
+| testData             | Mandatory | The linked storage group where the input data is stored.                |
 | outputFileStorageUrl | Mandatory | A storage SAS URL to a linked blob storage container with write access. |
 
 ### job.json
