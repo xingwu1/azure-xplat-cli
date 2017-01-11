@@ -19,13 +19,19 @@ to convert, you should use a larger pool or bigger VMs in the pool. In order to 
 Run command `azure batch file upload <path> <group>` on a folder containing PDF files which are named with numerically increasing names (i.e. `1.pdf`, `2.pdf`, `3.pdf`, etc).
 
 ## Create a job and tasks
+
 Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.json` parameters section to see what options are available.
 
-1. `poolId` must match the pool you created earlier.
-2. `firstPdfId` must match the first PDF file you uploaded earlier (specify `1` to reference `1.pdf`).
-3. `lastPdfId` must match the last PDF file you uploaded earlier (specify `10` to reference `10.pdf`).
-4. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
-5. `outputFileStorageUrl` must be a writable SAS to an Azure Storage container.
+
+| Parameter            | Required  | Description                                                                                                                                    |
+| -------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| jobId                | Mandatory | The id of the Azure Batch job. <br/> Must match the id of the pool you created earlier.                                                        |
+| poolId               | Optional  | The id of the Azure Batch pool to run on. <br/> Default value if not otherwise specified: `ocrpool`                                            |
+| firstPdfId           | Mandatory | The name of the first PDF (without the .pdf extension). <br/> For example, supply the value **1** to reference file `1.pdf`                    |
+| lastPdfId            | Mandatory | The name of the last PDF (without the .pdf extension). <br/> For example, supply the value **10** to reference file `10.pdf`.                  |
+| inputFileGroup       | Mandatory | The file group containing the input files. <br/> Must match the name of the file group used by your `azure batch file upload` command earlier. |
+| outputFileStorageUrl | Mandatory | A storage SAS URL to a container with write access.                                                                                            |
+
 
 ## Run the job
 Run `azure batch job create --template job.json --parameters job.parameters.json` to create your job and tasks.

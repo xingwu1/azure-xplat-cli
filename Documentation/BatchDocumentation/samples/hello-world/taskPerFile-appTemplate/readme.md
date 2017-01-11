@@ -7,9 +7,11 @@ With an application template, the processing steps required for the job are defi
 This particular *application template* runs a simple commandline (`cat {fileName}`) for each of the files found in a specified file group from blob storage.
 
 ## Prerequisites
+
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Upload files
+
 To upload a folder of files run this command:
 ``` bash
 azure batch file upload <path> <group>
@@ -22,14 +24,12 @@ azure batch file upload <path> <group>
 For more information see the documentation on [input files](../../../inputFiles.md).
 
 ## Preparation
-Fill out the parameter placeholders in `movement-job.json`:
+Fill out the parameter placeholders in `job.json`:
 
-| Parameter        | Description                                                                                                                                                                                               |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| testData         | The same name as you used for `<group>` when you uploaded files in the previous step.<br/>Note that this does not include the `fgrp-` prefix visible when you view blob storage through the Azure portal. |
-| taskStart        | The index number of your first file (i.e. 1 for `input1.txt`).                                                                                                                                            |
-| taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                                                                                                                             |
-| outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
+| Parameter        | Required  | Description                                                                                                                                                                                               |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| testData         | Mandatory | The same name as you used for `<group>` when you uploaded files in the previous step.<br/>Note that this does not include the `fgrp-` prefix visible when you view blob storage through the Azure portal. |
+| outputStorageUrl | Mandatory | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
 
 To customize the job id or any of the details of the autopool, modify the appropriate details in `job.json`. These are not parameterized because they are not specified in the template file. 
 
