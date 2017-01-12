@@ -1,12 +1,15 @@
 # Azure Batch Pool/Job Template
 
-This sample shows how to create a pool, and run a parametric sweep job on it, using *parameterized* templates.
+This sample shows how to create a pool, and run a parametric sweep job on it, using *parameterized* templates for both the pool and the job.
 
-The pool template allows you to specify the number of virtual machines and their size through parameters.
+## Features used by this sample
 
-The job template allows you to specify the scope of the parametric sweep through parameters.
+* [Pool and Job templates with parameterization](Documentation/BatchDocumentation/templates.md)
+* [Parametric sweep task factory](Documentation/BatchDocumentation/taskFactories.md#parametric-sweep)
+* [Task per file task factory](Documentation/BatchDocumentation/taskFactories.md#task-per-file)
 
 ## Prerequisites
+
 You will need an Azure Batch account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Preparation
@@ -15,21 +18,18 @@ Modify the parameters specified in `pool.parameters.json` to configure your pool
 
 | Parameter | Required  | Description                                                                                                                 |
 | --------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
-| poolId    | Mandatory | The id of the Azure Batch pool.                                                                                             |
-| vmCount   | Optional  | The number of virtual machines. <br/> Defaults to **3** if not otherwise specified.                                         |
-| vmSize    | Optional  | The size of the virtual machines that run the application. <br/> Defaults to **STANDARD_D1_V2** if not otherwise specified. |
-
+| poolId    | Mandatory | Unique id of the Azure Batch pool to create.                                                                            |
+| vmCount   | Optional  | Number of virtual machines. <br/> Defaults to **3** if not otherwise specified.                                         |
+| vmSize    | Optional  | Size of the virtual machines that run the application. <br/> Defaults to **STANDARD_D1_V2** if not otherwise specified. |
 
 Modify the parameters specified `job.parameters.json` as appropriate to configure your job. Available parameters are defined in `job.json`:
 
-| Parameter | Required  | Description                                    |
-| --------- | --------- | ---------------------------------------------- |
-| jobId     | Mandatory | The id of Azure Batch job.                     |
-| poolId    | Mandatory | The id of Azure Batch pool which runs the job. |
-| taskStart | Mandatory | The sweep start parameter.                     |
-| taskEnd   | Mandatory | The sweep end parameter.                       |
-
-Ensure the `poolId` parameter in each parameter file is the same.
+| Parameter | Required  | Description                                                                                                   |
+| --------- | --------- | ------------------------------------------------------------------------------------------------------------- |
+| jobId     | Mandatory | Unique id of the Azure Batch job to create.                                                                   |
+| poolId    | Mandatory | Id of Azure Batch pool which runs the job. <br/> Must match the `poolId` used for the pool (see above).       |
+| taskStart | Mandatory | Start index of the parametric sweep.                                                                          |
+| taskEnd   | Mandatory | Finishing index (inclusive) of the parametric sweep.                                                          |
 
 ## Run commands
 
