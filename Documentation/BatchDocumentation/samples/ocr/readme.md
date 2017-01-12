@@ -45,7 +45,7 @@ Edit the `job.parameters.json` file to supply parameters to the template. If you
 | -------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | jobId                | Mandatory | The id of the Azure Batch job. <br/> Must match the id of the pool you created earlier.                                                        |
 | poolId               | Optional  | The id of the Azure Batch pool to run on. <br/> Default value if not otherwise specified: `ocrpool`                                            |
-| firstPdfId           | Mandatory | The name of the first PDF (without the .pdf extension). <br/> For example, supply the value **1** to reference file `1.pdf`                    |
+| firstPdfId           | Mandatory | The name of the first PDF (without the .pdf extension). <br/> For example, supply the value **1** to reference file `1.pdf`.                   |
 | lastPdfId            | Mandatory | The name of the last PDF (without the .pdf extension). <br/> For example, supply the value **10** to reference file `10.pdf`.                  |
 | inputFileGroup       | Mandatory | The file group containing the input files. <br/> Must match the name of the file group used by your `azure batch file upload` command earlier. |
 | outputFileStorageUrl | Mandatory | A storage SAS URL to a container with write access.                                                                                            |
@@ -73,6 +73,6 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 | File                  | Content                                                                                                |
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
-| `pool.json`           | A template for creating the pool required for OCR processing                                           |
+| `pool.json`           | A template for creating the pool required for OCR processing.                                          |
 | `job.json`            | A template for the job to run, including parameter definitions and a **parametricSweep** task factory. |
 | `job.parameters.json` | Provides values for the parameters defined in `job.json`.                                              |

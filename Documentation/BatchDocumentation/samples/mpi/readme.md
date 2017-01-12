@@ -51,7 +51,7 @@ Upload files from a folder:
 azure batch file upload <path> <group>
 ```
 
-Run this in a folder containing MPIHelloWorld.exe and its dependencies which are named with numerically increasing names with `sample` prefix (i.e. `sample1.wav`, `sample2.wave`, `sample3.wav`, etc).
+Run this in a folder containing MPIHelloWorld.exe and its dependencies. The parametric sweep expects the files to be named `sample1.wav`, `sample2.wav`, `sample3.wav` and so on - each with the prefix `sample` and an increasing index number. It's important that your files are sequentially numbered with no gaps.
 
 **Recommended**: Build a Release version of MPIHelloWorld.exe so that you don't have to include any additional dependencies as resource files (e.g.: `msvcp140d.dll` or `vcruntime140d.dll`).
 
