@@ -1,6 +1,12 @@
-# Azure Batch Blender using application templates
+# Azure Batch Blender
 
 This sample shows how to use **Blender** to render using a parameterized template that specifies a virtualMachineConfiguration based autopool.
+
+## Features used by this sample
+
+* [Job template with parameterization](Documentation/BatchDocumentation/templates.md)
+* [Parametric sweep task factory](Documentation/BatchDocumentation/taskFactories.md#parametric-sweep)
+* [Automatic task output-file persistence to Azure Storage](Documentation/BatchDocumentation/outputFiles.md)
 
 ## Prerequisites
 
@@ -14,14 +20,14 @@ Modify the `parameters.json` file to specify appropriate parameters for the job.
 
 | Parameter            | Required  | Description                                                                                 |
 | -------------------- | --------- | ------------------------------------------------------------------------------------------- |
-| blendFile            | Mandatory | The Blender scene file to be rendered                                                       |
-| sceneData            | Optional  | The file group where the input data is stored. <br/> Defaults to `blender-data`.            |
-| numberNodes          | Optional  | The number of nodes in the Azure Batch pool where the job will run. <br/> Defaults to `5`.  |
-| vmSize               | Optional  | The size of the virtual machines that run the application. <br/> Defaults to `STANDARD_A1`. |
-| jobName              | Mandatory | The prefix of the name of the Azure Batch job, also used to prefix rendered outputs.        |
-| frameStart           | Mandatory | The first frame to render.                                                                  |
-| frameEnd             | Mandatory | The last frame to render.                                                                   |
-| outputFileStorageUrl | Mandatory | The SAS URL for a container where outputs will be stored.                                   |
+| blendFile            | Mandatory | File name of the Blender scene to be rendered                                               |
+| sceneData            | Optional  | Name of the file group where the input data is stored. <br/> Defaults to `blender-data`.    |
+| numberNodes          | Optional  | Number of nodes in the Azure Batch pool where the job will run. <br/> Defaults to `5`.      |
+| vmSize               | Optional  | Size of the virtual machines that run the application. <br/> Defaults to `STANDARD_A1`.     |
+| jobName              | Mandatory | Prefix of the name of the Azure Batch job, also used to prefix rendered outputs.            |
+| frameStart           | Mandatory | Index of the first frame to render.                                                         |
+| frameEnd             | Mandatory | Index of the last frame to render.                                                          |
+| outputFileStorageUrl | Mandatory | SAS URL for a container where outputs will be stored.                                       |
 
 When you are ready to run the job, use this command:
 
@@ -45,6 +51,4 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `render.json`     | Specifies the job to run, including a parametric sweep task factory, the autopool definition, parameter and variable definitions. |
 | `parameters.json` | Provides parameter values used to create the actual job that will run.                                                            |
-
- 
 
