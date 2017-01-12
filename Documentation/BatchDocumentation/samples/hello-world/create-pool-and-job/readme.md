@@ -41,10 +41,10 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 ## Structure of the sample
 
-| File | Content |
-| ----- | ----- |
-| `pool.json` | A template specifying the pool to create. |
-| `job.json` | A template specifying the job to run on the pool. |
+| File        | Content                                           |
+| ----------- | ------------------------------------------------- |
+| `pool.json` | A template specifying the pool to create.         |
+| `job.json`  | A template specifying the job to run on the pool. |
 
 To change either the pool or the job, modify the details within the `properties` element of the template in the appropriate file.
 
