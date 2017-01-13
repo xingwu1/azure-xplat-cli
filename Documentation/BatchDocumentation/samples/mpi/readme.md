@@ -67,9 +67,9 @@ Run this in a folder containing MPIHelloWorld.exe and its dependencies. The para
 
 **Recommended**: Build a Release version of MPIHelloWorld.exe so that you don't have to include any additional dependencies as resource files (e.g.: `msvcp140d.dll` or `vcruntime140d.dll`).
 
-## Create a job with MPI task
+## Create a job with an MPI task
 
-To create your  job with default settings:
+To create your job with default settings:
 
 ```bash
 azure batch job create --template job.json
