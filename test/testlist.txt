@@ -38,7 +38,7 @@ commands/cli.site.appsetting-tests.js
 commands/cli.site.connectionstring-tests.js
 commands/cli.site.defaultdocument-tests.js
 commands/cli.site.deploymentscript-tests.js
-#commands/cli.site.log-tests.js
+commands/cli.site.log-tests.js
 commands/cli.site.scale-tests.js
 commands/cli.site.slots-tests.js
 commands/cli.site.job-tests.js
@@ -72,8 +72,8 @@ commands/cli.vm.loadbalancer-tests.js
 commands/cli.vm.export_create_from-tests.js
 commands/cli.vm.create_staticvm-tests.js
 commands/cli.vm.staticvm_create-from-tests.js
-#commands/cli.vm.staticvm_docker-tests.js
-#commands/cli.vm.create_docker-tests.js
+commands/cli.vm.staticvm_docker-tests.js
+commands/cli.vm.create_docker-tests.js
 #commands/cli.servicefabric-tests.js
 commands/cli.sql-tests.js
 commands/cli.storage.account-tests.js

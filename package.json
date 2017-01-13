@@ -73,7 +73,7 @@
     "azure-storage": "1.3.0",
     "azure-arm-batch": "0.3.0",
     "azure-batch": "0.5.3",
-    "azure-servicefabric": "0.1.4",
+    "azure-servicefabric": "0.1.5",
     "applicationinsights": "0.16.0",
     "caller-id": "0.1.x",
     "colors": "1.1.2",

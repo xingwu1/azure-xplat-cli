@@ -9642,6 +9642,15 @@
                       "short": "-p",
                       "long": "--application-type-build-path",
                       "description": "the path of the application type build"
+                    },
+                    {
+                      "flags": "-t --timeout <timeout>",
+                      "required": -14,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--timeout",
+                      "description": "the timeout, seconds"
                     }
                   ]
                 },

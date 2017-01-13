@@ -249,5 +249,55 @@ describe('cli', function() {
       (eventData.baseData.properties.command === 'azure login -u *** -p ***').should.be.true;
       done();
     });
+
+    it('should classify cli internal errors as CLI_Error', function(done) {
+      var eventData;
+      sandbox.stub(applicationInsights.client, 'trackEvent', function (key, event) {
+        eventData = event;
+      });
+
+      telemetry.setAppInsights(applicationInsights);
+      telemetry.init(true)
+      telemetry.start(['foo', 'bar', 'azure', 'login', '-u', 'foo', '-p', 'bar']);
+      telemetry.currentCommand({
+        fullName: function() {
+          return 'azure login';
+        }
+      });
+      var err = new Error('cli internal error');
+      telemetry.onError(err, function () { });
+
+      eventData.should.have.property('errorCategory').with.type('string');
+      eventData.errorCategory.should.equal('CLI_Error');
+      done();
+    });
+
+    it('should classify service errors by status code', function (done) {
+      var eventData;
+      sandbox.stub(applicationInsights.client, 'trackEvent', function (key, event) {
+        eventData = event;
+      });
+
+      telemetry.setAppInsights(applicationInsights);
+      telemetry.init(true)
+      telemetry.start(['foo', 'bar', 'azure', 'login', '-u', 'foo', '-p', 'bar']);
+      telemetry.currentCommand({
+        fullName: function () {
+          return 'azure login';
+        }
+      });
+      var err = {
+        statusCode: '404',
+        message: 'could not find resource',
+        request: 'abc',
+        response: 'xyz',
+        stack: 'at some location...'
+      };
+      telemetry.onError(err, function () { });
+
+      eventData.should.have.property('errorCategory').with.type('string');
+      eventData.errorCategory.should.equal('HTTP_Error_404');
+      done();
+    });
   })
 });
