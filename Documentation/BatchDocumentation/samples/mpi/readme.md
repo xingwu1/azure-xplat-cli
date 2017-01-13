@@ -1,8 +1,18 @@
 # Azure Batch MPI Template
-This template shows how to use `MS-MPI` to run MPI work.
+
+This samples shows how to use `MS-MPI` to run MPI work.
+
+## Features used by this sample
+
+* [Pool and Job templates with parameterization](Documentation/BatchDocumentation/templates.md)
+* [Task collection factory](Documentation/BatchDocumentation/taskFactories.md#task-collection)
 
 ## Prerequisites
+
 You must have an Azure Batch account set up with a linked Azure Storage account.
+
+## Create application package
+
 To successfully run this sample, you must first create an [application package](https://docs.microsoft.com/azure/batch/batch-application-packages) containing [MSMpiSetup.exe](https://msdn.microsoft.com/library/bb524831.aspx) (installed on a pool's compute nodes with a start task) and an MS-MPI program for the multi-instance task to execute. For the latter, we provide the [MPIHelloWorld sample project](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/ArticleProjects/MultiInstanceTasks/MPIHelloWorld) for you to compile and use as your MS-MPI program.
 
 The following commands can be used as example to create the application package:
@@ -29,13 +39,15 @@ azure batch application package activate --application-id MPIHelloWorld --versio
 ```
 
 ## Create a pool
-Create your pool using the default settings (A pool named 'MultiInstanceSamplePool' with 3 small VMs):
+
+Create your pool:
 
 ```bash
 azure batch pool create --template pool.json
 ```
+The default settings in `pool.json` specify a pool named `MultiInstanceSamplePool` containing **3** **small** virtual machines.
 
-If you want to change the default values of the pool creation, you can create a JSON file to supply the parameters of your pool and run:
+If you want to change the default values of the pool creation, create a JSON file to supply the parameters of your pool and include it on your command line:
 
 ```bash
 azure batch pool create --template pool.json --parameters <your settings JSON file>
