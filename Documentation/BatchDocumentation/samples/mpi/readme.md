@@ -3,7 +3,7 @@ This template shows how to use `MS-MPI` to run MPI work.
 
 ## Prerequisites
 You must have an Azure Batch account set up with a linked Azure Storage account.
-To successfully run this sample, you must first create an [application package](https://docs.microsoft.com/en-us/azure/batch/batch-application-packages) containing [MSMpiSetup.exe](https://msdn.microsoft.com/library/bb524831.aspx) (installed on a pool's compute nodes with a start task) and an MS-MPI program for the multi-instance task to execute. For the latter, we provide the [MPIHelloWorld sample project](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/ArticleProjects/MultiInstanceTasks/MPIHelloWorld) for you to compile and use as your MS-MPI program.
+To successfully run this sample, you must first create an [application package](https://docs.microsoft.com/azure/batch/batch-application-packages) containing [MSMpiSetup.exe](https://msdn.microsoft.com/library/bb524831.aspx) (installed on a pool's compute nodes with a start task) and an MS-MPI program for the multi-instance task to execute. For the latter, we provide the [MPIHelloWorld sample project](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/ArticleProjects/MultiInstanceTasks/MPIHelloWorld) for you to compile and use as your MS-MPI program.
 
 The following command can be used as example to create the application package:
 

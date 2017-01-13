@@ -1,12 +1,18 @@
 # Task factories
 
-Task factories provides a way for a job and all its tasks to be created in one command instead
+Task factories provide a way for a job and all its tasks to be created in one command instead
 of calling `azure batch task create` for each task.
 
 **Note:** If the CLI should lose connectivity during the addition of tasks, the operation will not be completed and the job
 will continue with a partial set of tasks. The remainder of the tasks must be added manually using `azure batch task create`.
 
-There are currently two kinds of task factories.
+There are currently three kinds of task factories:
+
+* Task Collection - tasks are explicitly defined as a part of the job
+* Parametric Sweep - a set of tasks are created by substituting a range or sequence of values into a template 
+* Per File - a template task is replicated for each available input file 
+
+See below for details.
 
 ## Task collection 
 
@@ -229,12 +235,12 @@ The task template into which the file URL/name will be substituted is defined in
 through the use of placeholders. A placeholder for name substitutions is represented by `{keyword}`. The keyword here represents
 which part of file URL to be substituted. The supported keyword are:
 
-Keyword|Note|Example
----|---|---
-`{url}`|The full URL of file location|http://account.blob.azure.com/container/path/blob.ext?sasToken
-`{filePath}`|The file name including the path (virtual directory)|path/blob.ext
-`{fileName}`|The file name only, without path|blob.ext
-`{fileNameWithoutExtension}`|The file name without last extension|blob
+| Keyword                      | Note                                                 | Example                                                        |
+| ---------------------------- | ---------------------------------------------------- | -------------------------------------------------------------- |
+| `{url}`                      | The full URL of file location                        | http://account.blob.azure.com/container/path/blob.ext?sasToken |
+| `{filePath}`                 | The file name including the path (virtual directory) | path/blob.ext                                                  |
+| `{fileName}`                 | The file name only, without path                     | blob.ext                                                       |
+| `{fileNameWithoutExtension}` | The file name without last extension                 | blob                                                           |
 
 Where a literal `{` or `}` character is required, it can be escaped by duplicating it: `{{` or `}}`.
 

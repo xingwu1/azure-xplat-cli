@@ -1,54 +1,116 @@
 # Azure Batch FFMpeg Pool/Job Template
-This template shows how to use `ffmpeg` to convert one kind of media file (`WAV`) to another type media file (`MP3`).
+
+This sample shows how to use `ffmpeg` to convert one kind of media file (`WAV`) to another type media file (`MP3`). Two approaches are shown, one using a *parametric sweep task factory* and one using a *task per file task factory*.
 
 ## Prerequisites
-You must have an Azure Batch account set up with a linked Azure Storage account.
+
+You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Create a pool
-Run `azure batch pool create --template pool.json` to create your pool using the default settings (A pool named 'ffmpeg-pool' with 3 STANDARD_D1 VMs). 
 
-If you want to change the default values of the pool creation, you can create a JSON file to supply the parameters of your pool. If you have a large number of media files 
-to convert, you should use a larger pool or bigger VMs in the pool. In order to create the pool with your own configurations, run `azure batch pool create --template pool.json --parameters <your settings JSON file>`.
+Create your pool using the default settings:
+``` bash
+azure batch pool create --template pool.json
+```
 
-**You are billed for your Azure Batch pools, so don't forget to delete it when you're done.**
+The default settings create pool a named `ffmpeg-pool` with **3** x **STANDARD_D1 VM** virtual machines. 
 
-## "Parametric sweep" task factory
+If you want to change the default values of the pool creation,  create a JSON file to supply the parameters of your pool. If you have a large number of media files to convert, you should use a larger pool or bigger VMs in the pool. 
+
+In order to create the pool with your own configurations, run instead:
+``` bash
+azure batch pool create --template pool.json --parameters <your settings JSON file>
+```
+
+**You are billed for your Azure Batch pools, so don't forget to delete it through the [Azure portal](https://portal.azure.com) when you're done.** 
+
+## Using a parametric sweep for processing
 
 ### Upload files
-Run command `azure batch file upload <path> <group>` on a folder containing media files (`*.wav`) which are named with numerically increasing names with `sample` prefix (i.e. `sample1.wav`, `sample2.wave`, `sample3.wav`, etc).
 
-### Create a job with parametric sweep tasks
-Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.json` parameters section to see what options are available.
+Upload your WAV media files by running this command on a folder containing media files (`*.wav`). 
 
-1. `poolId` must match the pool you created earlier.
-2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
-3. `outputFileStorageUrl` must be a writable SAS to an Azure Storage container.
-4. `jobId` is the id of job, which must not exist in current Batch account.
-5. `taskStart` must match the first WAV file you uploaded earlier (specify `1` to reference `sample1.wav`).
-6. `taskEnd` must match the last WAV file you uploaded earlier (specify `10` to reference `sample10.wav`).
+``` bash
+azure batch file upload <path> <group>
+```
+The parametric sweep expects the files to be named `sample1.wav`, `sample2.wav`, `sample3.wav` and so on - each with the prefix `sample` and an increasing index number. It's important that your files are sequentially numbered with no gaps.
+
+### Configure parametric sweep parameters
+
+Modify `job.parameters.json` to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, look in the `job.sweep.json` parameters section to see what options are available.
+
+| Parameter            | Required  | Description                                                                                                                                                                   |                                                                                                                                                                        |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| poolId               | Mandatory | Name of the Azure Batch Pool to use for processing. <br/> Must match the pool you created earlier.                                                                            |                                                                                                                                                                        |
+| inputFileGroup       | Mandatory | Name of the file group in your storage account containing the files to process. <br/> Must match the name of the group used in the `azure batch file upload` command earlier. |                                                                                                                                                                        |
+| outputFileStorageUrl | Mandatory | SAS enabled URL to a writable storage container for the output files.                                                                                                         |                                                                                                                                                                        |
+| jobId                | Mandatory | Unique id of the job for processing. <br/> Must not duplicate the `id` of any existing job.                                                                                   |                                                                                                                                                                        |
+| taskStart            | Mandatory | The index # of the first file for processing. <br/>Must match the index of the first WAV file you uploaded earlier. <br/>e.g. specify `1` to reference `sample1.wav`.         |                                                                                                                                                                        |
+| taskEnd              | Mandatory | The index # of the last file for processing. <br/>Must match the index of the last WAV file you uploaded earlier. <br/> e.g. specify `10` to reference `sample10.wav`.        |                                                                                                                                                                        |
 
 ### Run the job with tasks generated by a parametric sweep
-Run `azure batch job create --template job.json --parameters job.parameters.json` to create your job and tasks.
 
-## "Task per file" task factory
+To create your job and tasks:
+
+``` bash
+azure batch job create --template job.sweep.json --parameters job.parameters.json
+```
+
+## Using a task per file for processing
 
 ### Upload files
-Run command `azure batch file upload <path> <group>` on a folder containing media files (`*.wav`) , there is no restriction on the file name beside all the files have same extension (`*.wav`).
 
-### Create a job with a task generated per input file
-Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.perFile.json` parameters section to see what options are available.
+Upload your WAV media files by running this command on a folder containing media files (*.wav):
 
-1. `poolId` must match the pool you created earlier.
-2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
-3. `outputFileStorageUrl` must be a writable SAS to an Azure Storage container.
-4. `jobId` is the id of job, which must not exist in current Batch account.
+``` bash
+azure batch file upload <path> <group>
+```
+
+Unlike the sample using parametric sweep, there's no requirement for your filenames to confirm to a specific pattern.
+
+### Configure task per file parameters
+
+Modify  `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.perFile.json` parameters section to see what options are available.
+
+| Parameter            | Required  | Description                                                                                                                                                                   |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| poolId               | Mandatory | Name of the Azure Batch Pool to use for processing. <br/> Must match the pool you created earlier.                                                                            |
+| inputFileGroup       | Mandatory | Name of the file group in your storage account containing the files to process. <br/> Must match the name of the group used in the `azure batch file upload` command earlier. |
+| outputFileStorageUrl | Mandatory | SAS enabled URL to a writable storage container for the output files.                                                                                                         |
+| jobId                | Mandatory | Unique id of the job for processing. <br/> Must not duplicate the `id` of any existing job.                                                                                   |
 
 ### Run the job with tasks generated per input file
-Run `azure batch job create --template job.perFile.json --parameters job.parameters.json` to create your job and tasks.
+
+To create your job and tasks:
+``` bash
+azure batch job create --template job.perFile.json --parameters job.parameters.json
+```
 
 ## Monitor the job
-You can use the `azure batch task list --job-id <jobid>` to monitor the tasks in the job and their progress.
+
+``` bash
+azure batch task list --job-id <jobid>`
+```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
 The outputs of the tasks will be uploaded to the Azure Storage container which you specified as the individual tasks complete.
 The target container will contain a new virtual directory for each task that ran.
+
+## Structure of the sample
+
+### pool.json
+
+The file `pool.json` contains a template for creating a pool for processing with `ffmpeg`. By default, this template will create a pool called `ffmpeg-pool` containing **3** x **STANDARD_D1** virtual machines.
+
+You will need to create a parameter file (with suggested name `pool.parameters.json`) if you want to customize the pool.
+
+### job.sweep.json
+
+The file `job.sweep.json` contains a template for creating a job that uses a parametric sweep to process a set of sequentially numbered input files with `ffmpeg`.
+
+### job.parameters.json
+
+The file `job.parameters.json` specifies values for the parametric sweep parameters defined in the file `job.sweep.json`. You will need to provide values for the placeholders present in this file before creating your job.
+
+### job.perFile.json
+The file `job.perFile.json` contains a template for creating a job that uses a per-file task factory to process a set of input files with `ffmpeg`.
