@@ -65,5 +65,5 @@ otherwise the error logs are uploaded for debugging.
 The following samples automatically upload their output files as they complete:
 
 * [Blender](samples/blender) 
-* [Task Per File](hello-world/taskPerFile)
+* [Task Per File](samples/hello-world/taskPerFile)
 * [OCR](samples/ocr)

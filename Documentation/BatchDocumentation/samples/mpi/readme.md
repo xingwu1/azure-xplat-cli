@@ -4,8 +4,8 @@ This samples shows how to use `MS-MPI` to run MPI work.
 
 ## Features used by this sample
 
-* [Pool and Job templates with parameterization](Documentation/BatchDocumentation/templates.md)
-* [Task collection factory](Documentation/BatchDocumentation/taskFactories.md#task-collection)
+* [Pool and Job templates with parameterization](../../templates.md)
+* [Task collection factory](../../taskFactories.md#task-collection)
 
 ## Prerequisites
 

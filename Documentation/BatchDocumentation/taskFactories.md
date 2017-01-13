@@ -307,4 +307,4 @@ The above task factory would be expanded into the following tasks:
 The following samples use the task per file task factory:
 
 * [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
-* [Task Per File](hello-world/taskPerFile)
+* [Task Per File](samples/ello-world/taskPerFile)

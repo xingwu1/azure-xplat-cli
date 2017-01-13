@@ -39,7 +39,7 @@ The `applicationTemplateInfo` element gives the `filePath` to the application te
 
 The following samples use application templates:
 
-* [Task Per File](hello-world/taskPerFile)
+* [Task Per File](samples/hello-world/taskPerFile)
 
 ## Job schema changes
 
