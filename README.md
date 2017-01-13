@@ -79,14 +79,14 @@ release will first need to be uninstalled.
 - Uninstall the previously installed CLI
    - If you installed via MSI, then uninstall the Windows MSI. For Mac installer `sudo azure-uninstall -g`
    - If you installed via npm then execute: `npm uninstall -g azure-cli`
-- Clear the global cache: `npm cache clear –g`
+- Clear the global cache: `npm cache clear -g`
 - Delete the .streamline folder from your user profile folder or home directory if present. 
   - On Windows: `C:\Users\<username>\.streamline`
   - On Linux: `~/.streamline`
 
 ### To install the Azure Batch preview CLI
 
-- Install from the tarball straight from GitHub: `npm install –g https://github.com/Azure/azure-xplat-cli/archive/batch-beta.tar.gz`
+- Install from the tarball straight from GitHub: `npm install -g https://github.com/Azure/azure-xplat-cli/archive/batch-beta.tar.gz`
 
 Note: To install via npm, you may need to run a command prompt as administrator (Windows) or use sudo (Linux/Mac).
 
