@@ -18,7 +18,15 @@ The structure of template consists of the following sections:
 
 For further reading on ARM templates, see [Authoring Azure Resource Manager templates](https://azure.microsoft.com/documentation/articles/resource-group-authoring-templates).
 
-### Parameters
+## Samples
+
+The following samples make use of job and/or pool templates:
+
+* [Blender](samples/blender) 
+* [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
+
+
+## Parameters
 
 This section consists of a set of parameter definitions, with accompanying metadata and constraints.
 For example: 
@@ -48,7 +56,7 @@ The following options for a parameter are currently supported:
 - `metadata`
     - `description`
 
-### Variables
+## Variables
 
 In this section you can construct complex JSON fragments that can be used throughout the template. Typically
 variables also include references to values defined in `parameters`. Variables can be referenced using ARM-template variable syntax: `[variables('variableName')]`. 
@@ -66,7 +74,7 @@ For example:
 }
 ```
 
-### Defining the job or pool entity
+## Defining the job or pool entity
 
 The job or pool to be created adheres to the same schema as the request body found in the 
 [Batch API documentation](https://msdn.microsoft.com/library/azure/dn820110.aspx) and is wrapped in a `properties` layer consistent
@@ -120,6 +128,7 @@ A simple parameterized template might look like this:
 ```
 
 You could then run this template with the following command:
+
 ```bash
 azure batch job create --template my-simple-job.json
 ```
@@ -127,6 +136,7 @@ azure batch job create --template my-simple-job.json
 The values of the parameters will either use a default value if supplied,
 or the CLI will interactively prompt you to provide an input value.
 Alternatively, you can supply these parameter values in a separate file, like so:
+
 ```json
 {
   "jobId": {
@@ -138,7 +148,8 @@ Alternatively, you can supply these parameter values in a separate file, like so
 }
 ```
 
-You can then pass this parameters file to the job create command:
+You can then pass this parameter file to the job create command:
+
 ```bash
 azure batch job create --template my-simple-job.json --parameters my-input-values.json
 ```

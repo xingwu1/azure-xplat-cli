@@ -43,7 +43,7 @@ Multiple output file descriptions can be included to cover different file patter
 In the above example, if the process completes successfully (the process exits with code 0), then the output will be uploaded,
 otherwise the error logs are uploaded for debugging.
 
-### Options:
+## Options:
 * `filePattern`: (required, string) The name of the file or files to be uploaded. This could be an absolute path, or a path relative to the task working directory. This can be a single file, or a pattern using wildcards (`**` and `*`).
 * `destination`: (required, object) The destination to which the output files specified in `filePattern` will be uploaded.
   * `container`: (required, object) The details of the destination container.
@@ -59,3 +59,9 @@ otherwise the error logs are uploaded for debugging.
             - The output data will only be uploaded if the task completed with a nonzero exit code.
         - `TaskComplete`
             - The output data will be uploaded irrespective of the exit code of the task.
+
+## Samples
+
+The following samples automatically upload their output files as they complete:
+
+* [Blender](samples/blender) 

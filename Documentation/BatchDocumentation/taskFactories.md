@@ -181,6 +181,13 @@ Where the following tasks would be created:
   ]
 ```
 
+### Samples
+
+The following samples use the parametric sweep task factory:
+
+* [Blender](samples/blender) 
+* [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
+
 ## Task per file
 
 The `task per file` task factory generates a task per input file from a file group or Azure storage container. Substitutions can be made in most attributes of the task, but are most commonly
@@ -286,3 +293,9 @@ The above task factory would be expanded into the following tasks:
     }
   ]
 ```
+
+### Samples
+
+The following samples use the task per file task factory:
+
+* [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
