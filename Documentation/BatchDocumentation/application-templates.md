@@ -35,11 +35,11 @@ This sample Blender job specifies rendering of a Blender scene using application
 
 The `applicationTemplateInfo` element gives the `filePath` to the application template and provides all the `parameters` required to configure the application template for use.
 
-## Samples
+### Samples
 
-[**Blender**](samples/blender-appTemplate/readme.md) - using an application template to specify the rendering of a Blender scene. This sample uses the experimental *[parametric sweep](taskFactories.md#parametric-sweep)* [task factory](taskFactories.md) feature.
+The following samples use application templates:
 
-[**Data Movement**](samples/Helloworld/data-movement-appTemplate/readme.md) - using an application template to specify processing of a number of input files, with the results of processing automatically uploaded into blob storage afterwards. This sample uses the experimental *[task per file](taskFactories.md#task-per-file)* [task factory](taskFactories.md) feature.
+* [Task Per File](hello-world/taskPerFile)
 
 ## Job schema changes
 

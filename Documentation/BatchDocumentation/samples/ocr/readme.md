@@ -5,6 +5,12 @@ This sample shows how to use `ghostscript` and `tesseract-ocr` to transform PDF 
 1. Use `ghostscript` to convert a PDF to a set of PNG files (one for each page of the PDF).
 2. Use `tesseract-ocr` to convert the PNG images into plain text files (`.txt`).
 
+## Features used by this sample
+
+* [Support for job and pool templates with parameterization](../../templates.md)
+* [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
+* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+
 ## Prerequisites
 
 You must have an Azure Batch account set up with a linked Azure Storage account.

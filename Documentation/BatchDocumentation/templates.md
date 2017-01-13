@@ -24,7 +24,8 @@ The following samples make use of job and/or pool templates:
 
 * [Blender](samples/blender) 
 * [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
-
+* [MPI](samples/mpi)
+* [OCR](samples/ocr)
 
 ## Parameters
 

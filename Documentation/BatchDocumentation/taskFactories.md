@@ -52,6 +52,13 @@ An example of a `task collection` task factory:
   }
 ```
 
+
+### Samples
+
+The following samples use the task collection task factory:
+
+* [MPI](samples/mpi)
+
 ## Parametric sweep
 
 The `parametric sweep` task factory creates a set of tasks by substituting a range or sequence
@@ -187,6 +194,7 @@ The following samples use the parametric sweep task factory:
 
 * [Blender](samples/blender) 
 * [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
+* [OCR](samples/ocr)
 
 ## Task per file
 
@@ -299,3 +307,4 @@ The above task factory would be expanded into the following tasks:
 The following samples use the task per file task factory:
 
 * [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
+* [Task Per File](hello-world/taskPerFile)

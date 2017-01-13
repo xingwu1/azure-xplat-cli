@@ -6,6 +6,12 @@ With an application template, the processing steps required for the job are defi
 
 This particular *application template* runs a simple commandline (`cat {fileName}`) for each of the files found in a specified file group from blob storage.
 
+## Features used by this sample
+
+* [Split job configuration and management with reusable application templates](../../../application-templates.md)
+* [Task per file task factory](../../../taskFactories.md#task-per-file)
+* [Automatic task output-file persistence to Azure Storage](../../../outputFiles.md)
+
 ## Prerequisites
 
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
@@ -24,6 +30,7 @@ azure batch file upload <path> <group>
 For more information see the documentation on [input files](../../../inputFiles.md).
 
 ## Preparation
+
 Fill out the parameter placeholders in `job.json`:
 
 | Parameter        | Required  | Description                                                                                                                                                                                               |
@@ -34,6 +41,7 @@ Fill out the parameter placeholders in `job.json`:
 To customize the job id or any of the details of the autopool, modify the appropriate details in `job.json`. These are not parameterized because they are not specified in the template file. 
 
 ## Run commands
+
 To create your job, run the following command:
 ``` bash
 azure batch job create --json-file job.json
@@ -49,7 +57,7 @@ azure batch task list --job-id <jobid>`
 ```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
-## Structure of the Sample 
+## Structure of the sample 
 
 | File            | Content                                                                                                                                                                                                                                                         |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
