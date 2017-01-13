@@ -24,12 +24,12 @@ Modify the parameters specified in `pool.parameters.json` to configure your pool
 
 Modify the parameters specified `job.parameters.json` as appropriate to configure your job. Available parameters are defined in `job.json`:
 
-| Parameter | Required  | Description                                                                                                   |
-| --------- | --------- | ------------------------------------------------------------------------------------------------------------- |
-| jobId     | Mandatory | Unique id of the Azure Batch job to create.                                                                   |
-| poolId    | Mandatory | Id of Azure Batch pool which runs the job. <br/> Must match the `poolId` used for the pool (see above).       |
-| taskStart | Mandatory | Start index of the parametric sweep.                                                                          |
-| taskEnd   | Mandatory | Finishing index (inclusive) of the parametric sweep.                                                          |
+| Parameter | Required  | Description                                                                                                    |
+| --------- | --------- | -------------------------------------------------------------------------------------------------------------- |
+| jobId     | Mandatory | Unique id of the Azure Batch job to create.                                                                    |
+| poolId    | Mandatory | Unique id of Azure Batch pool which runs the job. <br/> Must match the `poolId` used for the pool (see above). |
+| taskStart | Mandatory | Start index of the parametric sweep.                                                                           |
+| taskEnd   | Mandatory | Finishing index (inclusive) of the parametric sweep.                                                           |
 
 ## Run commands
 
@@ -38,7 +38,7 @@ To create your pool:
 azure batch pool create --template pool.json --parameters pool.parameters.json
 ```
 
-**You are billed for your Azure Batch pools, so don't forget to delete it through the [Azure portal](https://portal.azure.com) when you're done.** 
+**You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
 To create your job:
 ``` bash

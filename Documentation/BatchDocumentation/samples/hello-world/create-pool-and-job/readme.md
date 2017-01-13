@@ -20,7 +20,7 @@ azure batch pool create --template pool.json
 
 The template specifies an Azure Batch Pool with the id `helloword-pool` that contains a single small virtual machine running Windows.
 
-**You are billed for your Azure Batch pools, so don't forget to delete it through the [Azure portal](https://portal.azure.com) when you're done.** 
+**You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
 ## Create Job
 

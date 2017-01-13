@@ -18,7 +18,7 @@ The sample specifies an Azure Batch Pool with the id `blender-pool` - if you don
 azure batch pool create --template pool.json
 ```
 
-**You are billed for your Azure Batch pools, so don't forget to delete it when you're done.**
+**You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
 If you want to use an existing pool to run the job, modify the `render-job.json` file to specify the unique id of your pool.
 

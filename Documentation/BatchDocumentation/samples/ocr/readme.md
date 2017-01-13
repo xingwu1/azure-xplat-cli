@@ -24,7 +24,7 @@ In order to create the pool with your own configurations, run:
 azure batch pool create --template pool.json --parameters <your settings JSON file>
 ```
 
-**You are billed for your Azure Batch pools, so don't forget to delete it through the [Azure portal](https://portal.azure.com) when you're done.** 
+**You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
 ## Upload files
 
