@@ -9642,6 +9642,15 @@
                       "short": "-p",
                       "long": "--application-type-build-path",
                       "description": "the path of the application type build"
+                    },
+                    {
+                      "flags": "-t --timeout <timeout>",
+                      "required": -14,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--timeout",
+                      "description": "the timeout, seconds"
                     }
                   ]
                 },
@@ -28206,11 +28215,11 @@
                   "description": "The port http traffic used on the origin server"
                 },
                 {
-                  "flags": "-w, --https-port [https-port]",
+                  "flags": "-f, --https-port [https-port]",
                   "required": 0,
                   "optional": -18,
                   "bool": true,
-                  "short": "-w",
+                  "short": "-f",
                   "long": "--https-port",
                   "description": "The port https traffic used on the origin server"
                 },
@@ -29370,6 +29379,355 @@
                   "short": "-d",
                   "long": "--custom-domain-host-name",
                   "description": "The host name of the custom domain"
+                },
+                {
+                  "flags": "--subscription <subscription>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            }
+          ],
+          "categories": {}
+        },
+        "geofilter": {
+          "name": "geofilter",
+          "description": "Commands to manage Azure cdn profile endpoint geo filters",
+          "fullName": "cdn geofilter",
+          "usage": "[options] [command]",
+          "options": [],
+          "commands": [
+            {
+              "name": "list",
+              "description": "List geo filters by endpoint name, profile name, and resource group",
+              "fullName": "cdn geofilter list",
+              "usage": "[options] <endpoint-name> <profile-name> <resource-group>",
+              "filePath": "commands/arm/cdnmanagement/cdnmanagement._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-e, --endpoint-name <endpoint-name>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--endpoint-name",
+                  "description": "Name of the endpoint"
+                },
+                {
+                  "flags": "-p, --profile-name <profile-name>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--profile-name",
+                  "description": "Name of the profile"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "The resource group of the Azure Cdn Profile"
+                },
+                {
+                  "flags": "--subscription <subscription>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "add",
+              "description": "Add a geo filters by endpoint name, profile name, and resource group",
+              "fullName": "cdn geofilter add",
+              "usage": "[options] <relative-path> <endpoint-name> <profile-name> <resource-group> <action> <country-codes>",
+              "filePath": "commands/arm/cdnmanagement/cdnmanagement._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-r, --relative-path <relative-path>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-r",
+                  "long": "--relative-path",
+                  "description": "Relative path of the geo filter"
+                },
+                {
+                  "flags": "-e, --endpoint-name <endpoint-name>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--endpoint-name",
+                  "description": "Name of the endpoint"
+                },
+                {
+                  "flags": "-p, --profile-name <profile-name>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--profile-name",
+                  "description": "Name of the profile"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "The resource group of the Azure Cdn Profile"
+                },
+                {
+                  "flags": "-a, --action <action>",
+                  "required": -14,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--action",
+                  "description": "Action of the geo filter. Valid input: -a [Block|Allow]"
+                },
+                {
+                  "flags": "-c, --country-codes <country-codes>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-c",
+                  "long": "--country-codes",
+                  "description": "List of country codes to apply the geo filter. Country codes are two letters and comma separated."
+                },
+                {
+                  "flags": "--subscription <subscription>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "description": "Update a geo filters by endpoint name, profile name, and resource group",
+              "fullName": "cdn geofilter set",
+              "usage": "[options] <relative-path> <endpoint-name> <profile-name> <resource-group> [action] [country-codes]",
+              "filePath": "commands/arm/cdnmanagement/cdnmanagement._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-r, --relative-path <relative-path>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-r",
+                  "long": "--relative-path",
+                  "description": "Relative path of the geo filter. e.g. /mycars "
+                },
+                {
+                  "flags": "-e, --endpoint-name <endpoint-name>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--endpoint-name",
+                  "description": "Name of the endpoint"
+                },
+                {
+                  "flags": "-p, --profile-name <profile-name>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--profile-name",
+                  "description": "Name of the profile"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "The resource group of the Azure Cdn Profile"
+                },
+                {
+                  "flags": "-a, --action [action]",
+                  "required": 0,
+                  "optional": -14,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--action",
+                  "description": "Action of the geo filter. Block or Allow."
+                },
+                {
+                  "flags": "-c, --country-codes [country-codes]",
+                  "required": 0,
+                  "optional": -21,
+                  "bool": true,
+                  "short": "-c",
+                  "long": "--country-codes",
+                  "description": "List of country codes to apply the geo filter. Country codes are two letters and comma separated."
+                },
+                {
+                  "flags": "--subscription <subscription>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "description": "Delete a geo filters by relative path, endpoint name, profile name, and resource group",
+              "fullName": "cdn geofilter delete",
+              "usage": "[options] <relative-path> <endpoint-name> <profile-name> <resource-group> <action> <country-codes>",
+              "filePath": "commands/arm/cdnmanagement/cdnmanagement._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-r, --relative-path <relative-path>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-r",
+                  "long": "--relative-path",
+                  "description": "Relative path of the geo filter. e.g. /mycars "
+                },
+                {
+                  "flags": "-e, --endpoint-name <endpoint-name>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--endpoint-name",
+                  "description": "Name of the endpoint"
+                },
+                {
+                  "flags": "-p, --profile-name <profile-name>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--profile-name",
+                  "description": "Name of the profile"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "The resource group of the Azure Cdn Profile"
                 },
                 {
                   "flags": "--subscription <subscription>",
@@ -38983,6 +39341,30 @@
                   "description": "Bootstrap options in JSON format. Ex: -j '{\"chef_node_name\":\"test_node\"}'"
                 },
                 {
+                  "flags": "--bootstrap-version <number>",
+                  "required": -21,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--bootstrap-version",
+                  "description": "chef-client version to be installed"
+                },
+                {
+                  "flags": "--chef-service-interval <chef-service-interval>",
+                  "required": -25,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--chef-service-interval",
+                  "description": "It specifies the frequency (in minutes) at which the chef-service runs. Pass 0 if you don't want the chef-service to be installed on the target machine."
+                },
+                {
+                  "flags": "--daemon <daemon>",
+                  "required": -10,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--daemon",
+                  "description": "Configures the chef-client service for unattended execution. The node platform to be Windows. Options: 'none' or 'service'. \n 'none' - Currently prevents the chef-client service from being configured as a service. \n 'service' - Configures the chef-client to run automatically in the background as a service."
+                },
+                {
                   "flags": "-u, --uninstall",
                   "required": 0,
                   "optional": 0,
@@ -39017,6 +39399,22 @@
                   "short": "-s",
                   "long": "--subscription",
                   "description": "the subscription id"
+                },
+                {
+                  "flags": "--secret <secret-key>",
+                  "required": -10,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--secret",
+                  "description": "The secret key to use to encrypt data bag item values."
+                },
+                {
+                  "flags": "--secret-file <secret-file>",
+                  "required": -15,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--secret-file",
+                  "description": "A file containing the secret key to use to encrypt data bag item values."
                 },
                 {
                   "flags": "--json-attributes <json-attributes>",
@@ -40240,6 +40638,192 @@
             }
           ],
           "categories": {}
+        },
+        "secret": {
+          "name": "secret",
+          "description": "Commands to manage VM secrets",
+          "fullName": "vm secret",
+          "usage": "[options] [command]",
+          "options": [],
+          "commands": [
+            {
+              "name": "add",
+              "description": "Adds a secret to the VM",
+              "fullName": "vm secret add",
+              "usage": "[options] <resource-group> <name> <source-vault-id>",
+              "filePath": "commands/arm/vm/vm._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "the resource group"
+                },
+                {
+                  "flags": "-n, --name <name>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-n",
+                  "long": "--name",
+                  "description": "the VM name"
+                },
+                {
+                  "flags": "-r, --source-vault-id <source-vault-id>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-r",
+                  "long": "--source-vault-id",
+                  "description": "the source-vault-id"
+                },
+                {
+                  "flags": "-c, --certificate-url <certificate-url>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-c",
+                  "long": "--certificate-url",
+                  "description": "certificate-url"
+                },
+                {
+                  "flags": "-t, --certificate-store <certificate-store>",
+                  "required": -25,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-t",
+                  "long": "--certificate-store",
+                  "description": "certificate-store"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "description": "Deletes a secret to the VM",
+              "fullName": "vm secret delete",
+              "usage": "[options] <resource-group> <name> <source-vault-id>",
+              "filePath": "commands/arm/vm/vm._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-g, --resource-group <resource-group>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group",
+                  "description": "the resource group"
+                },
+                {
+                  "flags": "-n, --name <name>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-n",
+                  "long": "--name",
+                  "description": "the VM name"
+                },
+                {
+                  "flags": "-r, --source-vault-id <source-vault-id>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-r",
+                  "long": "--source-vault-id",
+                  "description": "the source-vault-id"
+                },
+                {
+                  "flags": "-c, --certificate-url <certificate-url>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-c",
+                  "long": "--certificate-url",
+                  "description": "certificate-url"
+                },
+                {
+                  "flags": "-t, --certificate-store <certificate-store>",
+                  "required": -25,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-t",
+                  "long": "--certificate-store",
+                  "description": "certificate-store"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            }
+          ],
+          "categories": {}
         }
       }
     },
@@ -40344,8 +40928,8 @@
                       "description": "optionally specify the type of compilation to do. Valid values are 'Semantic', 'Full', and 'SingleBox' Default is Full."
                     },
                     {
-                      "flags": "-c --compileOnly <compileOnly>",
-                      "required": -18,
+                      "flags": "-c --compileOnly",
+                      "required": 0,
                       "optional": 0,
                       "bool": true,
                       "short": "-c",
@@ -40508,7 +41092,7 @@
                       "bool": true,
                       "short": "-j",
                       "long": "--jobId",
-                      "description": "the job ID of the job to retrieve."
+                      "description": "the job ID of the job to cancel."
                     },
                     {
                       "flags": "-q, --quiet",
@@ -40518,6 +41102,85 @@
                       "short": "-q",
                       "long": "--quiet",
                       "description": "quiet mode (do not ask for cancel confirmation)"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "wait",
+                  "description": "waits for the specified job to complete and outputs the finished job result.",
+                  "fullName": "datalake analytics job wait",
+                  "usage": "[options] <accountName> <jobId>",
+                  "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-n --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--accountName",
+                      "description": "the Data Lake Analytics account name to execute the action on"
+                    },
+                    {
+                      "flags": "-j --jobId <jobId>",
+                      "required": -12,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-j",
+                      "long": "--jobId",
+                      "description": "the job identifier of the job to wait for completion."
+                    },
+                    {
+                      "flags": "-w --waitInterval <wait in seconds>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-w",
+                      "long": "--waitInterval",
+                      "description": "the optional amount of time to wait between each poll of the job, in seconds. Default is five seconds."
+                    },
+                    {
+                      "flags": "-t --timeout <max time to wait in seconds>",
+                      "required": -14,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--timeout",
+                      "description": "the optional maximum amount of time to wait for the job to complete, in seconds. Default is to never timeout."
                     },
                     {
                       "flags": "-s, --subscription <id>",
@@ -40718,16 +41381,317 @@
                 }
               ],
               "categories": {
+                "credential": {
+                  "name": "credential",
+                  "description": "Commands to manage your Data Lake Analytics Catalog credentials.",
+                  "fullName": "datalake analytics catalog credential",
+                  "usage": "[options] [command]",
+                  "options": [],
+                  "commands": [
+                    {
+                      "name": "create",
+                      "description": "Creates the specified credential for the specified database.",
+                      "fullName": "datalake analytics catalog credential create",
+                      "usage": "[options] <accountName> <databaseName> <hostUri> <credentialName> <credentialUserName>",
+                      "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
+                      "options": [
+                        {
+                          "flags": "-v, --verbose",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-v",
+                          "long": "--verbose",
+                          "description": "use verbose output"
+                        },
+                        {
+                          "flags": "-vv",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "-vv",
+                          "description": "more verbose with debug output"
+                        },
+                        {
+                          "flags": "--json",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "--json",
+                          "description": "use json output"
+                        },
+                        {
+                          "flags": "-n --accountName <accountName>",
+                          "required": -18,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-n",
+                          "long": "--accountName",
+                          "description": "The Data Lake Analytics account name to perform the action on."
+                        },
+                        {
+                          "flags": "-d --databaseName <databaseName>",
+                          "required": -19,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-d",
+                          "long": "--databaseName",
+                          "description": "The name of the database in which the credential will be created."
+                        },
+                        {
+                          "flags": "-u --hostUri <hostUri>",
+                          "required": -14,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-u",
+                          "long": "--hostUri",
+                          "description": "The full host URI associated with the external data source. The credential will authenticate against this host URI."
+                        },
+                        {
+                          "flags": "-e --credentialName <credentialName>",
+                          "required": -21,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-e",
+                          "long": "--credentialName",
+                          "description": "name of the credential to be created in the specified database"
+                        },
+                        {
+                          "flags": "-a --credentialUserName <credentialUserName>",
+                          "required": -25,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-a",
+                          "long": "--credentialUserName",
+                          "description": "the user name of the credential to authenticate with. Will prompt if not given"
+                        },
+                        {
+                          "flags": "-p --password <password>",
+                          "required": -15,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-p",
+                          "long": "--password",
+                          "description": "the password that matches with the credentialUserName, will prompt if not given"
+                        },
+                        {
+                          "flags": "-s, --subscription <id>",
+                          "required": -20,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-s",
+                          "long": "--subscription",
+                          "description": "the subscription identifier"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "set",
+                      "description": "Updates the password of the specified credential in the specified database.",
+                      "fullName": "datalake analytics catalog credential set",
+                      "usage": "[options] <accountName> <databaseName> <hostUri> <credentialName> <credentialUserName>",
+                      "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
+                      "options": [
+                        {
+                          "flags": "-v, --verbose",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-v",
+                          "long": "--verbose",
+                          "description": "use verbose output"
+                        },
+                        {
+                          "flags": "-vv",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "-vv",
+                          "description": "more verbose with debug output"
+                        },
+                        {
+                          "flags": "--json",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "--json",
+                          "description": "use json output"
+                        },
+                        {
+                          "flags": "-n --accountName <accountName>",
+                          "required": -18,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-n",
+                          "long": "--accountName",
+                          "description": "The Data Lake Analytics account name to perform the action on."
+                        },
+                        {
+                          "flags": "-d --databaseName <databaseName>",
+                          "required": -19,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-d",
+                          "long": "--databaseName",
+                          "description": "The name of the database in which the credential will be updated."
+                        },
+                        {
+                          "flags": "-u --hostUri <hostUri>",
+                          "required": -14,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-u",
+                          "long": "--hostUri",
+                          "description": "The full host URI associated with the external data source. This must be the same as the hostUri used to create the credential."
+                        },
+                        {
+                          "flags": "-e --credentialName <credentialName>",
+                          "required": -21,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-e",
+                          "long": "--credentialName",
+                          "description": "credential name to update."
+                        },
+                        {
+                          "flags": "-a --credentialUserName <credentialUserName>",
+                          "required": -25,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-a",
+                          "long": "--credentialUserName",
+                          "description": "the user name of the credential to authenticate with. Will prompt if not given"
+                        },
+                        {
+                          "flags": "-p --password <password>",
+                          "required": -15,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-p",
+                          "long": "--password",
+                          "description": "the original password that matches with the credentialUserName, will prompt if not given"
+                        },
+                        {
+                          "flags": "-w --newPassword <password>",
+                          "required": -18,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-w",
+                          "long": "--newPassword",
+                          "description": "the new password to update the credential with, will prompt if not given"
+                        },
+                        {
+                          "flags": "-s, --subscription <id>",
+                          "required": -20,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-s",
+                          "long": "--subscription",
+                          "description": "the subscription identifier"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "delete",
+                      "description": "Deletes the specified credential in the specified database.",
+                      "fullName": "datalake analytics catalog credential delete",
+                      "usage": "[options] <accountName> <databaseName> <credentialName>",
+                      "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
+                      "options": [
+                        {
+                          "flags": "-v, --verbose",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-v",
+                          "long": "--verbose",
+                          "description": "use verbose output"
+                        },
+                        {
+                          "flags": "-vv",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "-vv",
+                          "description": "more verbose with debug output"
+                        },
+                        {
+                          "flags": "--json",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "--json",
+                          "description": "use json output"
+                        },
+                        {
+                          "flags": "-n --accountName <accountName>",
+                          "required": -18,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-n",
+                          "long": "--accountName",
+                          "description": "The Data Lake Analytics account name to perform the action on."
+                        },
+                        {
+                          "flags": "-d --databaseName <databaseName>",
+                          "required": -19,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-d",
+                          "long": "--databaseName",
+                          "description": "The name of the database in which the credential(s) will be deleted."
+                        },
+                        {
+                          "flags": "-e --credentialName <credentialName>",
+                          "required": -21,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-e",
+                          "long": "--credentialName",
+                          "description": "Credential name to delete."
+                        },
+                        {
+                          "flags": "-p --password <password>",
+                          "required": -15,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-p",
+                          "long": "--password",
+                          "description": "the password that matches with the username inside the specified credential. Required if the caller is not the owner of the Data Lake Analytics account."
+                        },
+                        {
+                          "flags": "-q, --quiet",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-q",
+                          "long": "--quiet",
+                          "description": "quiet mode (do not ask for delete confirmation)"
+                        },
+                        {
+                          "flags": "-s, --subscription <id>",
+                          "required": -20,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-s",
+                          "long": "--subscription",
+                          "description": "the subscription identifier"
+                        }
+                      ]
+                    }
+                  ],
+                  "categories": {}
+                },
                 "secret": {
                   "name": "secret",
-                  "description": "Commands to manage your Data Lake Analytics Catalog secrets",
+                  "description": "DEPRECATED: Commands to manage your Data Lake Analytics Catalog secrets. This category will be removed in a future release. Please use the credential commands instead",
                   "fullName": "datalake analytics catalog secret",
                   "usage": "[options] [command]",
                   "options": [],
                   "commands": [
                     {
                       "name": "create",
-                      "description": "Creates the specified secret for the specified database.",
+                      "description": "DEPRECATED: Creates the specified secret for the specified database. This command will be removed in a future release. Please use 'credential create' instead.",
                       "fullName": "datalake analytics catalog secret create",
                       "usage": "[options] <accountName> <databaseName> <hostUri> <secretName>",
                       "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
@@ -40815,7 +41779,7 @@
                     },
                     {
                       "name": "set",
-                      "description": "Updates the password and/or hostUri of the specified secret in the specified database.",
+                      "description": "DEPRECATED: Updates the password and/or hostUri of the specified secret in the specified database. This command will be removed in a future release. Please use 'credential set' instead.",
                       "fullName": "datalake analytics catalog secret set",
                       "usage": "[options] <accountName> <databaseName> <hostUri> <secretName>",
                       "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
@@ -40903,7 +41867,7 @@
                     },
                     {
                       "name": "delete",
-                      "description": "Updates the password and/or hostUri of the specified secret in the specified database.",
+                      "description": "DEPRECATED: Deletes the specified secret in the specified database. This command will be removed in a future release. Please use 'credential delete' instead.",
                       "fullName": "datalake analytics catalog secret delete",
                       "usage": "[options] <accountName> <databaseName> <hostUri> <secretName>",
                       "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
@@ -41244,6 +42208,33 @@
                       "description": "the default Data Lake Store to associate with this account."
                     },
                     {
+                      "flags": "-p --maxDegreeOfParallelism <1 to the account limit>",
+                      "required": -29,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-p",
+                      "long": "--maxDegreeOfParallelism",
+                      "description": "Optional, the maximum supported degree of parallelism for this account, from 1 to the account defined limit. Default is 30"
+                    },
+                    {
+                      "flags": "-r --queryStoreRetentionTime <1 to 180>",
+                      "required": -30,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-r",
+                      "long": "--queryStoreRetentionTime",
+                      "description": "Optional, the number of days that job metadata is retained, from 1 to 180. Default is 30"
+                    },
+                    {
+                      "flags": "-j --maxJobCount <1 to account limit>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-j",
+                      "long": "--maxJobCount",
+                      "description": "Optional, the maximum supported jobs running under the account at the same time., from 1 to the account defined limit. Default is 3"
+                    },
+                    {
                       "flags": "-t --tags <tags>",
                       "required": -11,
                       "optional": 0,
@@ -41267,7 +42258,7 @@
                   "name": "set",
                   "description": "Updates the properties of an existing Data Lake Analytics Account",
                   "fullName": "datalake analytics account set",
-                  "usage": "[options] <accountName> <defaultDataLakeStore>",
+                  "usage": "[options] <accountName>",
                   "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
                   "options": [
                     {
@@ -41314,13 +42305,31 @@
                       "description": "the optional resource group to forcibly look for the account to update in"
                     },
                     {
-                      "flags": "-d --defaultDataLakeStore <defaultDataLakeStore>",
-                      "required": -27,
+                      "flags": "-p --maxDegreeOfParallelism <1 to the account limit>",
+                      "required": -29,
                       "optional": 0,
                       "bool": true,
-                      "short": "-d",
-                      "long": "--defaultDataLakeStore",
-                      "description": "the optional new default Data Lake Store account to set for this account"
+                      "short": "-p",
+                      "long": "--maxDegreeOfParallelism",
+                      "description": "Optionally update the maximum supported degree of parallelism for this account, from 1 to the account defined limit."
+                    },
+                    {
+                      "flags": "-r --queryStoreRetentionTime <1 to 180>",
+                      "required": -30,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-r",
+                      "long": "--queryStoreRetentionTime",
+                      "description": "Optionally update the number of days that job metadata is retained, from 1 to 180."
+                    },
+                    {
+                      "flags": "-j --maxJobCount <1 to account limit>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-j",
+                      "long": "--maxJobCount",
+                      "description": "Optionally update the maximum supported jobs running under the account at the same time., from 1 to the account defined limit."
                     },
                     {
                       "flags": "-t --tags <tags>",
@@ -41407,16 +42416,7 @@
                           "bool": true,
                           "short": "-l",
                           "long": "--dataLakeStore",
-                          "description": "the Data Lake Store account to add. NOTE: this argument and --isDefaultDataLakeStore are part of a parameter set, and cannot be specified with --azureBlob and --accessKey."
-                        },
-                        {
-                          "flags": "-d --isDefaultDataLakeStore",
-                          "required": 0,
-                          "optional": 0,
-                          "bool": true,
-                          "short": "-d",
-                          "long": "--isDefaultDataLakeStore",
-                          "description": "the optional switch to indicate that the Data Lake being added should be the default Data Lake. NOTE: this argument and --dataLakeStore are part of a parameter set, and cannot be specified with --azureBlob and --accessKey."
+                          "description": "the Data Lake Store account to add. NOTE: this argument cannot be specified with --azureBlob and --accessKey."
                         },
                         {
                           "flags": "-b --azureBlob <azureBlob>",
@@ -41425,7 +42425,7 @@
                           "bool": true,
                           "short": "-b",
                           "long": "--azureBlob",
-                          "description": "the azure blob to add to the account. NOTE: this argument and --accessKey are part of a parameter set, and cannot be specified with --dataLakeStore and --isDefaultDataLakeStore."
+                          "description": "the azure blob to add to the account. NOTE: this argument and --accessKey are part of a parameter set, and cannot be specified with --dataLakeStore."
                         },
                         {
                           "flags": "-k --accessKey <accessKey>",
@@ -41434,7 +42434,7 @@
                           "bool": true,
                           "short": "-k",
                           "long": "--accessKey",
-                          "description": "the access key associated with the azureBlob. NOTE: this argument and --azureBlob are part of a parameter set, and cannot be specified with --dataLakeStore and --isDefaultDataLakeStore."
+                          "description": "the access key associated with the azureBlob. NOTE: this argument and --azureBlob are part of a parameter set, and cannot be specified with --dataLakeStore."
                         },
                         {
                           "flags": "-g --resource-group <resource-group>",
@@ -41537,9 +42537,9 @@
                     },
                     {
                       "name": "set",
-                      "description": "Sets an existing data source (Data Lake Store or Azure Blob) in the Data Lake Analytics Account. Typically used to set the data source as default (for Data Lake) or update the access key (for Azure Blob)",
+                      "description": "Sets an existing data source (Azure Blob) in the Data Lake Analytics Account. Typically used to update the access key (for Azure Blob)",
                       "fullName": "datalake analytics account datasource set",
-                      "usage": "[options] <accountName>",
+                      "usage": "[options] <accountName> <azureBlob> <accessKey>",
                       "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
                       "options": [
                         {
@@ -41577,31 +42577,13 @@
                           "description": "The Data Lake Analytics Account name to perform the action on."
                         },
                         {
-                          "flags": "-l --dataLakeStore <dataLakeStore>",
-                          "required": -20,
-                          "optional": 0,
-                          "bool": true,
-                          "short": "-l",
-                          "long": "--dataLakeStore",
-                          "description": "the Data Lake Store account to set. NOTE: this argument and --isDefaultDataLakeStore are part of a parameter set, and cannot be specified with --azureBlob and --accessKey."
-                        },
-                        {
-                          "flags": "-d --isDefaultDataLakeStore",
-                          "required": 0,
-                          "optional": 0,
-                          "bool": true,
-                          "short": "-d",
-                          "long": "--isDefaultDataLakeStore",
-                          "description": "the optional switch to indicate that the Data Lake being set should be the default Data Lake. NOTE: this argument and --dataLakeStore are part of a parameter set, and cannot be specified with --azureBlob and --accessKey."
-                        },
-                        {
                           "flags": "-b --azureBlob <azureBlob>",
                           "required": -16,
                           "optional": 0,
                           "bool": true,
                           "short": "-b",
                           "long": "--azureBlob",
-                          "description": "the azure blob to set in the account. NOTE: this argument and --accessKey are part of a parameter set, and cannot be specified with --dataLakeStore and --isDefaultDataLakeStore."
+                          "description": "the azure blob to set in the account."
                         },
                         {
                           "flags": "-k --accessKey <accessKey>",
@@ -41610,7 +42592,7 @@
                           "bool": true,
                           "short": "-k",
                           "long": "--accessKey",
-                          "description": "the access key associated with the azureBlob to update. NOTE: this argument and --azureBlob are part of a parameter set, and cannot be specified with --dataLakeStore and --isDefaultDataLakeStore."
+                          "description": "the updated access key associated with the azureBlob to update."
                         },
                         {
                           "flags": "-g --resource-group <resource-group>",
@@ -42342,7 +43324,7 @@
                   "name": "read",
                   "description": "Previews the specified Data Lake Store file starting at index 0 (or the specified offset) until the length is reached, displaying the results to the console.",
                   "fullName": "datalake store filesystem read",
-                  "usage": "[options] <accountName> <path> <length>",
+                  "usage": "[options] <accountName> <path>",
                   "filePath": "commands/arm/datalakestore/datalakestore._js",
                   "options": [
                     {
@@ -42395,7 +43377,7 @@
                       "bool": true,
                       "short": "-l",
                       "long": "--length",
-                      "description": "the length, in bytes, to read from the file"
+                      "description": "optionally specify the length, in bytes, to read from the file. If not specified will attempt to display all content after offset. If that length is greater than 1MB a length must be specified."
                     },
                     {
                       "flags": "-o --offset <offset>",
@@ -42405,6 +43387,15 @@
                       "short": "-o",
                       "long": "--offset",
                       "description": "the optional offset to begin reading at (default is 0)"
+                    },
+                    {
+                      "flags": "-f --force",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-f",
+                      "long": "--force",
+                      "description": "optionally forces previewing of a full file. Use with caution, as this can cause instability and hangs with very large files."
                     },
                     {
                       "flags": "-s, --subscription <id>",
@@ -42418,7 +43409,88 @@
                   ]
                 }
               ],
-              "categories": {}
+              "categories": {
+                "expiry": {
+                  "name": "expiry",
+                  "description": "Commands to manage expiration of your Data Lake Storage FileSystem",
+                  "fullName": "datalake store filesystem expiry",
+                  "usage": "[options] [command]",
+                  "options": [],
+                  "commands": [
+                    {
+                      "name": "set",
+                      "description": "sets or removes the absolute expiration time of the specified path (files only).",
+                      "fullName": "datalake store filesystem expiry set",
+                      "usage": "[options] <accountName> <path>",
+                      "filePath": "commands/arm/datalakestore/datalakestore._js",
+                      "options": [
+                        {
+                          "flags": "-v, --verbose",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-v",
+                          "long": "--verbose",
+                          "description": "use verbose output"
+                        },
+                        {
+                          "flags": "-vv",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "-vv",
+                          "description": "more verbose with debug output"
+                        },
+                        {
+                          "flags": "--json",
+                          "required": 0,
+                          "optional": 0,
+                          "bool": true,
+                          "long": "--json",
+                          "description": "use json output"
+                        },
+                        {
+                          "flags": "-n --accountName <accountName>",
+                          "required": -18,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-n",
+                          "long": "--accountName",
+                          "description": "the Data Lake Store account name to execute the action on"
+                        },
+                        {
+                          "flags": "-p --path <path>",
+                          "required": -11,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-p",
+                          "long": "--path",
+                          "description": "the full path to the folder to list (e.g. /someFolder or /someFolder/someNestedFolder)"
+                        },
+                        {
+                          "flags": "-e --expiration <expiration time in ticks since epoch>",
+                          "required": -17,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-e",
+                          "long": "--expiration",
+                          "description": "the expiration time to set for the file. Values <= 0 or >= 253402300800000 indicate the file will never expire.)"
+                        },
+                        {
+                          "flags": "-s, --subscription <id>",
+                          "required": -20,
+                          "optional": 0,
+                          "bool": true,
+                          "short": "-s",
+                          "long": "--subscription",
+                          "description": "the subscription identifier"
+                        }
+                      ]
+                    }
+                  ],
+                  "categories": {}
+                }
+              }
             },
             "permissions": {
               "name": "permissions",
@@ -42476,6 +43548,85 @@
                       "short": "-p",
                       "long": "--path",
                       "description": "the full path to the folder or file to get (e.g. /someFolder or /someFolder/someFile.txt)"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "description": "Deletes the entire ACL associated with a folder (not including un-named ACL entries)",
+                  "fullName": "datalake store permissions delete",
+                  "usage": "[options] <accountName> <path>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-n --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-p --path <path>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-p",
+                      "long": "--path",
+                      "description": "the full path to the folder to remove ACLs from (e.g. /someFolder)"
+                    },
+                    {
+                      "flags": "-d --defaultAcl",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-d",
+                      "long": "--defaultAcl",
+                      "description": "optionally indicates that the default ACL should be removed instead of the regular ACL. Default is false."
+                    },
+                    {
+                      "flags": "-q, --quiet",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-q",
+                      "long": "--quiet",
+                      "description": "quiet mode (do not ask for delete confirmation)"
                     },
                     {
                       "flags": "-s, --subscription <id>",
@@ -42739,6 +43890,780 @@
                 }
               }
             },
+            "firewall": {
+              "name": "firewall",
+              "description": "Commands to manage your Data Lake Storage account firewall rules",
+              "fullName": "datalake store firewall",
+              "usage": "[options] [command]",
+              "options": [],
+              "commands": [
+                {
+                  "name": "create",
+                  "description": "adds the specified firewall rule to the specified Data Lake Store account.",
+                  "fullName": "datalake store firewall create",
+                  "usage": "[options] <accountName> <name> <startIpAddress> <endIpAddress>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-n --name <firewall rule name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the firewall rule to add"
+                    },
+                    {
+                      "flags": "-t --startIpAddress <start ip address>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--startIpAddress",
+                      "description": "the start of the valid ip range for the firewall rule"
+                    },
+                    {
+                      "flags": "-e, --endIpAddress <end ip address>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-e",
+                      "long": "--endIpAddress",
+                      "description": "the end of the valid ip range for the firewall rule"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "set",
+                  "description": "updates the specified firewall rule in the specified Data Lake Store account.",
+                  "fullName": "datalake store firewall set",
+                  "usage": "[options] <accountName> <name>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-n --name <firewall rule name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the firewall rule to update"
+                    },
+                    {
+                      "flags": "-t --startIpAddress <start ip address>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--startIpAddress",
+                      "description": "the optional new start of the valid ip range for the firewall rule"
+                    },
+                    {
+                      "flags": "-e, --endIpAddress <end ip address>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-e",
+                      "long": "--endIpAddress",
+                      "description": "the optional new end of the valid ip range for the firewall rule"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "show",
+                  "description": "retrieves the specified firewall rule in the specified Data Lake Store account.",
+                  "fullName": "datalake store firewall show",
+                  "usage": "[options] <accountName> <name>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-n --name <firewall rule name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the firewall rule to display"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "description": "retrieves all firewall rules in the specified Data Lake Store account.",
+                  "fullName": "datalake store firewall list",
+                  "usage": "[options] <accountName>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-n --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "description": "removes the specified firewall rule in the specified Data Lake Store account.",
+                  "fullName": "datalake store firewall delete",
+                  "usage": "[options] <accountName> <name>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "the optional resource group to list the accounts in"
+                    },
+                    {
+                      "flags": "-n --name <firewall rule name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the firewall rule to delete"
+                    },
+                    {
+                      "flags": "-q, --quiet",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-q",
+                      "long": "--quiet",
+                      "description": "quiet mode (do not ask for delete confirmation)"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                }
+              ],
+              "categories": {}
+            },
+            "provider": {
+              "name": "provider",
+              "description": "Commands to manage your Data Lake Storage account trusted identity providers",
+              "fullName": "datalake store provider",
+              "usage": "[options] [command]",
+              "options": [],
+              "commands": [
+                {
+                  "name": "create",
+                  "description": "adds the specified trusted identity provider to the specified Data Lake Store account.",
+                  "fullName": "datalake store provider create",
+                  "usage": "[options] <accountName> <name> <providerEndpoint>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-n --name <trusted identity provider name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the trusted identity provider to add"
+                    },
+                    {
+                      "flags": "-e, --providerEndpoint <endpoint>",
+                      "required": -24,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-e",
+                      "long": "--providerEndpoint",
+                      "description": "the valid trusted provider endpoint in the format: https://sts.windows.net/<provider identity>"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "set",
+                  "description": "updates the specified trusted identity provider in the specified Data Lake Store account.",
+                  "fullName": "datalake store provider set",
+                  "usage": "[options] <accountName> <name> <providerEndpoint>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-n --name <trusted identity provider name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the trusted identity provider to update"
+                    },
+                    {
+                      "flags": "-e, --providerEndpoint <endpoint>",
+                      "required": -24,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-e",
+                      "long": "--providerEndpoint",
+                      "description": "the new valid trusted provider endpoint in the format: https://sts.windows.net/<provider identity>"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "show",
+                  "description": "retrieves the specified trusted identity provider in the specified Data Lake Store account.",
+                  "fullName": "datalake store provider show",
+                  "usage": "[options] <accountName> <name>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-n --name <trusted identity provider name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the trusted identity provider to display"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "description": "retrieves all trusted identity providers in the specified Data Lake Store account.",
+                  "fullName": "datalake store provider list",
+                  "usage": "[options] <accountName>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-n --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "optionally explicitly set the resource group. If not specified, will attempt to discover it."
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "description": "removes the specified trusted identity provider in the specified Data Lake Store account.",
+                  "fullName": "datalake store provider delete",
+                  "usage": "[options] <accountName> <name>",
+                  "filePath": "commands/arm/datalakestore/datalakestore._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-a --accountName <accountName>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--accountName",
+                      "description": "the Data Lake Store account name to execute the action on"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "the optional resource group to list the accounts in"
+                    },
+                    {
+                      "flags": "-n --name <trusted identity provider name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the trusted identity provider to delete"
+                    },
+                    {
+                      "flags": "-q, --quiet",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-q",
+                      "long": "--quiet",
+                      "description": "quiet mode (do not ask for delete confirmation)"
+                    },
+                    {
+                      "flags": "-s, --subscription <id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                }
+              ],
+              "categories": {}
+            },
             "account": {
               "name": "account",
               "description": "Commands to manage your Data Lake Storage accounts",
@@ -42998,6 +44923,42 @@
                       "description": "the optional default permissions group to add to the account when created"
                     },
                     {
+                      "flags": "-e --encryption <'UserManaged'|'ServiceManaged'>",
+                      "required": -17,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-e",
+                      "long": "--encryption",
+                      "description": "optionally indicates what type of encryption to provision the account with, if any. Valid values are UserManaged or ServiceManaged"
+                    },
+                    {
+                      "flags": "-k --keyVaultId <key vault id>",
+                      "required": -17,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-k",
+                      "long": "--keyVaultId",
+                      "description": "if the encryption type is UserAssigned, this is the id of the key vault the user wishes to use"
+                    },
+                    {
+                      "flags": "-y --keyName <key name>",
+                      "required": -14,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-y",
+                      "long": "--keyName",
+                      "description": "if the encryption type is UserAssigned, this is the key name in the key vault the user wishes to use"
+                    },
+                    {
+                      "flags": "-s --keyVersion <key version>",
+                      "required": -17,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--keyVersion",
+                      "description": "if the encryption type is UserAssigned, this is the key version of the key the user wishes to use"
+                    },
+                    {
                       "flags": "-t --tags <tags>",
                       "required": -11,
                       "optional": 0,
@@ -43075,6 +45036,24 @@
                       "short": "-d",
                       "long": "--defaultGroup",
                       "description": "the optional default permissions group to set in the existing account"
+                    },
+                    {
+                      "flags": "-t --trustedIdProviderState <Enabled|Disabled>",
+                      "required": -29,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--trustedIdProviderState",
+                      "description": "optionally enable or disable existing trusted identity providers. Valid values are 'Enabled' or 'Disabled'"
+                    },
+                    {
+                      "flags": "-f --firewallState <Enabled|Disabled>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-f",
+                      "long": "--firewallState",
+                      "description": "optionally enable or disable existing firewall rules. Valid values are 'Enabled' or 'Disabled'"
                     },
                     {
                       "flags": "-t --tags <tags>",
@@ -45275,7 +47254,7 @@
           "categories": {
             "template": {
               "name": "template",
-              "description": "Commands to manager your deployment template in a resource group",
+              "description": "Commands to manage your deployment template in a resource group",
               "fullName": "group deployment template",
               "usage": "[options] [command]",
               "options": [],
@@ -62411,7 +64390,7 @@
                       "bool": true,
                       "short": "-p",
                       "long": "--protocol",
-                      "description": "the protocol [Tcp,Udp,*]"
+                      "description": "the protocol [*,Tcp,Udp]. Default value is \"*\""
                     },
                     {
                       "flags": "-f, --source-address-prefix [source-address-prefix]",
@@ -62429,7 +64408,7 @@
                       "bool": true,
                       "short": "-o",
                       "long": "--source-port-range",
-                      "description": "the source port range [0-65535]"
+                      "description": "the source port range [0-65535]. Default value is \"*\""
                     },
                     {
                       "flags": "-e, --destination-address-prefix [destination-address-prefix]",
@@ -62447,7 +64426,7 @@
                       "bool": true,
                       "short": "-u",
                       "long": "--destination-port-range",
-                      "description": "the destination port range [0-65535]"
+                      "description": "the destination port range [0-65535]. Default value is \"80\""
                     },
                     {
                       "flags": "-c, --access [access]",
@@ -62456,16 +64435,16 @@
                       "bool": true,
                       "short": "-c",
                       "long": "--access",
-                      "description": "the access mode [Allow,Deny]"
+                      "description": "the access mode [Allow,Deny]. Default value is \"Allow\""
                     },
                     {
-                      "flags": "-y, --priority <priority>",
-                      "required": -16,
-                      "optional": 0,
+                      "flags": "-y, --priority [priority]",
+                      "required": 0,
+                      "optional": -16,
                       "bool": true,
                       "short": "-y",
                       "long": "--priority",
-                      "description": "the priority [100-4096]"
+                      "description": "the priority [100-4096]. Default value is \"100\""
                     },
                     {
                       "flags": "-r, --direction [direction]",
@@ -62474,7 +64453,7 @@
                       "bool": true,
                       "short": "-r",
                       "long": "--direction",
-                      "description": "the direction [Inbound,Outbound]"
+                      "description": "the direction [Inbound,Outbound]. Default value is \"Inbound\""
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
@@ -62562,7 +64541,7 @@
                       "bool": true,
                       "short": "-p",
                       "long": "--protocol",
-                      "description": "the protocol [Tcp,Udp,*]"
+                      "description": "the protocol [*,Tcp,Udp]"
                     },
                     {
                       "flags": "-f, --source-address-prefix [source-address-prefix]",
@@ -66154,7 +68133,7 @@
                   "bool": true,
                   "short": "-g",
                   "long": "--resource-group",
-                  "description": "the name of the resource group"
+                  "description": "the resource group"
                 },
                 {
                   "flags": "-n, --name <name>",
@@ -66175,6 +68154,15 @@
                   "description": "the location"
                 },
                 {
+                  "flags": "-i, --ip-address <ip-address>",
+                  "required": -18,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-i",
+                  "long": "--ip-address",
+                  "description": "the IP address of the local network site"
+                },
+                {
                   "flags": "-a, --address-space [address-space]",
                   "required": 0,
                   "optional": -21,
@@ -66184,13 +68172,31 @@
                   "description": "the comma separated list of address prefixes in CIDR format"
                 },
                 {
-                  "flags": "-i, --ip-address <ip-address>",
-                  "required": -18,
-                  "optional": 0,
+                  "flags": "-j, --asn [asn]",
+                  "required": 0,
+                  "optional": -11,
                   "bool": true,
-                  "short": "-i",
-                  "long": "--ip-address",
-                  "description": "the IP address of the local network site"
+                  "short": "-j",
+                  "long": "--asn",
+                  "description": "The BGP speaker's ASN."
+                },
+                {
+                  "flags": "-b, --bgp-peering-address [bgp-peering-address]",
+                  "required": 0,
+                  "optional": -27,
+                  "bool": true,
+                  "short": "-b",
+                  "long": "--bgp-peering-address",
+                  "description": "The BGP peering address and BGP identifier of this BGP speaker."
+                },
+                {
+                  "flags": "-w, --peer-weight [peer-weight]",
+                  "required": 0,
+                  "optional": -19,
+                  "bool": true,
+                  "short": "-w",
+                  "long": "--peer-weight",
+                  "description": "The weight added to routes learned from this BGP speaker."
                 },
                 {
                   "flags": "-t, --tags [tags]",
@@ -66270,6 +68276,42 @@
                   "short": "-a",
                   "long": "--address-space",
                   "description": "the comma separated list of address prefixes in CIDR format"
+                },
+                {
+                  "flags": "-i, --ip-address [ip-address]",
+                  "required": 0,
+                  "optional": -18,
+                  "bool": true,
+                  "short": "-i",
+                  "long": "--ip-address",
+                  "description": "IP address of local network gateway."
+                },
+                {
+                  "flags": "-j, --asn [asn]",
+                  "required": 0,
+                  "optional": -11,
+                  "bool": true,
+                  "short": "-j",
+                  "long": "--asn",
+                  "description": "The BGP speaker's ASN."
+                },
+                {
+                  "flags": "-b, --bgp-peering-address [bgp-peering-address]",
+                  "required": 0,
+                  "optional": -27,
+                  "bool": true,
+                  "short": "-b",
+                  "long": "--bgp-peering-address",
+                  "description": "The BGP peering address and BGP identifier of this BGP speaker."
+                },
+                {
+                  "flags": "-w, --peer-weight [peer-weight]",
+                  "required": 0,
+                  "optional": -19,
+                  "bool": true,
+                  "short": "-w",
+                  "long": "--peer-weight",
+                  "description": "The weight added to routes learned from this BGP speaker."
                 },
                 {
                   "flags": "-t, --tags [tags]",
@@ -68074,6 +70116,15 @@
                   "description": "the certificate password"
                 },
                 {
+                  "flags": "-A, --address-pool-name [address-pool-name]",
+                  "required": 0,
+                  "optional": -25,
+                  "bool": true,
+                  "short": "-A",
+                  "long": "--address-pool-name",
+                  "description": "the address pool name. \n     Default value is \"pool01\""
+                },
+                {
                   "flags": "-r, --servers <servers>",
                   "required": -15,
                   "optional": 0,
@@ -68081,6 +70132,15 @@
                   "short": "-r",
                   "long": "--servers",
                   "description": "comma separated list of IP addresses or DNS names corresponding to backend servers"
+                },
+                {
+                  "flags": "-O, --http-settings-name [http-settings-name]",
+                  "required": 0,
+                  "optional": -26,
+                  "bool": true,
+                  "short": "-O",
+                  "long": "--http-settings-name",
+                  "description": "the HTTP settings name. \n     Default value is \"httpSettings01\""
                 },
                 {
                   "flags": "-i, --http-settings-protocol [http-settings-protocol]",
@@ -68110,6 +70170,15 @@
                   "description": "Enable or disable HTTP settings cookie based affinity, valid values are\n     [Disabled,Enabled],\n     default value is \"Disabled\""
                 },
                 {
+                  "flags": "-J, --frontend-port-name [frontend-port-name]",
+                  "required": 0,
+                  "optional": -26,
+                  "bool": true,
+                  "short": "-J",
+                  "long": "--frontend-port-name",
+                  "description": "the frontend port name.\n     Default value is \"frontendPort01\""
+                },
+                {
                   "flags": "-j, --frontend-port [frontend-port]",
                   "required": 0,
                   "optional": -21,
@@ -68117,6 +70186,15 @@
                   "short": "-j",
                   "long": "--frontend-port",
                   "description": "the frontend port value, valid range is [0-65535]"
+                },
+                {
+                  "flags": "-F, --frontend-ip-name [frontend-ip-name]",
+                  "required": 0,
+                  "optional": -24,
+                  "bool": true,
+                  "short": "-F",
+                  "long": "--frontend-ip-name",
+                  "description": "the frontend ip name. \n     Default value is \"frontendIp01\""
                 },
                 {
                   "flags": "-k, --public-ip-name [public-ip-name]",
@@ -68137,6 +70215,24 @@
                   "description": "the public ip identifier.\n     e.g. /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Network/publicIPAddresses/<public-ip-name>"
                 },
                 {
+                  "flags": "-G, --gateway-ip-name [gateway-ip-name]",
+                  "required": 0,
+                  "optional": -23,
+                  "bool": true,
+                  "short": "-G",
+                  "long": "--gateway-ip-name",
+                  "description": "the gateway ip name.\n     Default value is \"ipConfig01\""
+                },
+                {
+                  "flags": "-L, --http-listener-name [http-listener-name]",
+                  "required": 0,
+                  "optional": -26,
+                  "bool": true,
+                  "short": "-L",
+                  "long": "--http-listener-name",
+                  "description": "the HTTP listener name.\n     Default value is \"listener01\""
+                },
+                {
                   "flags": "-b, --http-listener-protocol [http-listener-protocol]",
                   "required": 0,
                   "optional": -30,
@@ -68144,6 +70240,15 @@
                   "short": "-b",
                   "long": "--http-listener-protocol",
                   "description": "the HTTP listener protocol, valid values are [http,https]"
+                },
+                {
+                  "flags": "-R, --routing-rule-name [routing-rule-name]",
+                  "required": 0,
+                  "optional": -25,
+                  "bool": true,
+                  "short": "-R",
+                  "long": "--routing-rule-name",
+                  "description": "the routing rule name.\n     Default name is \"rule01\""
                 },
                 {
                   "flags": "-w, --routing-rule-type [routing-rule-type]",
@@ -70439,6 +72544,24 @@
                       "description": "enable or disable cookie based affinity, valid values are\n     [Disabled,Enabled],\n     default value is [Disabled]"
                     },
                     {
+                      "flags": "-r, --probe-name [probe-name]",
+                      "required": 0,
+                      "optional": -18,
+                      "bool": true,
+                      "short": "-r",
+                      "long": "--probe-name",
+                      "description": "specified application gateway probe name"
+                    },
+                    {
+                      "flags": "-i, --probe-id [probe-id]",
+                      "required": 0,
+                      "optional": -16,
+                      "bool": true,
+                      "short": "-i",
+                      "long": "--probe-id",
+                      "description": "application gateway probe ID"
+                    },
+                    {
                       "flags": "--nowait",
                       "required": 0,
                       "optional": 0,
@@ -70542,6 +72665,24 @@
                       "short": "-c",
                       "long": "--cookie-based-affinity",
                       "description": "enable or disable cookie based affinity, valid values are\n     [Disabled,Enabled],\n     default value is [Disabled]"
+                    },
+                    {
+                      "flags": "-r, --probe-name [probe-name]",
+                      "required": 0,
+                      "optional": -18,
+                      "bool": true,
+                      "short": "-r",
+                      "long": "--probe-name",
+                      "description": "specified application gateway probe name"
+                    },
+                    {
+                      "flags": "-i, --probe-id [probe-id]",
+                      "required": 0,
+                      "optional": -16,
+                      "bool": true,
+                      "short": "-i",
+                      "long": "--probe-id",
+                      "description": "application gateway probe ID"
                     },
                     {
                       "flags": "--nowait",
