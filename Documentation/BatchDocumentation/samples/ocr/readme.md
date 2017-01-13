@@ -1,4 +1,4 @@
-# Azure Batch OCR Job Template
+# Azure Batch OCR job template
 
 This sample shows how to use `ghostscript` and `tesseract-ocr` to transform PDF files into plain text files (`.txt`). It does this in two stages:
 
@@ -11,11 +11,13 @@ You must have an Azure Batch account set up with a linked Azure Storage account.
 
 ## Create a pool
 
-To create your pool using the default settings (A pool named 'ocr-pool' with 3 STANDARD_D1_V2 VMs):
+To create your pool:
 
 ```bash
 azure batch pool create --template pool.json
 ```
+
+The default settings in `pool.json` specify a pool named `ocr-pool` containing **3** **STANDARD_D1_V2** virtual machines.
 
 If you want to change the default values of the pool creation, you can create a JSON file to supply the parameters of your pool. If you have a large number of files to convert, you should use a larger pool or bigger VMs in the pool. 
 

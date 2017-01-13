@@ -12,11 +12,12 @@ You will need a Blender scene to render.
 
 ## Setup Pool
 
-The sample specifies an Azure Batch Pool with the id `blender-pool` - if you don't already have one, run this command to create one with appropriate default settings:
+The sample specifies an Azure Batch Pool with the id `blender-pool` - if you don't already have one, run this command:
 
 ```bash
 azure batch pool create --template pool.json
 ```
+The default settings in `pool.json` specify a pool named `blender-pool` containing **3** **STANDARD_D1** virtual machines.
 
 **You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
