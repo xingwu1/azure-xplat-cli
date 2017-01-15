@@ -11,6 +11,8 @@ This samples shows how to use `MS-MPI` to run MPI work.
 
 You must have an Azure Batch account set up with a linked Azure Storage account.
 
+You will need a zip file containing a compiled version of the `MPIHelloWorld.exe` application and its dependencies. You may want a release build of `MPIHelloWorld.exe` to reduce the number of separate files.
+
 ## Create application package
 
 To successfully run this sample, you must first create an [application package](https://docs.microsoft.com/azure/batch/batch-application-packages) containing [MSMpiSetup.exe](https://msdn.microsoft.com/library/bb524831.aspx) (installed on a pool's compute nodes with a start task) and an MS-MPI program for the multi-instance task to execute. For the latter, we provide the [MPIHelloWorld sample project](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/ArticleProjects/MultiInstanceTasks/MPIHelloWorld) for you to compile and use as your MS-MPI program.
@@ -24,12 +26,10 @@ azure batch application create --application-id MPIHelloWorld --account-name <ac
 ```
 You will need to supply your own values for `<account name>` and `<resource group>`.
 
-Next, download MSMpiSetup.exe and zip it.
-
 Create version `1.0` of the application `MPIHelloWorld`:
 
 ```bash
-azure batch application package create --application-id MPIHelloWorld --version 1.0 --account-name <account name> --resource-group <resource group> --package-file <the local path to zip file>
+azure batch application package create --application-id MPIHelloWorld --version 1.0 --account-name <account name> --resource-group <resource group> --package-file <local path to MPIHelloWorld.exe zip file>
 ```
 
 Finally, activate the application package `MPIHelloWorld:1.0`:
@@ -57,15 +57,13 @@ azure batch pool create --template pool.json --parameters <your settings JSON fi
 
 ## Upload files
 
-Upload files from a folder:
+Upload sample files from a folder:
 
 ```bash
 azure batch file upload <path> <group>
 ```
 
-Run this in a folder containing MPIHelloWorld.exe and its dependencies. The parametric sweep expects the files to be named `sample1.wav`, `sample2.wav`, `sample3.wav` and so on - each with the prefix `sample` and an increasing index number. It's important that your files are sequentially numbered with no gaps.
-
-**Recommended**: Build a Release version of MPIHelloWorld.exe so that you don't have to include any additional dependencies as resource files (e.g.: `msvcp140d.dll` or `vcruntime140d.dll`).
+Run this command in a folder containing your sample files. The parametric sweep expects the files to be named `sample1.wav`, `sample2.wav`, `sample3.wav` and so on - each with the prefix `sample` and an increasing index number. It's important for correct operation of the parametric sweep that your files are sequentially numbered with no gaps.
 
 ## Create a job with an MPI task
 
