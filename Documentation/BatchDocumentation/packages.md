@@ -117,3 +117,9 @@ This is dependent on the chosen OS of the compute nodes. Available options:
 * `id`: (required, string) This is the name or ID of the package to be installed as identified according to the appropriate package repository.
 * `version`: (optional, string) This is the specific version of a package to be installed. If not set, the latest version will be installed.
 * `disableExcludes`: (optional, string) Only for use with Yum. Allows the user to specifiy packages that might otherwise be excluded by VM configuration (e.g. kernel packages).
+
+## Samples
+
+The following samples use package managers to install software for use:
+
+* [OCR](samples/ocr)
