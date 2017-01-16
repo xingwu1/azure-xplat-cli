@@ -50,14 +50,12 @@ Run this command on a folder containing PDF files which are named with numerical
 Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.json` parameters section to see what options are available.
 
 
-| Parameter            | Required  | Description                                                                                                                                    |
-| -------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| jobId                | Mandatory | The id of the Azure Batch job. <br/> Must match the id of the pool you created earlier.                                                        |
-| poolId               | Optional  | The id of the Azure Batch pool to run on. <br/> Default value if not otherwise specified: `ocrpool`                                            |
-| firstPdfId           | Mandatory | The name of the first PDF (without the .pdf extension). <br/> For example, supply the value **1** to reference file `1.pdf`.                   |
-| lastPdfId            | Mandatory | The name of the last PDF (without the .pdf extension). <br/> For example, supply the value **10** to reference file `10.pdf`.                  |
-| inputFileGroup       | Mandatory | The file group containing the input files. <br/> Must match the name of the file group used by your `azure batch file upload` command earlier. |
-| outputFileStorageUrl | Mandatory | A storage SAS URL to a container with write access.                                                                                            |
+| Parameter            | Required  | Description                                                                                                                                                  |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| jobId                | Mandatory | The id of the Azure Batch job.                                                                                                                               |
+| poolId               | Optional  | The id of the Azure Batch pool to run on. <br/> Must match the id of the pool you created earlier. <br/> Default value if not otherwise specified: `ocrpool` |
+| inputFileGroup       | Mandatory | The file group containing the input files. <br/> Must match the name of the file group used by your `azure batch file upload` command earlier.               |
+| outputFileStorageUrl | Mandatory | A storage SAS URL to a **container** with write access. <br/> A general SAS url to blob storage will not work.                                               |
 
 
 ## Run the job
