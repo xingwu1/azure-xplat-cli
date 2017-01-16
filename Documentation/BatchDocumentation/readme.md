@@ -13,5 +13,5 @@ These experimental features provide new ways to work with Azure Batch without ne
 
 See Also
 
-* [Feature summary](../..)
+* [Feature summary](/)
 * [Samples summary](samples)
