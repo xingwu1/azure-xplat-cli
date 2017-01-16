@@ -6,6 +6,11 @@ The pool is a standard *cloud service configuration* pool with a single small vi
 
 The job contains just one task, echoing the greeting "Hello World" to standard output.
 
+## Features used by this sample
+
+* [Pool and Job templates with parameterization](../../templates.md)
+* [Task collection task factory](../../taskFactories.md#task-collection)
+
 ## Prerequisites
 
 You will need an Azure Batch account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
