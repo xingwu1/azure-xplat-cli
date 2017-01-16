@@ -78,8 +78,8 @@ Available options for `taskStatus` are:
 
 The following samples automatically upload their output files as they complete:
 
-* [Blender](samples/blender) 
 * [Task Per File](samples/hello-world/task-per-file)
+* [Blender](samples/blender) 
 * [OCR](samples/ocr)
 
 ## Troubleshooting

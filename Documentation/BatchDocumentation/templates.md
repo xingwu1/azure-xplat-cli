@@ -22,8 +22,9 @@ For further reading on ARM templates, see [Authoring Azure Resource Manager temp
 
 The following samples make use of job and/or pool templates:
 
-* [Blender](samples/blender) 
 * [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
+* [Task Per File](samples/hello-world/task-per-file)
+* [Blender](samples/blender) 
 * [MPI](samples/mpi)
 * [OCR](samples/ocr)
 

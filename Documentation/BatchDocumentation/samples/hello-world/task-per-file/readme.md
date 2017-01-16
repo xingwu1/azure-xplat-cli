@@ -2,6 +2,13 @@
 
 This sample shows how to use a task factory to process a set of files uploaded into storage. The job runs on an VirtualMachineConfiguration based autopool and demonstrates how to use OutputFiles to automatically download/upload files to/from the virtual machine.
 
+## Features used by this sample
+
+* [Input data upload to Batch linked storage accounts](../../inputFiles.md#input-file-upload)
+* [Support for job and pool templates with parameterization](../../templates.md)
+* [Task per file task factory](../../taskFactories.md#task-per-file)
+* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+
 ## Prerequisites
 
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.

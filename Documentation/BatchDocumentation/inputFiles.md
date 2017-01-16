@@ -211,3 +211,13 @@ wd/images/first_pass/img_processing/2.png
 wd/images/first_pass/img_processing/3.png
 wd/images/first_pass.cfg
 ```
+
+## Samples
+
+The following samples automatically use the upload feature to make files available for processing
+
+* [Blender](samples/blender) 
+* [Task Per File](samples/hello-world/task-per-file)
+* [OCR](samples/ocr)
+
+
