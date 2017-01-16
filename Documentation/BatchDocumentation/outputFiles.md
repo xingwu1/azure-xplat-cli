@@ -43,22 +43,38 @@ Multiple output file descriptions can be included to cover different file patter
 In the above example, if the process completes successfully (the process exits with code 0), then the output will be uploaded,
 otherwise the error logs are uploaded for debugging.
 
-## Options:
-* `filePattern`: (required, string) The name of the file or files to be uploaded. This could be an absolute path, or a path relative to the task working directory. This can be a single file, or a pattern using wildcards (`**` and `*`).
-* `destination`: (required, object) The destination to which the output files specified in `filePattern` will be uploaded.
-  * `container`: (required, object) The details of the destination container.
-    * `path`: (optional, string) Path within the container to which data will be uploaded. If `filePath` refers to multiple files, `path` will be considered a virtual directory within the container. Otherwise `path`
-    will be considered to include the filename used in storage.
-    * `containerSas`: (required, string) The SAS URL to the storage container used to hold the output data. The SAS must have write permissions.
-* `uploadDetails`: (required, object) The details regarding the upload conditions.
-    * `taskStatus`: (required, string) Determine under what circumstances these output files should be persisted.
-    The options include:
-        - `TaskSuccess`
-            - The output data will only be uploaded if the task completed with an exit code of zero.
-        - `TaskFailure`
-            - The output data will only be uploaded if the task completed with a nonzero exit code.
-        - `TaskComplete`
-            - The output data will be uploaded irrespective of the exit code of the task.
+## Options
+
+| Property      | Required  | Type         | Description                                                                                                                                                                                             |
+| ------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| filePattern   | Mandatory | String       | The name of the file or files to be uploaded. This could be an absolute path, or a path relative to the task working directory. This can be a single file, or a pattern using wildcards (`**` and `*`). |
+| destination   | Mandatory | Complex Type | The destination to which the output files specified in `filePattern` will be uploaded.                                                                                                                  |
+| uploadDetails | Mandatory | Complex Type | The details regarding the upload conditions.                                                                                                                                                            |
+
+### destination
+
+| Property  | Required  | Type         | Description                          |
+| --------- | --------- | ------------ | ------------------------------------ |
+| container | Mandatory | Complex Type | Details of the destination container |
+
+### container
+
+| Property     | Required  | Type   | Description                                                                                                                                                                                                                                        |
+| ------------ | --------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| path         | Optional  | String | Path within the container to which data will be uploaded. If `filePath` refers to multiple files, `path` will be considered a virtual directory within the container. Otherwise `path` will be considered to include the filename used in storage. |
+| containerSas | Mandatory | String | The SAS URL to the storage container used to hold the output data. The SAS must have write permissions. <br/> Note: A SAS URL to your entire storage account will not work, nor will one that has expired.                                         |
+
+### uploadDetails 
+
+| Property   | Required  | Type    | Description                                                  |
+| ---------- | --------- | ------- | ------------------------------------------------------------ |
+| taskStatus | Mandatory | String  | Specify circumstances when output files should be persisted. |            
+
+Available options for `taskStatus` are:
+
+* `TaskSuccess` - Upload if the task completed with an exit code of zero.
+* `TaskFailure` - Upload if the task completed with a nonzero exit code.
+* `TaskComplete` - Uploaded always (irrespective of the exit code of the task).
 
 ## Samples
 
@@ -67,3 +83,10 @@ The following samples automatically upload their output files as they complete:
 * [Blender](samples/blender) 
 * [Task Per File](samples/hello-world/taskPerFile)
 * [OCR](samples/ocr)
+
+## Troubleshooting
+
+### Files do not upload to blob storage
+
+If there are no files uploaded to blob storage when your task completes, check error messages in an `uploadlog.txt` file on the node that ran the task. (You can do this from the [Azure portal](https://portal.azure.com)).
+
