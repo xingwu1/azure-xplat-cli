@@ -10,6 +10,7 @@ This sample shows how to use `ghostscript` and `tesseract-ocr` to transform PDF 
 * [Support for job and pool templates with parameterization](../../templates.md)
 * [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
 * [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+* [Package manager support for easy software installation](../../packages.md)
 
 ## Prerequisites
 

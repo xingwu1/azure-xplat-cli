@@ -8,7 +8,7 @@
         },
         "poolId": {
             "type": "string",
-            "default": "ocrpool",
+            "defaultValue": "ocrpool",
             "metadata": {
                 "description": "The id of the Azure Batch pool to run on"
             }
@@ -54,7 +54,7 @@
                             "filePattern": "*.txt",
                             "destination": {
                                 "container": {
-                                    "path": "{fileNameWithoutExtension}",
+                                    "path": "processed",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },
@@ -66,7 +66,7 @@
                             "filePattern": "../*.txt",
                             "destination": {
                                 "container": {
-                                    "path": "{fileNameWithoutExtension}",
+                                    "path": "output",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },
