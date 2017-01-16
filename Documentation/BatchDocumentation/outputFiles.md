@@ -1,7 +1,5 @@
 # Output files
 
-**Note:** This feature is only available on Linux VMs.
-
 When adding a task, you can now declare a list of output files to be automatically uploaded to 
 an Azure Storage container of your choice.
 

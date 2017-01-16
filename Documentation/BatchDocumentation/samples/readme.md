@@ -53,7 +53,7 @@ FFmpeg is an open-source command line tool for processing multimedia files. This
 
 OCR (Optical Character Recognition) is the process of extracting text from PDF images. This sample demonstrates the batch processing of PDF files.
 
-## Features used:
+Features used:
 
 * [Support for job and pool templates with parameterization](../templates.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
