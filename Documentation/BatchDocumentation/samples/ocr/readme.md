@@ -2,8 +2,8 @@
 
 This sample shows how to use `ghostscript` and `tesseract-ocr` to transform PDF files into plain text files (`.txt`). It does this in two stages:
 
-1. Use `ghostscript` to convert a PDF to a set of PNG files (one for each page of the PDF).
-2. Use `tesseract-ocr` to convert the PNG images into plain text files (`.txt`).
+1. Use [`ghostscript`](https://ghostscript.com/) to convert a PDF to a set of PNG files (one for each page of the PDF).
+2. Use [`tesseract-ocr`](https://github.com/tesseract-ocr) to convert the PNG images into plain text files (`.txt`).
 
 ## Features used by this sample
 
@@ -76,7 +76,7 @@ azure batch task list --job-id <jobid>`
 ```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
-### Structure of the sample
+## Structure of the sample
 
 | File                  | Content                                                                                                |
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
