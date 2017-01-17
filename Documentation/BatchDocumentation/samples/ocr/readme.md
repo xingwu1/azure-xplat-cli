@@ -43,7 +43,7 @@ To upload your PDF files:
 azure batch file upload <path> <group>
 ```
 
-Run this command on a folder containing PDF files which are named with numerically increasing names (i.e. `1.pdf`, `2.pdf`, `3.pdf`, etc). It is important that there are no gaps in the numbering of the files.
+Run this command on a folder containing the PDF files you want to process.
 
 ## Create a job and tasks
 
