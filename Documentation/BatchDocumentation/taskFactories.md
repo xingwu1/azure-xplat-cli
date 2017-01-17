@@ -193,6 +193,7 @@ Where the following tasks would be created:
 The following samples use the parametric sweep task factory:
 
 * [Blender](samples/blender) 
+* [Blender with application templates](samples/blender-appTemplate)
 * [Create Pool and Job with templates](samples/hello-world/create-pool-and-job-with-templates)
 * [FFMpeg](samples/ffmpeg)
 * [OCR](samples/ocr)

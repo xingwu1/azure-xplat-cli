@@ -80,6 +80,7 @@ The following samples automatically upload their output files as they complete:
 
 * [Task Per File](samples/hello-world/task-per-file)
 * [Blender](samples/blender) 
+* [Blender with application templates](samples/blender-appTemplate)
 * [FFMpeg](samples/ffmpeg)
 * [OCR](samples/ocr)
 

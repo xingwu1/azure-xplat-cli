@@ -4,6 +4,12 @@ This template shows how to use **Blender** to render using an *application templ
 
 With an *application template*, the processing steps required for the job are defined in a separate file - see `render-template.json` which is appropriately parameterized. The job itself references the template, supplies any required parameter values and specifies the pool on which the job is to run.
 
+## Features used by this sample
+
+* [Split job configuration and management with reusable application templates](../../application-templates.md)
+* [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
+* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+
 ## Prerequisites
 
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
