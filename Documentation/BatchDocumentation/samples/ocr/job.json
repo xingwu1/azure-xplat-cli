@@ -40,12 +40,12 @@
                     "fileGroup" : "[parameters('inputFileGroup')]"
                 },
                 "repeatTask": {
-                    "commandLine": "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={fileNameWithoutExtension}-%03d.png -r250 {fileNameWithoutExtension}.pdf && for f in *.png; do tesseract $f ${{f%.*}}; done",
+                    "commandLine": "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={fileNameWithoutExtension}-%03d.png -r250 {fileName} && for f in *.png; do tesseract $f ${{f%.*}}; done",
                     "resourceFiles": [
                         {
                             "source": {
                                 "fileGroup": "[parameters('inputFileGroup')]",
-                                "prefix": "{fileNameWithoutExtension}.pdf"
+                                "prefix": "{fileName}.pdf"
                             }
                         }
                     ],
@@ -54,7 +54,7 @@
                             "filePattern": "*.txt",
                             "destination": {
                                 "container": {
-                                    "path": "processed",
+                                    "path": "text",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },
