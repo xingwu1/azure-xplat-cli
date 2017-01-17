@@ -4,7 +4,7 @@ This sample shows how to create a pool, and run a parametric sweep job on it, us
 
 ## Features used by this sample
 
-* [Pool and Job templates with parameterization](../../templates.md)
+* [Pool and job templates with parameterization](../../templates.md)
 * [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
 * [Task per file task factory](../../taskFactories.md#task-per-file)
 

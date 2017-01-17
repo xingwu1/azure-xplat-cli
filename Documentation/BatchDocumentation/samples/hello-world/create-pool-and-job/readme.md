@@ -8,7 +8,7 @@ The job contains just one task, echoing the greeting "Hello World" to standard o
 
 ## Features used by this sample
 
-* [Pool and Job templates with parameterization](../../templates.md)
+* [Pool and job templates with parameterization](../../templates.md)
 * [Task collection task factory](../../taskFactories.md#task-collection)
 
 ## Prerequisites
