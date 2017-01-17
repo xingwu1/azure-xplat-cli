@@ -4,10 +4,10 @@ This sample shows how to use a task factory to process a set of files uploaded i
 
 ## Features used by this sample
 
-* [Input data upload to Batch linked storage accounts](../../inputFiles.md#input-file-upload)
-* [Support for job and pool templates with parameterization](../../templates.md)
-* [Task per file task factory](../../taskFactories.md#task-per-file)
-* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+* [Input data upload to Batch linked storage accounts](../../../inputFiles.md#input-file-upload)
+* [Support for job and pool templates with parameterization](../../../templates.md)
+* [Task per file task factory](../../../taskFactories.md#task-per-file)
+* [Automatic task output-file persistence to Azure Storage](../../../outputFiles.md)
 
 ## Prerequisites
 
