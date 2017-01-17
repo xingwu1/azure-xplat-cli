@@ -12,7 +12,8 @@ Create a pool and then run a job with a single task. Both the pool and the job a
 
 Features used:
 
-* [Pool and Job templates with parameterization](../templates.md)
+* [Pool and job templates with parameterization](../templates.md)
+* [Task collection task factory](../taskFactories.md#task-collection)
 
 
 ### [Create pool and job with templates](hello-world/create-pool-and-job-with-templates)
@@ -29,6 +30,13 @@ Features used:
 ### [Task per file](hello-world/task-per-file)
 
 Run a specific piece of processing independently across a set of files that are uploaded into storage. The job is specified as a template accepting parameters.
+
+Features used:
+
+* [Input data upload to Batch linked storage accounts](../inputFiles.md#input-file-upload)
+* [Support for job and pool templates with parameterization](../templates.md)
+* [Task per file task factory](../taskFactories.md#task-per-file)
+* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
 
 ### [Task per file with application template](hello-world/task-per-file-with-app-template)
 
@@ -48,6 +56,14 @@ These samples show how to use the new features with real world applications.
 ### [FFmpeg](ffmpeg)
 
 FFmpeg is an open-source command line tool for processing multimedia files. This is a sample demonstrating audio compression with Azure Batch on a large number of numerically-named files using a parametric sweep.
+
+Features used:
+
+* [Job template with parameterization](../templates.md)
+* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
+* [Package manager support for easy software installation](../packages.md)
+* [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
+* [Task per file task factory](../taskFactories.md#task-per-file)
 
 ### [OCR](ocr)
 
@@ -73,11 +89,17 @@ Features used:
 * [Job template with parameterization](../templates.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
 * [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
-
+* [Package manager support for easy software installation](../packages.md)
 
 ### [Blender (Application Template)](blender-appTemplate) 
 
 A variation of the [Blender](blender) sample that uses an application template to separate job definiton and management.
+
+Features used:
+
+* [Job template with parameterization](../templates.md)
+* [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
+* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
 
 ### [Docker - Caffe](docker)
 
