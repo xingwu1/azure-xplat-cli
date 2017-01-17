@@ -2,6 +2,15 @@
 
 This sample shows how to use `ffmpeg` to convert one kind of media file (`WAV`) to another type media file (`MP3`). Two approaches are shown, one using a *parametric sweep task factory* and one using a *task per file task factory*.
 
+
+## Features used by this sample
+
+* [Job template with parameterization](../../templates.md)
+* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+* [Package manager support for easy software installation](../../packages.md)
+* [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
+* [Task per file task factory](../../taskFactories.md#task-per-file)
+
 ## Prerequisites
 
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.

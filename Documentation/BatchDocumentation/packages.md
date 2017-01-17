@@ -122,4 +122,5 @@ This is dependent on the chosen OS of the compute nodes. Available options:
 
 The following samples use package managers to install software for use:
 
+* [FFMpeg](samples/ffmpeg)
 * [OCR](samples/ocr)
