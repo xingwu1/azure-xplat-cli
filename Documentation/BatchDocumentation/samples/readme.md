@@ -22,7 +22,7 @@ Create a pool and then run a job with a single task. Both the pool and the job a
 
 Features used:
 
-* [Pool and Job templates with parameterization](../templates.md)
+* [Pool and job templates with parameterization](../templates.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
 * [Task per file task factory](../taskFactories.md#task-per-file)
 
@@ -34,9 +34,9 @@ Run a specific piece of processing independently across a set of files that are 
 Features used:
 
 * [Input data upload to Batch linked storage accounts](../inputFiles.md#input-file-upload)
-* [Support for job and pool templates with parameterization](../templates.md)
+* [Pool and job templates with parameterization](../templates.md)
 * [Task per file task factory](../taskFactories.md#task-per-file)
-* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
+* [Automatic persistence of task output files to Azure Storage](../outputFiles.md)
 
 ### [Task per file with application template](hello-world/task-per-file-with-app-template)
 
@@ -46,7 +46,7 @@ Features used:
 
 * [Split job configuration and management with reusable application templates](../application-templates.md)
 * [Task per file task factory](../taskFactories.md#task-per-file)
-* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
+* [Automatic persistence of task output files to Azure Storage](../outputFiles.md)
 
 
 ## More Complex Samples
@@ -60,8 +60,8 @@ FFmpeg is an open-source command line tool for processing multimedia files. This
 Features used:
 
 * [Job template with parameterization](../templates.md)
-* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
-* [Package manager support for easy software installation](../packages.md)
+* [Automatic persistence of task output files to Azure Storage](../outputFiles.md)
+* [Easy software installation via package managers](../packages.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
 * [Task per file task factory](../taskFactories.md#task-per-file)
 
@@ -71,10 +71,10 @@ OCR (Optical Character Recognition) is the process of extracting text from PDF i
 
 Features used:
 
-* [Support for job and pool templates with parameterization](../templates.md)
+* [Pool and job templates with parameterization](../templates.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
-* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
-* [Package manager support for easy software installation](../packages.md)
+* [Automatic persistence of task output files to Azure Storage](../outputFiles.md)
+* [Easy software installation via package managers](../packages.md)
 
 ### [MPI](mpi)
 
@@ -88,8 +88,8 @@ Features used:
 
 * [Job template with parameterization](../templates.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
-* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
-* [Package manager support for easy software installation](../packages.md)
+* [Automatic persistence of task output files to Azure Storage](../outputFiles.md)
+* [Easy software installation via package managers](../packages.md)
 
 ### [Blender (Application Template)](blender-appTemplate) 
 
@@ -99,7 +99,7 @@ Features used:
 
 * [Job template with parameterization](../templates.md)
 * [Parametric sweep task factory](../taskFactories.md#parametric-sweep)
-* [Automatic task output-file persistence to Azure Storage](../outputFiles.md)
+* [Automatic persistence of task output files to Azure Storage](../outputFiles.md)
 
 ### [Docker - Caffe](docker)
 

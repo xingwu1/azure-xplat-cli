@@ -6,8 +6,8 @@ This sample shows how to use `ffmpeg` to convert one kind of media file (`WAV`) 
 ## Features used by this sample
 
 * [Job template with parameterization](../../templates.md)
-* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
-* [Package manager support for easy software installation](../../packages.md)
+* [Automatic persistence of task output files to Azure Storage](../../outputFiles.md)
+* [Easy software installation via package managers](../../packages.md)
 * [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
 * [Task per file task factory](../../taskFactories.md#task-per-file)
 

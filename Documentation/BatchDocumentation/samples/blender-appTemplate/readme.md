@@ -8,7 +8,7 @@ With an *application template*, the processing steps required for the job are de
 
 * [Split job configuration and management with reusable application templates](../../application-templates.md)
 * [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
-* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+* [Automatic persistence of task output files to Azure Storage](../../outputFiles.md)
 
 ## Prerequisites
 

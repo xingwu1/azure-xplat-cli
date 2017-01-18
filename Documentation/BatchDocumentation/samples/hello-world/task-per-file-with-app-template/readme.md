@@ -10,7 +10,7 @@ This particular *application template* runs a simple commandline (`cat {fileName
 
 * [Split job configuration and management with reusable application templates](../../../application-templates.md)
 * [Task per file task factory](../../../taskFactories.md#task-per-file)
-* [Automatic task output-file persistence to Azure Storage](../../../outputFiles.md)
+* [Automatic persistence of task output files to Azure Storage](../../../outputFiles.md)
 
 ## Prerequisites
 

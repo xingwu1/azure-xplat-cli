@@ -6,7 +6,7 @@ This sample shows how to use **Blender** to render using a parameterized templat
 
 * [Job template with parameterization](../../templates.md)
 * [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
-* [Automatic task output-file persistence to Azure Storage](../../outputFiles.md)
+* [Automatic persistence of task output files to Azure Storage](../../outputFiles.md)
 
 ## Prerequisites
 

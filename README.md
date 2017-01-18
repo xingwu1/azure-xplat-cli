@@ -21,11 +21,11 @@ A new command to allow a user to upload a set of files directly into the storage
 
 Input data stored in linked storage under a file group can be simply referenced by a task by using some new ResourceFile properties. 
 
-### [Automatic task output-file persistence to Azure Storage](Documentation/BatchDocumentation/outputFiles.md)
+### [Automatic persistence of task output files to Azure Storage](Documentation/BatchDocumentation/outputFiles.md)
 
 When adding a task, you can now declare a list of output files to be automatically uploaded to an Azure Storage container of your choice when the task completes.
 
-### [Support for job and pool templates with parameterization](Documentation/BatchDocumentation/templates.md)
+### [Pool and job templates with parameterization](Documentation/BatchDocumentation/templates.md)
 
 Templates allow pools and jobs to be defined in parameterized json files with a format inspired by ARM templates.
 
@@ -50,7 +50,7 @@ Application templates provide a way to partition the details of a job into two p
 
 All of the details about how the job should be processed are moved into the **application template**, creating a reusable definition that is independent of a particular account. Application templates are parameterized to allow the processing to be customized without requiring modification of the template itself.
 
-### [Package manager support for easy software installation](Documentation/BatchDocumentation/packages.md)
+### [Easy software installation via package managers](Documentation/BatchDocumentation/packages.md)
 
 Integration with existing 3rd party package managers to streamline the installation of applications. Currently the following package managers are supported:
 
