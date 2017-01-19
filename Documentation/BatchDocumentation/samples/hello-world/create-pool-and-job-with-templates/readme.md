@@ -1,26 +1,44 @@
 # Azure Batch Pool/Job Template
 
-This sample shows how to create a pool, and run a parametric sweep job on it, using *parameterized* templates.
+This sample shows how to create a pool, and run a parametric sweep job on it, using *parameterized* templates for both the pool and the job.
 
-The pool template allows you to specify the number of virtual machines and their size through parameters.
+## Features used by this sample
 
-The job template allows you to specify the scope of the parametric sweep through parameters.
+* [Pool and job templates with parameterization](../../templates.md)
+* [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
+* [Task per file task factory](../../taskFactories.md#task-per-file)
 
 ## Prerequisites
+
 You will need an Azure Batch account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Preparation
-Fill out `pool.parameters.json` and `job.parameters.json`.
 
-Ensure the `poolId` parameter in each parameter file is the same.
+Modify the parameters specified in `pool.parameters.json` to configure your pool. Available parameters are defined in `pool.json`:
+
+| Parameter | Required  | Description                                                                                                                 |
+| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| poolId    | Mandatory | Unique id of the Azure Batch pool to create.                                                                            |
+| vmCount   | Optional  | Number of virtual machines. <br/> Defaults to **3** if not otherwise specified.                                         |
+| vmSize    | Optional  | Size of the virtual machines that run the application. <br/> Defaults to **STANDARD_D1_V2** if not otherwise specified. |
+
+Modify the parameters specified `job.parameters.json` as appropriate to configure your job. Available parameters are defined in `job.json`:
+
+| Parameter | Required  | Description                                                                                                    |
+| --------- | --------- | -------------------------------------------------------------------------------------------------------------- |
+| jobId     | Mandatory | Unique id of the Azure Batch job to create.                                                                    |
+| poolId    | Mandatory | Unique id of Azure Batch pool which runs the job. <br/> Must match the `poolId` used for the pool (see above). |
+| taskStart | Mandatory | Start index of the parametric sweep.                                                                           |
+| taskEnd   | Mandatory | Finishing index (inclusive) of the parametric sweep.                                                           |
 
 ## Run commands
+
 To create your pool:
 ``` bash
 azure batch pool create --template pool.json --parameters pool.parameters.json
 ```
 
-**You are billed for your Azure Batch pools, so don't forget to delete it through the [Azure portal](https://portal.azure.com) when you're done.** 
+**You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
 To create your job:
 ``` bash
@@ -36,35 +54,14 @@ You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer
 
 ## Structure of the sample
 
-### pool.json
-The file `pool.json` contains a template for defining a new pool with three parameters defined:
-
-| Parameter | Required  | Description                                                                                                                 |
-| --------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
-| poolId    | Mandatory | The id of the Azure Batch pool.                                                                                             |
-| vmCount   | Optional  | The number of virtual machines. <br/> Defaults to **3** if not otherwise specified.                                         |
-| vmSize    | Optional  | The size of the virtual machines that run the application. <br/> Defaults to **STANDARD_D1_V2** if not otherwise specified. |
-
-### pool.parameters.json
-
-The file `pool.parameters.json` provides values for the parameters defined in `pool.json`. You will need to provide a value for `poolId` before pool creation will succeed. If you do not want to use the default values for `vmCount` or `vmSize`, add values for those parameters to this file before creating the pool.
-
-### job.json
-
-The file `job.json` contains a template for a new job with four parameters defined:
-
-| Parameter | Required  | Description                                    |
-| --------- | --------- | ---------------------------------------------- |
-| jobId     | Mandatory | The id of Azure Batch job.                     |
-| poolId    | Mandatory | The id of Azure Batch pool which runs the job. |
-| taskStart | Mandatory | The sweep start parameter.                     |
-| taskEnd   | Mandatory | The sweep end parameter.                       |
+| File                   | Content                                                                                                                                                                                                                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pool.json`            | A template for defining a new pool.                                                                                                                                                                                                                                                              |
+| `pool.parameters.json` | Provides values for the parameters defined in `pool.json`. <br/> You will need to provide a value for `poolId` before pool creation will succeed. If you do not want to use the default values for `vmCount` or `vmSize`, add values for those parameters to this file before creating the pool. |
+| `job.json`             | A template for a new job.                                                                                                                                                                                                                                                                        |
+| `job.parameters.json`  | Provides values for the parameters defined in `job.json`. <br/> You will need to provide actual values for these parameters before job creation will succeed.                                                                                                                                    |
 
 Note that the **taskFactory** feature used in `job.json` is an experimental feature currently only available through the XPlat CLI.
-
-### job.parameters.json
-
-The file `job.parameters.json` provides values for the parameters defined in `job.json`. You will need to provide actual values for these parameters before job creation will succeed.
 
 ## Troubleshooting
 

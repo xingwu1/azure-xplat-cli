@@ -8,21 +8,9 @@
         },
         "poolId": {
             "type": "string",
-            "default": "ocrpool",
+            "defaultValue": "ocrpool",
             "metadata": {
                 "description": "The id of the Azure Batch pool to run on"
-            }
-        },
-        "firstPdfId": {
-            "type": "int",
-            "metadata": {
-                "description": "The name of the first PDF (without the .pdf extension). For example, supply the value 1 to reference file 1.pdf"
-            }
-        },
-        "lastPdfId": {
-            "type": "int",
-            "metadata": {
-                "description": "The name of the last PDF (without the .pdf extension). For example, supply the value 10 to reference file 10.pdf"
             }
         },
         "inputFileGroup": {
@@ -47,21 +35,17 @@
                 "poolId": "[parameters('poolId')]"
             },
             "taskFactory": {
-                "type": "parametricSweep",
-                "parameterSets": [
-                    {
-                        "start": "[parameters('firstPdfId')]",
-                        "end": "[parameters('lastPdfId')]",
-                        "step": 1
-                    }
-                ],
+                "type": "taskPerFile",
+                "source" : {
+                    "fileGroup" : "[parameters('inputFileGroup')]"
+                },
                 "repeatTask": {
-                    "commandLine": "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={0}-%03d.png -r250 {0}.pdf && for f in *.png; do tesseract $f ${{f%.*}}; done",
+                    "commandLine": "gs -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -sDEVICE=pngalpha -sOutputFile={fileNameWithoutExtension}-%03d.png -r250 {fileName} && for f in *.png; do tesseract $f ${{f%.*}}; done",
                     "resourceFiles": [
                         {
                             "source": {
                                 "fileGroup": "[parameters('inputFileGroup')]",
-                                "prefix": "{0}.pdf"
+                                "prefix": "{fileName}.pdf"
                             }
                         }
                     ],
@@ -70,7 +54,7 @@
                             "filePattern": "*.txt",
                             "destination": {
                                 "container": {
-                                    "path": "{0}",
+                                    "path": "text",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },
@@ -82,7 +66,7 @@
                             "filePattern": "../*.txt",
                             "destination": {
                                 "container": {
-                                    "path": "{0}",
+                                    "path": "output",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },

@@ -2,6 +2,15 @@
 
 This sample shows how to use `ffmpeg` to convert one kind of media file (`WAV`) to another type media file (`MP3`). Two approaches are shown, one using a *parametric sweep task factory* and one using a *task per file task factory*.
 
+
+## Features used by this sample
+
+* [Job template with parameterization](../../templates.md)
+* [Automatic persistence of task output files to Azure Storage](../../outputFiles.md)
+* [Easy software installation via package managers](../../packages.md)
+* [Parametric sweep task factory](../../taskFactories.md#parametric-sweep)
+* [Task per file task factory](../../taskFactories.md#task-per-file)
+
 ## Prerequisites
 
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
@@ -22,7 +31,7 @@ In order to create the pool with your own configurations, run instead:
 azure batch pool create --template pool.json --parameters <your settings JSON file>
 ```
 
-**You are billed for your Azure Batch pools, so don't forget to delete it through the [Azure portal](https://portal.azure.com) when you're done.** 
+**You are billed for your Azure Batch pools, so don't forget to delete this pool through the [Azure portal](https://portal.azure.com) when you're done.** 
 
 ## Using a parametric sweep for processing
 
@@ -98,19 +107,9 @@ The target container will contain a new virtual directory for each task that ran
 
 ## Structure of the sample
 
-### pool.json
-
-The file `pool.json` contains a template for creating a pool for processing with `ffmpeg`. By default, this template will create a pool called `ffmpeg-pool` containing **3** x **STANDARD_D1** virtual machines.
-
-You will need to create a parameter file (with suggested name `pool.parameters.json`) if you want to customize the pool.
-
-### job.sweep.json
-
-The file `job.sweep.json` contains a template for creating a job that uses a parametric sweep to process a set of sequentially numbered input files with `ffmpeg`.
-
-### job.parameters.json
-
-The file `job.parameters.json` specifies values for the parametric sweep parameters defined in the file `job.sweep.json`. You will need to provide values for the placeholders present in this file before creating your job.
-
-### job.perFile.json
-The file `job.perFile.json` contains a template for creating a job that uses a per-file task factory to process a set of input files with `ffmpeg`.
+| File                  | Content                                                                                                                                                                                                                                                                                                                 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pool.json`           | A template for creating a pool for processing with `ffmpeg`. <br/> By default, this template will create a pool called `ffmpeg-pool` containing **3** x **STANDARD_D1** virtual machines.<br/> You will need to create a parameter file (with suggested name `pool.parameters.json`) if you want to customize the pool. |
+| `job.sweep.json`      | A template for creating a job that uses a parametric sweep to process a set of sequentially numbered input files with `ffmpeg`.                                                                                                                                                                                         |
+| `job.parameters.json` | Specifies values for the parametric sweep parameters defined in the file `job.sweep.json`. You will need to provide values for the placeholders present in this file before creating your job.                                                                                                                          |
+| `job.perFile.json`    | A template for creating a job that uses a per-file task factory to process a set of input files with `ffmpeg`.                                                                                                                                                                                                          |

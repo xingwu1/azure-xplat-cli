@@ -2,12 +2,6 @@
   "jobId": {
     "value": "ocr_demo_01"
   },
-  "firstPdfId": {
-    "value": <the first id of pdf file>
-  },
-  "lastPdfId": {
-    "value": <the last id of pdf file>
-  },
   "inputFileGroup": {
     "value": "<Auto-storage group name>"
   },

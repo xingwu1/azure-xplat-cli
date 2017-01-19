@@ -6,10 +6,18 @@ With an application template, the processing steps required for the job are defi
 
 This particular *application template* runs a simple commandline (`cat {fileName}`) for each of the files found in a specified file group from blob storage.
 
+## Features used by this sample
+
+* [Split job configuration and management with reusable application templates](../../../application-templates.md)
+* [Task per file task factory](../../../taskFactories.md#task-per-file)
+* [Automatic persistence of task output files to Azure Storage](../../../outputFiles.md)
+
 ## Prerequisites
+
 You will need an Azure Batch account with a linked Azure Storage account. See [Create an Azure Batch account using the Azure portal](https://docs.microsoft.com/azure/batch/batch-account-create-portal) for details.
 
 ## Upload files
+
 To upload a folder of files run this command:
 ``` bash
 azure batch file upload <path> <group>
@@ -22,18 +30,18 @@ azure batch file upload <path> <group>
 For more information see the documentation on [input files](../../../inputFiles.md).
 
 ## Preparation
-Fill out the parameter placeholders in `movement-job.json`:
 
-| Parameter        | Description                                                                                                                                                                                               |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| testData         | The same name as you used for `<group>` when you uploaded files in the previous step.<br/>Note that this does not include the `fgrp-` prefix visible when you view blob storage through the Azure portal. |
-| taskStart        | The index number of your first file (i.e. 1 for `input1.txt`).                                                                                                                                            |
-| taskEnd          | The index number of your last file (i.e. 3 for `input3.txt`).                                                                                                                                             |
-| outputStorageUrl | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
+Fill out the parameter placeholders in `job.json`:
+
+| Parameter        | Required  | Description                                                                                                                                                                                               |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| testData         | Mandatory | The same name as you used for `<group>` when you uploaded files in the previous step.<br/>Note that this does not include the `fgrp-` prefix visible when you view blob storage through the Azure portal. |
+| outputStorageUrl | Mandatory | A valid (non-expired) writable SAS key for blob storage (use the Azure portal to generate this).                                                                                                          |
 
 To customize the job id or any of the details of the autopool, modify the appropriate details in `job.json`. These are not parameterized because they are not specified in the template file. 
 
 ## Run commands
+
 To create your job, run the following command:
 ``` bash
 azure batch job create --json-file job.json
@@ -49,20 +57,12 @@ azure batch task list --job-id <jobid>`
 ```
 You can also use the [Azure portal](https://portal.azure.com) or [Batch Explorer](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/BatchExplorer) for monitoring.
 
-## Structure of the Sample 
+## Structure of the sample 
 
-### template.json
-
-The file `template.json` specifies an application template, containing all of the logic for the job we are going to run. It also defines the following parameters:
-
-| Parameter | Required | Description |
-| ----- | ----- | ----- |
-| testData| Mandatory | The linked storage group where the input data is stored. |
-| outputFileStorageUrl | Mandatory | A storage SAS URL to a linked blob storage container with write access. |
-
-### job.json
-
-The file `job.json` defines the job to run by referencing the template file `template.json` and providing values for appropriate parameters. It also specifies the pool to use for the job, in this sample an auto pool containing **3** **STANDARD_D1_V2** virtual machines.
+| File            | Content                                                                                                                                                                                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `template.json` | Specifies an application template, containing all of the logic for the job we are going to run and any required parameters.                                                                                                                                     |
+| `job.json`      | Defines the job to run by referencing the template file `template.json` and providing values for appropriate parameters. <br/> It also specifies the pool to use for the job, in this sample an auto pool containing **3** **STANDARD_D1_V2** virtual machines. |
 
 ## Troubleshooting
 

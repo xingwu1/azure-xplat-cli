@@ -97,23 +97,34 @@ The required `type` field is used to determine which package manger should be us
 This is dependent on the chosen OS of the compute nodes. Available options:
 
 #### APT
-* `type`: `"aptPackage"`
-    * The package will be istalled using apt-get. Currently only packages found in the default repository are supported.
-        Compatible with Ubuntu, Debian and Fedora.
-* `id`: (required, string) This is the name or ID of the package to be installed as identified according to the appropriate package repository.
-* `version`: (optional, string) This is the specific version of a package to be installed. If not set, the latest version will be installed.
+
+| Property  | Required  | Type   | Description                                                                                                                                                               |
+| --------- | --------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`    | Mandatory | string | Must be `"aptPackage"`<br/> The package will be installed using **apt-get**. <br/>Compatible with Ubuntu, Debian and Fedora.                                              |
+| `id`      | Mandatory | string | Name or ID of the package to be installed as identified according to the package repository. <br/> Currently only packages found in the default repository are supported. |
+| `version` | Optional  | string | Specific version of a package to be installed. If not set, the latest version will be installed.                                                                          |
 
 #### Chocolatey
-* `type`: `"chocolateyPackage"`
-    * The package will be installed using Chocolatey. Only compatible with Windows.
-* `id`: (required, string) This is the name or ID of the package to be installed as identified according to the appropriate package repository.
-* `version`: (optional, string) This is the specific version of a package to be installed. If not set, the latest version will be installed.
-* `allowEmptyChecksums`: (optional, boolean) Only for use with Chocolatey. If `true`, Chocolatey will install packages without a checksum for validation. Default is `false`.
+
+| Property              | Required  | Type    | Description                                                                                                               |
+| --------------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `type`                | Mandatory | string  | Must be `"chocolateyPackage"`<br/> The package will be installed using **Chocolatey**. <br/>Only compatible with Windows. |
+| `id`                  | Mandatory | string  | Name or ID of the package to be installed as identified according to the package repository.                              |
+| `version`             | Optional  | string  | Specific version of a package to be installed. If not set, the latest version will be installed.                          |
+| `allowEmptyChecksums` | Optional  | Boolean | If `true`, Chocolatey will install packages without a checksum for validation. Default is `false`.                        |
 
 #### Yum
-* `type`: `"yumPackage"`
-    * The package will be installed using Yum. Currently only packages found in the default RPM repository are supported.
-        Compatible with Red Hat, CentOS and Fedora.
-* `id`: (required, string) This is the name or ID of the package to be installed as identified according to the appropriate package repository.
-* `version`: (optional, string) This is the specific version of a package to be installed. If not set, the latest version will be installed.
-* `disableExcludes`: (optional, string) Only for use with Yum. Allows the user to specifiy packages that might otherwise be excluded by VM configuration (e.g. kernel packages).
+
+| Property          | Required  | Type   | Description                                                                                                                                                                   |
+| ----------------- | --------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | Mandatory | string | Must be `"yumPackage"`<br/> The package will be installed using **Yum**. <br/>Compatible with Red Hat, CentOS and Fedora.                                                     |
+| `id`              | Mandatory | string | Name or ID of the package to be installed as identified according to the package repository. <br/> Currently only packages found in the default RPM repository are supported. |
+| `version`         | Optional  | string | Specific version of a package to be installed. If not set, the latest version will be installed.                                                                              |
+| `disableExcludes` | Optional  | string | Allows the user to specify packages that might otherwise be excluded by VM configuration (e.g. kernel packages).                                                              |
+
+## Samples
+
+The following samples use package managers to install software for use:
+
+* [FFMpeg](samples/ffmpeg)
+* [OCR](samples/ocr)
