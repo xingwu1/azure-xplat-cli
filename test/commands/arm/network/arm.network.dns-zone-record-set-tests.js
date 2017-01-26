@@ -24,12 +24,12 @@ var CLITest = require('../../../framework/arm-cli-test');
 var NetworkTestUtil = require('../../../util/networkTestUtil');
 var networkUtil = new NetworkTestUtil();
 
-var testPrefix = 'arm-network-dns-zone-tests',
+var testPrefix = 'arm-network-dns-zone-tests1',
   groupName = 'xplat-test-dns-zone-record-set',
   location;
 
 var zoneProp = {
-  name: 'example1.com',
+  name: 'exampledns.com',
   tags: networkUtil.tags
 };
 
@@ -316,6 +316,6 @@ describe('arm', function () {
       it('delete should delete record-set of type TXT', function (done) {
         networkUtil.deleteDnsRecordSet(txtProp, suite, done);
       });
-    });
+     });
   });
 });

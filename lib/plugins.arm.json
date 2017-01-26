@@ -47789,7 +47789,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--defaultStorageAccountName",
-                  "description": "Storage account url to use for default HDInsight storage"
+                  "description": "Fully Qualified Domain Name of the storage account to use for default HDInsight storage. For example, \"accountName.azuredatalakestore.net\" or \"accountName.blob.core.windows.net\""
                 },
                 {
                   "flags": "--defaultStorageAccountKey <storageAccountKey>",
@@ -47797,7 +47797,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--defaultStorageAccountKey",
-                  "description": "Key to the storage account to use for default HDInsight storage"
+                  "description": "Azure Storage key (required only for clusters using Azure Storage as default storage)"
                 },
                 {
                   "flags": "--defaultStorageContainer <storageContainer>",
@@ -47805,7 +47805,47 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--defaultStorageContainer",
-                  "description": "Container in the storage account to use for HDInsight default storage"
+                  "description": "Azure Storage container name (required only for clusters using Azure Storage as default storage)"
+                },
+                {
+                  "flags": "--defaultStorageRootPath <defaultStorageRootPath>",
+                  "required": -26,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--defaultStorageRootPath",
+                  "description": "Path-prefix in the Azure Data Lake Store account that this cluster will use as default File System (required only for clusters using Azure Data Lake Store as default storage)"
+                },
+                {
+                  "flags": "--servicePrincipalObjectId <servicePrincipalObjectId>",
+                  "required": -28,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--servicePrincipalObjectId",
+                  "description": "Object Id of the service principal used to access Azure Data Lake Store (required only for Data Lake Store enabled clusters)"
+                },
+                {
+                  "flags": "--servicePrincipalTenant <servicePrincipalTenant>",
+                  "required": -26,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--servicePrincipalTenant",
+                  "description": "Service principal AAD Tenant used to access Azure Data Lake Store For example, \"https://login.windows.net/<tenantId>\" (required only for Data Lake Store enabled clusters)"
+                },
+                {
+                  "flags": "--servicePrincipalCertFilePath <servicePrincipalCertFilePath>",
+                  "required": -32,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--servicePrincipalCertFilePath",
+                  "description": "Service principal certificate file path used to access Azure Data Lake Store (required only for Data Lake Store enabled clusters)"
+                },
+                {
+                  "flags": "--servicePrincipalCertPassword <servicePrincipalCertPassword>",
+                  "required": -32,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--servicePrincipalCertPassword",
+                  "description": "Service principal certificate password used to access Azure Data Lake Store (required only for Data Lake Store enabled clusters)"
                 },
                 {
                   "flags": "--headNodeSize <headNodeSize>",
@@ -49262,6 +49302,14 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--hive-site",
+                  "description": "Config values in the format of 'name=value'"
+                },
+                {
+                  "flags": "--clusterIdentity <clusterIdentity>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--clusterIdentity",
                   "description": "Config values in the format of 'name=value'"
                 },
                 {
@@ -65754,7 +65802,7 @@
                   "name": "list",
                   "description": "Get all record sets in a DNS zone",
                   "fullName": "network dns record-set list",
-                  "usage": "[options] <resource-group> <dns-zone-name>",
+                  "usage": "[options] <resource-group> <dns-zone-name> [type]",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
                     {
@@ -66164,6 +66212,15 @@
                       "description": "the text attribute\n"
                     },
                     {
+                      "flags": "-q, --quiet",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-q",
+                      "long": "--quiet",
+                      "description": "quiet mode, do not ask before replacing existing CNAME record"
+                    },
+                    {
                       "flags": "-s, --subscription <subscription>",
                       "required": -20,
                       "optional": 0,
@@ -66240,7 +66297,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--type",
-                      "description": "the type of the record set.\n     If specified only record sets of this type will be listed.\n     Valid values are [A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]\nThe record type A \n"
+                      "description": "the type of the record set.\n     Valid values are [A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]\nThe record type A \n"
                     },
                     {
                       "flags": "-a  --ipv4-address [ipv4-address]",
@@ -66358,6 +66415,14 @@
                       "short": "-q",
                       "long": "--quiet",
                       "description": "quiet mode, do not ask for delete confirmation"
+                    },
+                    {
+                      "flags": "--keep-empty-record-set",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--keep-empty-record-set",
+                      "description": "keep the empty record set when deleting the last record in the record set"
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
@@ -68601,7 +68666,7 @@
                   "bool": true,
                   "short": "-y",
                   "long": "--vpn-type",
-                  "description": "the vpn type\n     Valid values are [RouteBased,PolicyBased,Dedicated]\n     Default is RouteBased"
+                  "description": "the vpn type\n     Valid values are [RouteBased,PolicyBased]\n     Default is RouteBased"
                 },
                 {
                   "flags": "-k, --sku-name [sku-name]",
@@ -68610,7 +68675,7 @@
                   "bool": true,
                   "short": "-k",
                   "long": "--sku-name",
-                  "description": "the SKU name\n     Valid values are [Basic,HighPerformance,Standard]\n     Default is Basic"
+                  "description": "the SKU name\n     Valid values are [Basic,HighPerformance,Standard,UltraPerformance]\n     Default is Basic"
                 },
                 {
                   "flags": "-u, --public-ip-id [public-ip-id]",
@@ -68694,6 +68759,33 @@
                   "description": "enable bgp [true, false]"
                 },
                 {
+                  "flags": "-a, --bgp-asn [bgp-asn]",
+                  "required": 0,
+                  "optional": -15,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--bgp-asn",
+                  "description": "The BGP speaker's ASN"
+                },
+                {
+                  "flags": "-o, --bgp-peering-address [bgp-peering-address]",
+                  "required": 0,
+                  "optional": -27,
+                  "bool": true,
+                  "short": "-o",
+                  "long": "--bgp-peering-address",
+                  "description": "The BGP peering address and BGP identifier of this BGP speaker"
+                },
+                {
+                  "flags": "-j, --bgp-peer-weight [bgp-peer-weight]",
+                  "required": 0,
+                  "optional": -23,
+                  "bool": true,
+                  "short": "-j",
+                  "long": "--bgp-peer-weight",
+                  "description": "The weight added to routes learned from this BGP speaker"
+                },
+                {
                   "flags": "-t, --tags [tags]",
                   "required": 0,
                   "optional": -12,
@@ -68770,7 +68862,7 @@
                   "bool": true,
                   "short": "-k",
                   "long": "--sku-name",
-                  "description": "the SKU name\n     Valid values are [Basic,HighPerformance,Standard]"
+                  "description": "the SKU name\n     Valid values are [Basic,HighPerformance,Standard,UltraPerformance]"
                 },
                 {
                   "flags": "-d, --default-site-name [default-site-name]",
@@ -68798,6 +68890,33 @@
                   "short": "-f",
                   "long": "--address-prefixes",
                   "description": "the comma separated list of address prefixes.\n     For example, -f \"10.0.0.0/24,10.0.1.0/24\""
+                },
+                {
+                  "flags": "-b, --enable-bgp [enable-bgp]",
+                  "required": 0,
+                  "optional": -18,
+                  "bool": true,
+                  "short": "-b",
+                  "long": "--enable-bgp",
+                  "description": "enable bgp [true, false]"
+                },
+                {
+                  "flags": "-a, --bgp-asn [bgp-asn]",
+                  "required": 0,
+                  "optional": -15,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--bgp-asn",
+                  "description": "The BGP speaker's ASN"
+                },
+                {
+                  "flags": "-j, --bgp-peer-weight [bgp-peer-weight]",
+                  "required": 0,
+                  "optional": -23,
+                  "bool": true,
+                  "short": "-j",
+                  "long": "--bgp-peer-weight",
+                  "description": "The weight added to routes learned from this BGP speaker"
                 },
                 {
                   "flags": "-t, --tags [tags]",
@@ -69481,6 +69600,15 @@
                   "description": "the resource group of the connected express route circuit"
                 },
                 {
+                  "flags": "-b, --enable-bgp [enable-bgp]",
+                  "required": 0,
+                  "optional": -18,
+                  "bool": true,
+                  "short": "-b",
+                  "long": "--enable-bgp",
+                  "description": "whether BGP is enabled for this virtual network gateway or not"
+                },
+                {
                   "flags": "-y, --type [type]",
                   "required": 0,
                   "optional": -12,
@@ -69585,6 +69713,15 @@
                   "short": "-w",
                   "long": "--routing-weight",
                   "description": "the routing weight"
+                },
+                {
+                  "flags": "-b, --enable-bgp [enable-bgp]",
+                  "required": 0,
+                  "optional": -18,
+                  "bool": true,
+                  "short": "-b",
+                  "long": "--enable-bgp",
+                  "description": "whether BGP is enabled for this virtual network gateway or not"
                 },
                 {
                   "flags": "-s, --subscription <subscription>",
@@ -79100,6 +79237,252 @@
             },
             {
               "flags": "-s, --subscription <id>",
+              "required": -20,
+              "optional": 0,
+              "bool": true,
+              "short": "-s",
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        },
+        {
+          "name": "export",
+          "description": "Exports data from Azure Redis Cache to a specified container",
+          "fullName": "rediscache export",
+          "usage": "[--name <name> --resource-group <resource-group> --prefix <prefix> --container <container> [options] ]",
+          "filePath": "commands/arm/rediscache/rediscache._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "-n, --name <name>",
+              "required": -12,
+              "optional": 0,
+              "bool": true,
+              "short": "-n",
+              "long": "--name",
+              "description": "Name of the Redis Cache."
+            },
+            {
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
+              "optional": 0,
+              "bool": true,
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "Name of the Resource Group under which the cache exists"
+            },
+            {
+              "flags": "-p, --prefix <prefix>",
+              "required": -14,
+              "optional": 0,
+              "bool": true,
+              "short": "-p",
+              "long": "--prefix",
+              "description": "Prefix to use for blob names"
+            },
+            {
+              "flags": "-c, --container <container>",
+              "required": -17,
+              "optional": 0,
+              "bool": true,
+              "short": "-c",
+              "long": "--container",
+              "description": "SAS url of container where data should be exported"
+            },
+            {
+              "flags": "-f, --format <format>",
+              "required": -14,
+              "optional": 0,
+              "bool": true,
+              "short": "-f",
+              "long": "--format",
+              "description": "Format for the blob.  Currently rdb is the only supported, with other formats expected in the future"
+            },
+            {
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
+              "optional": 0,
+              "bool": true,
+              "short": "-s",
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        },
+        {
+          "name": "import",
+          "description": "Import data from blobs to Azure Redis Cache",
+          "fullName": "rediscache import",
+          "usage": "[--name <name> --resource-group <resource-group> --files <files> [options] ]",
+          "filePath": "commands/arm/rediscache/rediscache._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "-n, --name <name>",
+              "required": -12,
+              "optional": 0,
+              "bool": true,
+              "short": "-n",
+              "long": "--name",
+              "description": "Name of the Redis Cache."
+            },
+            {
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
+              "optional": 0,
+              "bool": true,
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "Name of the Resource Group under which the cache exists"
+            },
+            {
+              "flags": "-d, --files <files>",
+              "required": -13,
+              "optional": 0,
+              "bool": true,
+              "short": "-d",
+              "long": "--files",
+              "description": "SAS urls of blobs whose content should be imported into the cache."
+            },
+            {
+              "flags": "-f, --format <format>",
+              "required": -14,
+              "optional": 0,
+              "bool": true,
+              "short": "-f",
+              "long": "--format",
+              "description": "Format for the blob.  Currently rdb is the only supported, with other formats expected in the future"
+            },
+            {
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
+              "optional": 0,
+              "bool": true,
+              "short": "-s",
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "description": "Reboot specified node(s) of an Azure Redis Cache instance",
+          "fullName": "rediscache reset",
+          "usage": "[--name <name> --resource-group <resource-group> --reboot-type <reboot-type> [options] ]",
+          "filePath": "commands/arm/rediscache/rediscache._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "-n, --name <name>",
+              "required": -12,
+              "optional": 0,
+              "bool": true,
+              "short": "-n",
+              "long": "--name",
+              "description": "Name of the Redis Cache."
+            },
+            {
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
+              "optional": 0,
+              "bool": true,
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "Name of the Resource Group under which the cache exists"
+            },
+            {
+              "flags": "-r, --reboot-type <reboot-type>",
+              "required": -19,
+              "optional": 0,
+              "bool": true,
+              "short": "-r",
+              "long": "--reboot-type",
+              "description": "Which node to reboot. Valid values: [PrimaryNode, SecondaryNode, AllNodes]"
+            },
+            {
+              "flags": "-d, --shard-id <shard-id>",
+              "required": -16,
+              "optional": 0,
+              "bool": true,
+              "short": "-d",
+              "long": "--shard-id",
+              "description": "Which shard to reboot when rebooting a premium cache with clustering enabled"
+            },
+            {
+              "flags": "-s, --subscription <subscription>",
               "required": -20,
               "optional": 0,
               "bool": true,

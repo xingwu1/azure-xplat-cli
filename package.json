@@ -52,7 +52,7 @@
     "azure-arm-trafficmanager": "0.10.5",
     "azure-arm-dns": "0.11.1",
     "azure-arm-website": "0.11.4",
-    "azure-arm-rediscache": "0.2.1",
+    "azure-arm-rediscache": "0.2.3",
     "azure-arm-devtestlabs": "0.1.0",
     "azure-graph": "1.1.1",
     "azure-gallery": "2.0.0-pre.18",
