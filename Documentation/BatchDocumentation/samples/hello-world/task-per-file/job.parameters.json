@@ -2,12 +2,6 @@
   "jobId": {
     "value": "<Job id>"
   },
-  "taskStart": {
-    "value": <Task start value>
-  },
-  "taskEnd": {
-    "value": <Task end value>
-  },
   "testData": {
     "value": "<Auto-storage group name>"
   },

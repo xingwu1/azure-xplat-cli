@@ -87,7 +87,7 @@
                             "filePattern": "$AZ_BATCH_TASK_DIR/stdout.txt",
                             "destination": {
                                 "container": {
-                                    "path": "output-{fileName}.txt",
+                                    "path": "output-{fileName}",
                                     "containerSas": "[parameters('outputFileStorageUrl')]"
                                 }
                             },

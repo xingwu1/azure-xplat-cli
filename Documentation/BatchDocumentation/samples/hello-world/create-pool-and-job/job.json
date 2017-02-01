@@ -3,9 +3,9 @@
         "type": "Microsoft.Batch/batchAccounts/jobs",
         "apiVersion": "2016-12-01",
         "properties": {
-            "id": "helloword-job",
+            "id": "helloworld-job",
             "poolInfo": {
-                "poolId": "helloword-pool"
+                "poolId": "helloworld-pool"
             },
             "taskFactory": {
                 "type": "taskCollection",

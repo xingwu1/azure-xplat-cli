@@ -11,31 +11,37 @@ This samples shows how to use `MS-MPI` to run MPI work.
 
 You must have an Azure Batch account set up with a linked Azure Storage account.
 
-You will need a zip file containing a compiled version of the `MPIHelloWorld.exe` application and its dependencies. You may want a release build of `MPIHelloWorld.exe` to reduce the number of separate files.
+You will need an MS-MPI program for the multi-instance task to execute. We provide the [MPIHelloWorld sample project](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/ArticleProjects/MultiInstanceTasks/MPIHelloWorld) for you to compile and to use as your MS-MPI program. Build a release version of `MPIHelloWorld.exe` so that you don't have to include any additional dependencies (for example, `msvcp140d.dll` or `vcruntime140d.dll`).
 
 ## Create application package
 
-To successfully run this sample, you must first create an [application package](https://docs.microsoft.com/azure/batch/batch-application-packages) containing [MSMpiSetup.exe](https://msdn.microsoft.com/library/bb524831.aspx) (installed on a pool's compute nodes with a start task) and an MS-MPI program for the multi-instance task to execute. For the latter, we provide the [MPIHelloWorld sample project](https://github.com/Azure/azure-batch-samples/tree/master/CSharp/ArticleProjects/MultiInstanceTasks/MPIHelloWorld) for you to compile and use as your MS-MPI program.
+To successfully run this sample, you must first create an [application package](https://docs.microsoft.com/azure/batch/batch-application-packages) containing [MSMpiSetup.exe](https://msdn.microsoft.com/library/bb524831.aspx) (installed on a pool's compute nodes with a start task).
 
 The following commands can be used as example to create the application package:
 
-First, create the application package `MPIHelloWorld` itself:
+First, create the application package `MSMPI` itself:
 
 ```bash
-azure batch application create --application-id MPIHelloWorld --account-name <account name> --resource-group <resource group>
+azure batch application create --application-id MSMPI --account-name <account name> --resource-group <resource group>
 ```
 You will need to supply your own values for `<account name>` and `<resource group>`.
 
-Create version `1.0` of the application `MPIHelloWorld`:
+Create a zip file containing `MSMpiSetup.exe` (make sure this file is at the root of zip file). Create version `1.0` of the application `MSMPI`:
 
 ```bash
-azure batch application package create --application-id MPIHelloWorld --version 1.0 --account-name <account name> --resource-group <resource group> --package-file <local path to MPIHelloWorld.exe zip file>
+azure batch application package create --application-id MSMPI --version 1.0 --account-name <account name> --resource-group <resource group> --package-file <local path to MSMpiSetup.exe zip file>
 ```
 
-Finally, activate the application package `MPIHelloWorld:1.0`:
+Then, activate the application package `MSMPI:1.0`:
 
 ```bash
-azure batch application package activate --application-id MPIHelloWorld --version 1.0 --account-name <account name> --resource-group <resource group> --format zip
+azure batch application package activate --application-id MSMPI --version 1.0 --account-name <account name> --resource-group <resource group> --format zip
+```
+
+Finally, set the application default version to `1.0`:
+
+```bash
+azure batch application set --application-id MSMPI --default-version 1.0 --account-name <account name> --resource-group <resource group>
 ```
 
 ## Create a pool
@@ -57,13 +63,13 @@ azure batch pool create --template pool.json --parameters <your settings JSON fi
 
 ## Upload files
 
-Upload sample files from a folder:
+Upload the `MPIHelloWorld.exe` application and its dependencies from a folder:
 
 ```bash
-azure batch file upload <path> <group>
+azure batch file upload <path> mpi
 ```
 
-Run this command in a folder containing your sample files. The parametric sweep expects the files to be named `sample1.wav`, `sample2.wav`, `sample3.wav` and so on - each with the prefix `sample` and an increasing index number. It's important for correct operation of the parametric sweep that your files are sequentially numbered with no gaps.
+`mpi` is the default value of the inputFileGroup parameter in the job template. If you upload your files to a different file group, be sure to provide this value for the inputFileGroup parameter when creating your job (see the next section).
 
 ## Create a job with an MPI task
 
@@ -75,10 +81,12 @@ azure batch job create --template job.json
 
 If you want to configure other options of the job, such as the the pool id, you can look in the `job.json` parameters section to see what options are available.
 
-1. `poolId` must match the pool you created earlier.
-2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
-3. `jobId` is the id of job, which must not exist in the current Batch account.
-4. `vmCount` is the number of VM instances to execute the multi-instance task on.  It must be less than or equal to the pool's VM count.
+| Parameter            | Required  | Description                                                                                                                                                                   |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| poolId               | Optional  | Name of the Azure Batch Pool to use for processing. <br/> Must match the pool you created earlier. Default value if not otherwise specified: `MultiInstanceSamplePool`.       |
+| inputFileGroup       | Optional  | Name of the file group in your storage account containing the files to process. <br/> Must match the name of the group used in the `azure batch file upload` command earlier. <br/> Default value if not otherwise specified: `mpi`. |
+| vmCount              | Optional  | The number of VM instances to execute the multi-instance task on. <br/> It must be less than or equal to the pool's VM count. Default value if not otherwise specified: 3     |
+| jobId                | Mandatory | Unique id of the job for processing. <br/> Must not duplicate the `id` of any existing job.                                                                                   |
 
 To create a job with a different configuration: 
 

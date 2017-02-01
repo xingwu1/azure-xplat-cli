@@ -45,7 +45,7 @@
                         {
                             "source": {
                                 "fileGroup": "[parameters('inputFileGroup')]",
-                                "prefix": "{fileName}.pdf"
+                                "prefix": "{fileName}"
                             }
                         }
                     ],

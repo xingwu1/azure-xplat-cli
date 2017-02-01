@@ -1,8 +1,7 @@
 {
     "parameters": {
-        "dataGroup": {
+        "inputFileGroup": {
             "type": "string",
-            "defaultValue": "convert_data",
             "metadata": {
                 "description": "The auto-storage group where the input data is stored"
             }
@@ -42,7 +41,7 @@
             "taskFactory": {
                 "type": "taskPerFile",
                 "source": {
-                    "fileGroup": "[parameters('dataGroup')]"
+                    "fileGroup": "[parameters('inputFileGroup')]"
                 },
                 "repeatTask": {
                     "commandLine": "ffmpeg -y -i {fileName} -acodec libmp3lame {fileNameWithoutExtension}.mp3",

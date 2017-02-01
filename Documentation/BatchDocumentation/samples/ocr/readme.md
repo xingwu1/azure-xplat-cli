@@ -24,7 +24,7 @@ To create your pool:
 azure batch pool create --template pool.json
 ```
 
-The default settings in `pool.json` specify a pool named `ocr-pool` containing **3** **STANDARD_D1_V2** virtual machines.
+The default settings in `pool.json` specify a pool named `ocrpool` containing **3** **STANDARD_D1_V2** virtual machines.
 
 If you want to change the default values of the pool creation, you can create a JSON file to supply the parameters of your pool. If you have a large number of files to convert, you should use a larger pool or bigger VMs in the pool. 
 

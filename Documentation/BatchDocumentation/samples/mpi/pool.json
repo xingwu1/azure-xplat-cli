@@ -31,16 +31,16 @@
         },
         "appPackageId": {
             "type": "string",
-            "defaultValue": "MPIHelloWorld",
+            "defaultValue": "MSMPI",
             "metadata": {
-                "description": "The id of application package which contains the MSMPI setup and MSMPI program"
+                "description": "The id of application package which contains the MS-MPI setup"
             }
         },
         "appPackageVersion": {
             "type": "string",
             "defaultValue": "1.0",
             "metadata": {
-                "description": "The version of application package which contains the MSMPI setup and MSMPI program"
+                "description": "The version of application package which contains the MS-MPI setup"
             }
         }
     },

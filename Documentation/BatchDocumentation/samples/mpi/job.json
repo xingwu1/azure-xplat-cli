@@ -11,7 +11,7 @@
             "type": "string",
             "defaultValue": "mpi",
             "metadata": {
-                "description": "The auto-storage group where the input data is stored"
+                "description": "The auto-storage group where the MS-MPI program and its dependencies are stored"
             }
         },        
         "poolId": {
