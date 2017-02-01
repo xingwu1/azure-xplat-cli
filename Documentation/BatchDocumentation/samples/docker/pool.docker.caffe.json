@@ -2,7 +2,7 @@
   "parameters": {
     "poolId": {
       "type": "string",
-      "defaultValue": "ncj-docker-caffe",
+      "defaultValue": "docker-caffe",
       "metadata": {
         "description": "The id of Azure Batch pool"
       }
