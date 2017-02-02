@@ -29,6 +29,16 @@ The default settings in `pool.json` specify a pool named `blender-pool` containi
 
 If you want to use an existing pool to run the job, modify the `render-job.json` file to specify the unique id of your pool.
 
+## Upload files
+
+To upload your blender files:
+
+```bash
+azure batch file upload <path> blender-data
+```
+
+Run this command on a folder containing the blender files you want to process. `blender-data` is the default value of the `sceneData` parameter in the job template. If you upload your files to a different file group, be sure to provide this value for the `sceneData` parameter when creating your job (see the next section).
+
 ## Create the job
 
 Edit the `render-job.json` file to specify appropriate parameters for the job:
