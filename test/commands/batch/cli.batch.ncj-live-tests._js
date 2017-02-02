@@ -339,7 +339,7 @@ function fileUploadTestHelper(jobId, poolId, taskId, poolFlavor, _) {
     var job = batchClient.job.get(jobId, _);
     job.id.should.be.equal(jobId);
     
-    waitForTasksComplete(jobId, 60 * millisecondsPerSecond, _);
+    waitForTasksComplete(jobId, 120 * millisecondsPerSecond, _);
     
     var task = batchClient.task.get(jobId, taskId, _);
 
@@ -400,6 +400,9 @@ describe('cli', function () {
     it('should upload a local file to auto-storage', function (done) {
       var input = ".\\test\\data\\batchFileTests\\foo.txt"
       suite.execute('batch file upload %s %s --json', input, testPrefix, function (result) {
+        console.log('Result text:' + result.text);
+        console.log('Result error text:' + result.errorText);
+        console.log('Result error stack: ' + result.errorStack);
         result.exitStatus.should.equal(0);
         //TODO: query storage to confirm container name and blob uploaded
         done();
@@ -409,6 +412,9 @@ describe('cli', function () {
     it('should upload a local file to auto-storage with path prefix', function (done) {
       var input = ".\\test\\data\\batchFileTests\\foo.txt"
       suite.execute('batch file upload %s %s --path \\test/data\\ --json', input, testPrefix, function (result) {
+        console.log('Result text:' + result.text);
+        console.log('Result error text:' + result.errorText);
+        console.log('Result error stack: ' + result.errorStack);
         result.exitStatus.should.equal(0);
         //TODO: query storage to confirm container name and blob uploaded
         done();
